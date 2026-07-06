@@ -1,0 +1,19 @@
+name: Bug report
+description: Something in the tool itself is broken (UI, copying, options).
+title: "[bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What is broken?
+      description: What you did, what you expected, what happened.
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: e.g. Safari 19 on iOS
+    validations:
+      required: true

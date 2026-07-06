@@ -1,0 +1,300 @@
+{
+  "version": 1,
+  "categories": {
+    "invisible": "Zero-width and filler characters survive copy-paste, break string comparisons, corrupt YAML and JSON, and show up as phantom diffs in git.",
+    "bidi": "Bidirectional control characters can reorder how source code and filenames are displayed. This is the Trojan Source technique (CVE-2021-42574).",
+    "tags": "Unicode tag characters are invisible but carry ASCII payloads. They are used for text watermarking and for smuggling hidden instructions past human reviewers.",
+    "variation": "Variation selectors are invisible modifiers. Outside emoji and CJK ideographs they serve no purpose in plain text and can encode hidden data.",
+    "spaces": "Spaces that look like ordinary spaces but are not. They break search, deduplication, shell commands, and CSV parsing. The narrow no-break space is a known fingerprint of AI chat output.",
+    "typography": "Smart quotes, em dashes, and the single-character ellipsis read fine in prose but break code, config files, and shell one-liners, and they are common tells of machine-generated text.",
+    "confusables": "Cyrillic or Greek letters hiding inside Latin words. Used in phishing domains and to defeat plagiarism and spam filters. The word looks normal and matches nothing."
+  },
+  "rules": [
+    {
+      "codepoint": "U+200B",
+      "name": "ZERO WIDTH SPACE",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+2060",
+      "name": "WORD JOINER",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+FEFF",
+      "name": "ZERO WIDTH NO-BREAK SPACE (BOM)",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+00AD",
+      "name": "SOFT HYPHEN",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+180E",
+      "name": "MONGOLIAN VOWEL SEPARATOR",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+2061",
+      "name": "FUNCTION APPLICATION",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+2062",
+      "name": "INVISIBLE TIMES",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+2063",
+      "name": "INVISIBLE SEPARATOR",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+2064",
+      "name": "INVISIBLE PLUS",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+3164",
+      "name": "HANGUL FILLER",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+FFA0",
+      "name": "HALFWIDTH HANGUL FILLER",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+115F",
+      "name": "HANGUL CHOSEONG FILLER",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+1160",
+      "name": "HANGUL JUNGSEONG FILLER",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+200C",
+      "name": "ZERO WIDTH NON-JOINER",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+200D",
+      "name": "ZERO WIDTH JOINER",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+200E",
+      "name": "LEFT-TO-RIGHT MARK",
+      "category": "bidi",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+200F",
+      "name": "RIGHT-TO-LEFT MARK",
+      "category": "bidi",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+061C",
+      "name": "ARABIC LETTER MARK",
+      "category": "bidi",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+00A0",
+      "name": "NO-BREAK SPACE",
+      "category": "spaces",
+      "replacement": " "
+    },
+    {
+      "codepoint": "U+202F",
+      "name": "NARROW NO-BREAK SPACE",
+      "category": "spaces",
+      "replacement": " "
+    },
+    {
+      "codepoint": "U+1680",
+      "name": "OGHAM SPACE MARK",
+      "category": "spaces",
+      "replacement": " "
+    },
+    {
+      "codepoint": "U+205F",
+      "name": "MEDIUM MATHEMATICAL SPACE",
+      "category": "spaces",
+      "replacement": " "
+    },
+    {
+      "codepoint": "U+3000",
+      "name": "IDEOGRAPHIC SPACE",
+      "category": "spaces",
+      "replacement": " "
+    },
+    {
+      "codepoint": "U+2018",
+      "name": "LEFT SINGLE QUOTATION MARK",
+      "category": "typography",
+      "replacement": "'"
+    },
+    {
+      "codepoint": "U+2019",
+      "name": "RIGHT SINGLE QUOTATION MARK",
+      "category": "typography",
+      "replacement": "'"
+    },
+    {
+      "codepoint": "U+201C",
+      "name": "LEFT DOUBLE QUOTATION MARK",
+      "category": "typography",
+      "replacement": "\""
+    },
+    {
+      "codepoint": "U+201D",
+      "name": "RIGHT DOUBLE QUOTATION MARK",
+      "category": "typography",
+      "replacement": "\""
+    },
+    {
+      "codepoint": "U+2032",
+      "name": "PRIME",
+      "category": "typography",
+      "replacement": "'"
+    },
+    {
+      "codepoint": "U+2033",
+      "name": "DOUBLE PRIME",
+      "category": "typography",
+      "replacement": "\""
+    },
+    {
+      "codepoint": "U+2026",
+      "name": "HORIZONTAL ELLIPSIS",
+      "category": "typography",
+      "replacement": "..."
+    },
+    {
+      "codepoint": "U+2011",
+      "name": "NON-BREAKING HYPHEN",
+      "category": "typography",
+      "replacement": "-"
+    },
+    {
+      "codepoint": "U+2212",
+      "name": "MINUS SIGN",
+      "category": "typography",
+      "replacement": "-"
+    },
+    {
+      "codepoint": "U+2013",
+      "name": "EN DASH",
+      "category": "typography",
+      "replacement": "-"
+    },
+    {
+      "codepoint": "U+2014",
+      "name": "EM DASH",
+      "category": "typography",
+      "replacement": ", "
+    },
+    {
+      "range": "U+202A..U+202E",
+      "name": "BIDI EMBEDDING/OVERRIDE CONTROL",
+      "category": "bidi",
+      "replacement": ""
+    },
+    {
+      "range": "U+2066..U+2069",
+      "name": "BIDI ISOLATE CONTROL",
+      "category": "bidi",
+      "replacement": ""
+    },
+    {
+      "range": "U+2000..U+200A",
+      "name": "TYPOGRAPHIC SPACE",
+      "category": "spaces",
+      "replacement": " "
+    },
+    {
+      "range": "U+FE00..U+FE0F",
+      "name": "VARIATION SELECTOR",
+      "category": "variation",
+      "replacement": ""
+    },
+    {
+      "range": "U+E0100..U+E01EF",
+      "name": "VARIATION SELECTOR SUPPLEMENT",
+      "category": "variation",
+      "replacement": ""
+    },
+    {
+      "range": "U+E0000..U+E007F",
+      "name": "TAG CHARACTER",
+      "category": "tags",
+      "replacement": ""
+    }
+  ],
+  "confusables": {
+    "а": "a",
+    "е": "e",
+    "о": "o",
+    "р": "p",
+    "с": "c",
+    "у": "y",
+    "х": "x",
+    "ѕ": "s",
+    "і": "i",
+    "ј": "j",
+    "һ": "h",
+    "ԛ": "q",
+    "ԝ": "w",
+    "А": "A",
+    "В": "B",
+    "Е": "E",
+    "К": "K",
+    "М": "M",
+    "Н": "H",
+    "О": "O",
+    "Р": "P",
+    "С": "C",
+    "Т": "T",
+    "У": "Y",
+    "Х": "X",
+    "Ѕ": "S",
+    "І": "I",
+    "Ј": "J",
+    "ο": "o",
+    "ν": "v",
+    "Α": "A",
+    "Β": "B",
+    "Ε": "E",
+    "Ζ": "Z",
+    "Η": "H",
+    "Ι": "I",
+    "Κ": "K",
+    "Μ": "M",
+    "Ν": "N",
+    "Ο": "O",
+    "Ρ": "P",
+    "Τ": "T",
+    "Υ": "Y",
+    "Χ": "X"
+  }
+}

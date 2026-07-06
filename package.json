@@ -1,0 +1,18 @@
+{
+  "name": "ai-paste-cleaner",
+  "version": "1.0.0",
+  "description": "Reveal and safely remove invisible Unicode, hidden watermarks, and AI typography from pasted text. Browser-based, no dependencies.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test test/cleaner.test.mjs",
+    "export-rules": "node scripts/export-rules.mjs",
+    "serve": "python3 -m http.server 8321 -d docs"
+  },
+  "license": "MIT",
+  "author": "Jayden Yoon ZK",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JaydenYoonZK/ai-paste-cleaner.git"
+  }
+}

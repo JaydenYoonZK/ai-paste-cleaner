@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Paste Cleaner: find hidden characters in copied text</title>
+  <meta name="description" content="Free browser tool that reveals invisible Unicode, hidden watermarks, and AI typography in pasted text, then cleans it safely. Runs entirely on your device.">
+  <link rel="canonical" href="https://jaydenyoonzk.github.io/ai-paste-cleaner/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d0c0a'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='34' font-family='monospace' fill='%23abcf37'%3E%C2%B6%3C/text%3E%3C/svg%3E">
+  <meta property="og:title" content="AI Paste Cleaner: find hidden characters in copied text">
+  <meta property="og:description" content="Reveal invisible Unicode, hidden watermarks, and AI typography in pasted text, then clean it safely. Nothing leaves your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jaydenyoonzk.github.io/ai-paste-cleaner/">
+  <meta property="og:image" content="https://jaydenyoonzk.github.io/ai-paste-cleaner/assets/preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://jaydenyoonzk.github.io/ai-paste-cleaner/assets/preview.png">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AI Paste Cleaner",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any (browser-based)",
+    "url": "https://jaydenyoonzk.github.io/ai-paste-cleaner/",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Jayden Yoon ZK", "url": "https://github.com/JaydenYoonZK" }
+  }
+  </script>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Free browser tool</p>
+    <h1>See every hidden character in your text.</h1>
+    <p class="lede">Text copied from AI chats, web pages, and word processors often carries characters you cannot see: zero-width spaces, odd non-breaking spaces, direction marks, even invisible payloads. They break code, corrupt config files, and quietly mark text as machine-made. Paste below to reveal them, then copy a clean version.</p>
+    <p class="privacy"><span class="dot"></span> Runs entirely on your device. No requests, no analytics, no storage.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="card">
+    <label for="input" style="display:none">Text to inspect</label>
+    <textarea id="input" placeholder="Paste text here to inspect it..." spellcheck="false" autofocus></textarea>
+    <div class="toolbar">
+      <button id="sample" type="button">Try a sample</button>
+      <button id="clear" type="button">Clear</button>
+      <span class="spacer"></span>
+      <span class="charcount" id="charcount"></span>
+    </div>
+  </div>
+
+  <div id="results" hidden>
+    <div class="stats" id="stats" role="status"></div>
+    <div id="alerts"></div>
+
+    <h2 class="section-title">Inspector</h2>
+    <p class="section-sub">Invisible characters appear as labeled tags. Underlines mark lookalike letters and typographic substitutions. Hover anything for details. Dashed tags are legitimate (emoji, non-Latin scripts) and stay untouched.</p>
+    <div class="inspector" id="inspector"></div>
+
+    <h2 class="section-title">Cleaning settings</h2>
+    <div class="options">
+      <label class="opt"><input type="checkbox" data-opt="invisible">
+        <span><span class="t">Invisible characters</span><br><span class="d">Zero-width spaces, joiners, soft hyphens, fillers</span></span></label>
+      <label class="opt"><input type="checkbox" data-opt="bidi">
+        <span><span class="t">Direction controls</span><br><span class="d">Bidi overrides and marks (Trojan Source vectors)</span></span></label>
+      <label class="opt"><input type="checkbox" data-opt="tags">
+        <span><span class="t">Hidden tag characters</span><br><span class="d">Invisible ASCII payloads and watermarks</span></span></label>
+      <label class="opt"><input type="checkbox" data-opt="variation">
+        <span><span class="t">Stray variation selectors</span><br><span class="d">Emoji and CJK sequences are preserved</span></span></label>
+      <label class="opt"><input type="checkbox" data-opt="spaces">
+        <span><span class="t">Nonstandard spaces</span><br><span class="d">NBSP, narrow NBSP, and friends become plain spaces</span></span></label>
+      <label class="opt"><input type="checkbox" data-opt="confusables">
+        <span><span class="t">Lookalike letters</span><br><span class="d">Cyrillic and Greek twins inside Latin words</span></span></label>
+      <label class="opt"><input type="checkbox" data-opt="typography">
+        <span><span class="t">Typography</span><br><span class="d">Straighten quotes, expand the ellipsis character</span>
+        <select id="emdash-style">
+          <option value="comma">Em dash: replace with comma</option>
+          <option value="hyphen">Em dash: replace with hyphen</option>
+          <option value="keep">Em dash: keep</option>
+        </select></span></label>
+    </div>
+
+    <h2 class="section-title">Cleaned text</h2>
+    <div class="output">
+      <div class="copy-wrap"><button id="copy" class="primary" type="button">Copy cleaned text</button></div>
+      <textarea id="output" readonly spellcheck="false"></textarea>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h2>Why pasted text is not what it looks like</h2>
+    <p>Unicode contains dozens of characters with zero width. They render as nothing, yet they count as real characters everywhere it hurts: string comparisons, database keys, URLs, YAML indentation, git diffs. A product name with a zero-width space in it will never match a search for the same name without one. A config value with a trailing word joiner fails validation with an error message that looks impossible.</p>
+    <p>AI writing tools made this an everyday problem. Chat models are trained on typographically rich text, so their output mixes curly quotes, em dashes, single-character ellipses, and unusual space characters into content that people then paste into code editors, CMS fields, terminals, and billing systems. Some of those characters are also used deliberately, as watermarks or worse.</p>
+
+    <h2>What this tool finds</h2>
+    <table>
+      <tr><th>Character</th><th>Code</th><th>What goes wrong</th></tr>
+      <tr><td>Zero width space</td><td><code>U+200B</code></td><td>Splits words invisibly. Breaks search, matching, and deduplication.</td></tr>
+      <tr><td>Narrow no-break space</td><td><code>U+202F</code></td><td>Appears in AI chat output around times and units. Looks like a space, fails <code>==</code>.</td></tr>
+      <tr><td>Soft hyphen</td><td><code>U+00AD</code></td><td>Invisible until a line wraps. Corrupts identifiers and product codes.</td></tr>
+      <tr><td>Bidi overrides</td><td><code>U+202A..U+202E</code></td><td>Reorder displayed text. Can make <code>exe.txt</code> read as <code>txt.exe</code>.</td></tr>
+      <tr><td>Tag characters</td><td><code>U+E0000..U+E007F</code></td><td>Carry an invisible ASCII payload. Used for watermarking and hidden instructions.</td></tr>
+      <tr><td>Lookalike letters</td><td>various</td><td>A Cyrillic <code>о</code> inside a Latin word defeats search, filters, and reviews.</td></tr>
+      <tr><td>Smart punctuation</td><td><code>U+2018..U+2026</code></td><td>Fine in prose. Breaks shell commands, JSON, and code snippets.</td></tr>
+    </table>
+
+    <h3>The narrow no-break space</h3>
+    <p>If one character deserves its own paragraph, it is <code>U+202F</code>. ChatGPT and similar tools insert it between numbers and units, and around times, where a typographer would. Almost nobody types it on purpose. When you find one in a support macro, a WHMCS email template, or a spreadsheet formula, it almost certainly arrived through a paste. It is also why "9:30 AM" sometimes refuses to match "9:30 AM" even though both look identical on screen.</p>
+
+    <h3>Hidden payloads</h3>
+    <p>Unicode tag characters were designed for language tagging and later deprecated. Each one maps to an ASCII character, and all of them are invisible. That makes them a convenient channel for hiding text inside text: watermarks that survive copy-paste, or instructions smuggled into content that a person approves without ever seeing them. This tool decodes any tag run it finds and shows you the payload. The bidirectional overrides in the table above are the display-reordering cousins of this trick, documented as <a href="https://trojansource.codes/" rel="noopener">Trojan Source (CVE-2021-42574)</a>.</p>
+
+    <h2>What gets left alone</h2>
+    <p>Most cleanup scripts strip every invisible character they can match. That destroys real content, because several of these characters do essential work:</p>
+    <ul>
+      <li>Zero-width joiners hold emoji families together. Remove them and 👨‍👩‍👧 becomes three separate people.</li>
+      <li>The zero-width non-joiner is required spelling in Persian and appears throughout Hindi, Tamil, and other scripts. Stripping it mangles words.</li>
+      <li>Variation selectors decide whether ❤ renders as text or as the red emoji heart, and select glyph variants in Japanese names.</li>
+      <li>The flags of Scotland, Wales, and England are built from tag characters. A naive tag stripper deletes the flag.</li>
+      <li>An en dash between digits, as in 2019–2024, is correct typography and stays put.</li>
+    </ul>
+    <p>This cleaner checks context before it touches anything, and the inspector shows kept characters with a dashed outline so you can see the decision instead of trusting it blindly.</p>
+
+    <h2>Questions people ask</h2>
+    <h3>Is this an AI detector?</h3>
+    <p>No. It finds characters, not authorship. Clean text is not proof a person wrote something, and hidden characters are not proof a machine did. What the tool removes are the mechanical artifacts that cause practical problems and false assumptions.</p>
+    <h3>Will cleaning make AI text read as human?</h3>
+    <p>Only at the character level. Wording, rhythm, and structure are still yours to edit. If you rewrite the words but keep the invisible characters, you keep the problems too, which is the part most people miss.</p>
+    <h3>Is my text uploaded anywhere?</h3>
+    <p>No. The page is static, the analysis runs in your browser, and there are no network requests after the page loads. You can disconnect from the internet and it keeps working, or run it locally from the <a href="https://github.com/JaydenYoonZK/ai-paste-cleaner" rel="noopener">source</a>.</p>
+    <h3>Can I use the detection rules in my own project?</h3>
+    <p>Yes. The ruleset ships as <a href="data/rules.json">machine-readable JSON</a> and the engine is a dependency-free ES module under the MIT license.</p>
+
+    <h2>Why I built this</h2>
+    <p>While cleaning up my own GitHub profile I went through every public file removing the typographic tells that AI tools leave behind, one em dash at a time. Halfway through it occurred to me that the invisible characters were the bigger risk, and that I had no way to see them. This is the tool I wanted that afternoon.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Built by <a href="https://github.com/JaydenYoonZK">Jayden Yoon ZK</a></span>
+    <a href="https://github.com/JaydenYoonZK/ai-paste-cleaner">Source on GitHub</a>
+    <a href="https://github.com/JaydenYoonZK/ai-paste-cleaner/issues">Report an issue</a>
+    <a href="data/rules.json">Ruleset (JSON)</a>
+    <span>MIT License</span>
+  </div>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
