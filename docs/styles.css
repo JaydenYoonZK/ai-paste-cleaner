@@ -518,6 +518,18 @@ html[data-theme="light"] .privacy { border-color: rgba(111, 141, 19, 0.4); }
 @keyframes drift-a { to { transform: translate3d(90px, 60px, 0) scale(1.08); } }
 @keyframes drift-b { to { transform: translate3d(-70px, -50px, 0) scale(1.05); } }
 
+.star-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  transform: translate3d(
+    calc(var(--px, 0) * var(--depth, 6) * 1px),
+    calc(var(--py, 0) * var(--depth, 6) * 1px - var(--sy, 0) * var(--sfac, 0.05) * 1px),
+    0);
+}
+.sl-far { --depth: 4; --sfac: 0.03; }
+.sl-mid { --depth: 9; --sfac: 0.08; }
+.sl-near { --depth: 15; --sfac: 0.16; }
 .star {
   position: absolute;
   width: 3px; height: 3px;
@@ -528,6 +540,8 @@ html[data-theme="light"] .privacy { border-color: rgba(111, 141, 19, 0.4); }
   animation: twinkle 7s ease-in-out infinite;
   will-change: opacity;
 }
+.sl-far .star { width: 2px; height: 2px; filter: blur(1px); }
+.sl-near .star { width: 5px; height: 5px; box-shadow: 0 0 11px rgba(214, 236, 132, 0.5); }
 @keyframes twinkle { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.7; } }
 html[data-theme="light"] .star { opacity: 0 !important; animation: none; }
 
@@ -602,5 +616,5 @@ html[data-theme="light"] .sph .inner {
 @media (max-width: 700px) { .shape { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   .orb, .star, .dx, .dy, .sph .inner, .cube3d .inner { animation: none !important; }
-  .shape { transform: none; will-change: auto; }
+  .shape, .star-layer { transform: none; will-change: auto; }
 }
