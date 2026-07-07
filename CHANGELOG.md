@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.1.0] - 2026-07-07
+
+### Added
+
+- Paste from clipboard button, with a keyboard-shortcut hint on browsers that restrict clipboard access.
+
 ## [1.0.0] - 2026-07-07
 
 First stable release.
@@ -18,4 +24,5 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a sample text with one of everything planted.
 
+[1.1.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.1.0
 [1.0.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.0.0
