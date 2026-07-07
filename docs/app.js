@@ -47,17 +47,24 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 function chipRow(counts, removed, replaced) {
   const rows = [];
   const order = ["invisible", "bidi", "tags", "variation", "spaces", "typography", "confusables"];
+  let totalActive = 0;
+  let totalKept = 0;
   for (const key of order) {
     const c = counts[key];
     const active = c.found - c.exempt;
-    if (!c.found) continue;
+    totalActive += active;
+    totalKept += c.exempt;
+    if (!active) continue;
     const color = CAT_COLOR[key];
-    const kept = c.exempt ? ` <span title="Legitimate uses, left untouched">(${c.exempt} kept)</span>` : "";
-    rows.push(`<span class="chip ${color}"><strong>${active}</strong> ${CATEGORIES[key].label.toLowerCase()}${kept}</span>`);
+    rows.push(`<span class="chip ${color}"><strong>${active}</strong> ${CATEGORIES[key].label.toLowerCase()}</span>`);
   }
-  if (!rows.length) {
-    return `<span class="chip ok"><strong>0</strong> issues found. This text is clean.</span>`;
+  if (!totalActive) {
+    const keptNote = totalKept
+      ? ` <span class="chip"><strong>${totalKept}</strong> invisible characters kept: they are legitimate parts of emoji or non-Latin words</span>`
+      : "";
+    return `<span class="chip ok"><strong>0</strong> issues. This text is clean.</span>` + keptNote;
   }
+  if (totalKept) rows.push(`<span class="chip"><strong>${totalKept}</strong> kept (legitimate emoji or script characters)</span>`);
   rows.push(`<span class="chip"><strong>${removed}</strong> removed, <strong>${replaced}</strong> replaced by current settings</span>`);
   return rows.join("");
 }
@@ -72,7 +79,7 @@ function renderInspector(text, findings) {
     if (f.category === "typography" || f.category === "confusables") {
       html += `<span class="hl ${color}" title="${tip}">${esc(f.char)}</span>`;
     } else {
-      html += `<span class="badge ${color}${f.exempt ? " exempt" : ""}" title="${tip}">${shortLabel(f)}</span>`;
+      html += `<span class="badge ${f.exempt ? "exempt" : color}" title="${tip}">${f.exempt ? "\u2713 " : ""}${shortLabel(f)}</span>`;
     }
     cursor = f.index + f.length;
   }
