@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- Ambient 3D background scene with depth of field: nine glass cubes and shaded spheres from overly large to tiny, blur increasing with distance, balanced across both margins, drifting on slow organic paths with wobbling multi-axis tumbles, twinkling star specks (dark mode only), mouse parallax, and scroll parallax that reveals deeper shapes as the page moves. CSS transforms only, hidden on small screens, adapted per theme, frozen under reduced motion.
+- Ambient 3D background scene with depth of field: nine glass cubes and shaded spheres from overly large to tiny, blur increasing with distance, balanced across both margins, drifting on slow organic paths with wobbling multi-axis tumbles, twinkling star specks in three parallax depth layers with varied size and blur (dark mode only), mouse parallax, and scroll parallax that reveals deeper shapes as the page moves. CSS transforms only, hidden on small screens, adapted per theme, frozen under reduced motion.
 - Sticky navigation bar with brand, section links that highlight as you scroll, and smooth anchor scrolling.
 - Light and dark mode toggle, persisted across visits, honoring the system preference on first visit, with a ?theme= URL override.
 - Animated header illustration in the suite's mini-window style, hidden on small screens to keep mobile content-first.
