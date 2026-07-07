@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- Ambient 3D background scene: a tumbling glass cube, tilted rotating ring, shaded floating sphere, and soft glow orbs, with gentle mouse parallax on desktop. CSS transforms only, hidden on small screens, adapted per theme, frozen under reduced motion.
+- Ambient 3D background scene: a wobbling glass cube, a faceted octahedron crystal, a shaded floating sphere, blurred distant shapes, twinkling star specks (dark mode only), and soft glow orbs, all drifting on slow organic paths with gentle mouse parallax on desktop. CSS transforms only, hidden on small screens, adapted per theme, frozen under reduced motion.
 - Sticky navigation bar with brand, section links that highlight as you scroll, and smooth anchor scrolling.
 - Light and dark mode toggle, persisted across visits, honoring the system preference on first visit, with a ?theme= URL override.
 - Animated header illustration in the suite's mini-window style, hidden on small screens to keep mobile content-first.
