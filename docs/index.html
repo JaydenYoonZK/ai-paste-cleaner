@@ -31,18 +31,63 @@
 <body>
 
 <header>
-  <div class="wrap">
+  <div class="wrap header-grid">
+    <div class="header-copy">
     <p class="eyebrow">AI Paste Cleaner</p>
     <h1>See every hidden character in your text.</h1>
     <p class="lede">Text copied from AI chats, web pages, and word processors often carries characters you cannot see: zero-width spaces, odd non-breaking spaces, direction marks, even invisible payloads. They break code, corrupt config files, and quietly mark text as machine-made. Paste below to reveal them, then copy a clean version.</p>
-    <p class="privacy"><span class="dot"></span> Runs entirely on your device. No requests, no analytics, no storage.</p>
+    <p class="privacy"><span class="dot"></span> 🔒 Runs entirely on your device. No requests, no analytics, no storage.</p>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+<svg viewBox="0 0 320 270" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <defs>
+    <radialGradient id="hg1" cx="0.2" cy="0" r="1">
+      <stop offset="0" stop-color="#abcf37" stop-opacity="0.1"/>
+      <stop offset="1" stop-color="#abcf37" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="4" y="4" width="312" height="262" rx="24" fill="#16140f" stroke="#ffffff" stroke-opacity="0.12"/>
+  <rect x="4" y="4" width="312" height="262" rx="24" fill="url(#hg1)"/>
+  <circle cx="28" cy="28" r="4" fill="#ffffff" fill-opacity="0.14"/>
+  <circle cx="43" cy="28" r="4" fill="#ffffff" fill-opacity="0.14"/>
+  <circle cx="58" cy="28" r="4" fill="#ffffff" fill-opacity="0.14"/>
+  <path d="M4 48H316" stroke="#ffffff" stroke-opacity="0.08"/>
+  <rect x="28" y="70" width="132" height="10" rx="5" fill="#ffffff" fill-opacity="0.12"/>
+  <g>
+    <rect x="170" y="63" width="52" height="24" rx="8" fill="#a7e26a" fill-opacity="0.14" stroke="#a7e26a" stroke-opacity="0.5"/>
+    <text x="196" y="79" text-anchor="middle" fill="#a7e26a" font-family="ui-monospace, Menlo, monospace" font-size="11" font-weight="700">ZWSP</text>
+    <animate attributeName="opacity" values="1;0.25;1" dur="3s" repeatCount="indefinite"/>
+  </g>
+  <rect x="232" y="70" width="60" height="10" rx="5" fill="#ffffff" fill-opacity="0.12"/>
+  <rect x="28" y="102" width="226" height="10" rx="5" fill="#ffffff" fill-opacity="0.09"/>
+  <rect x="28" y="134" width="84" height="10" rx="5" fill="#ffffff" fill-opacity="0.12"/>
+  <g>
+    <rect x="122" y="127" width="44" height="24" rx="8" fill="#ff7a6e" fill-opacity="0.13" stroke="#ff7a6e" stroke-opacity="0.55"/>
+    <text x="144" y="143" text-anchor="middle" fill="#ff7a6e" font-family="ui-monospace, Menlo, monospace" font-size="11" font-weight="700">TAG</text>
+    <animate attributeName="opacity" values="1;0.25;1" dur="3s" begin="0.8s" repeatCount="indefinite"/>
+  </g>
+  <rect x="176" y="134" width="96" height="10" rx="5" fill="#ffffff" fill-opacity="0.09"/>
+  <rect x="28" y="166" width="150" height="10" rx="5" fill="#ffffff" fill-opacity="0.12"/>
+  <g opacity="0.6">
+    <rect x="188" y="159" width="58" height="24" rx="8" fill="none" stroke="#a7e26a" stroke-opacity="0.5" stroke-dasharray="4 3"/>
+    <text x="217" y="175" text-anchor="middle" fill="#a7e26a" font-family="ui-monospace, Menlo, monospace" font-size="11" font-weight="700">&#10003; ZWJ</text>
+  </g>
+  <g>
+    <circle cx="76" cy="218" r="24" stroke="#abcf37" stroke-width="3" fill="#abcf37" fill-opacity="0.06"/>
+    <path d="M94 236L110 252" stroke="#abcf37" stroke-width="5" stroke-linecap="round"/>
+    <text x="76" y="226" text-anchor="middle" fill="#abcf37" font-size="20" font-weight="800" font-family="ui-monospace, Menlo, monospace">&#182;</text>
+    <animate attributeName="opacity" values="1;0.7;1" dur="4s" repeatCount="indefinite"/>
+  </g>
+  <text x="286" y="242" text-anchor="end" fill="#8f887c" font-size="12" font-family="ui-sans-serif, system-ui, sans-serif">3 hidden characters found</text>
+</svg>
+    </div>
   </div>
 </header>
 
 <main class="wrap">
   <div class="card">
     <label for="input" style="display:none">Text to inspect</label>
-    <textarea id="input" placeholder="Paste text here to inspect it..." spellcheck="false" autofocus></textarea>
+    <textarea id="input" placeholder="Paste text here to inspect it..." spellcheck="false"></textarea>
     <div class="toolbar">
       <button id="paste" class="primary" type="button">Paste from clipboard</button>
       <button id="sample" type="button">Try a sample</button>
@@ -56,11 +101,11 @@
     <div class="stats" id="stats" role="status"></div>
     <div id="alerts"></div>
 
-    <h2 class="section-title">Inspector</h2>
+    <h2 class="section-title">🔎 Inspector</h2>
     <p class="section-sub">Invisible characters appear as labeled tags. Underlines mark lookalike letters and typographic substitutions. Hover anything for details. Green check-marked tags are legitimate (emoji internals, non-Latin scripts) and always stay untouched.</p>
     <div class="inspector" id="inspector"></div>
 
-    <h2 class="section-title">Cleaning settings</h2>
+    <h2 class="section-title">🧼 Cleaning settings</h2>
     <div class="options">
       <label class="opt"><input type="checkbox" data-opt="invisible">
         <span><span class="t">Invisible characters</span><br><span class="d">Zero-width spaces, joiners, soft hyphens, fillers</span></span></label>
@@ -83,7 +128,7 @@
         </select></span></label>
     </div>
 
-    <h2 class="section-title">Cleaned text</h2>
+    <h2 class="section-title">✨ Cleaned text</h2>
     <div class="output">
       <div class="copy-wrap"><button id="copy" class="primary" type="button">Copy cleaned text</button></div>
       <textarea id="output" readonly spellcheck="false"></textarea>
@@ -91,11 +136,11 @@
   </div>
 
   <div class="prose">
-    <h2>Why pasted text is not what it looks like</h2>
+    <h2>🫥 Why pasted text is not what it looks like</h2>
     <p>Unicode contains dozens of characters with zero width. They render as nothing, yet they count as real characters everywhere it hurts: string comparisons, database keys, URLs, YAML indentation, git diffs. A product name with a zero-width space in it will never match a search for the same name without one. A config value with a trailing word joiner fails validation with an error message that looks impossible.</p>
     <p>AI writing tools made this an everyday problem. Chat models are trained on typographically rich text, so their output mixes curly quotes, em dashes, single-character ellipses, and unusual space characters into content that people then paste into code editors, CMS fields, terminals, and billing systems. Some of those characters are also used deliberately, as watermarks or worse.</p>
 
-    <h2>What this tool finds</h2>
+    <h2>🕵️ What this tool finds</h2>
     <table>
       <tr><th>Character</th><th>Code</th><th>What goes wrong</th></tr>
       <tr><td>Zero width space</td><td><code>U+200B</code></td><td>Splits words invisibly. Breaks search, matching, and deduplication.</td></tr>
@@ -113,7 +158,7 @@
     <h3>Hidden payloads</h3>
     <p>Unicode tag characters were designed for language tagging and later deprecated. Each one maps to an ASCII character, and all of them are invisible. That makes them a convenient channel for hiding text inside text: watermarks that survive copy-paste, or instructions smuggled into content that a person approves without ever seeing them. This tool decodes any tag run it finds and shows you the payload. The bidirectional overrides in the table above are the display-reordering cousins of this trick, documented as <a href="https://trojansource.codes/" rel="noopener">Trojan Source (CVE-2021-42574)</a>.</p>
 
-    <h2>What gets left alone</h2>
+    <h2>🛡️ What gets left alone</h2>
     <p>Most cleanup scripts strip every invisible character they can match. That destroys real content, because several of these characters do essential work:</p>
     <ul>
       <li>Zero-width joiners hold emoji families together. Remove them and 👨‍👩‍👧 becomes three separate people.</li>
@@ -124,7 +169,7 @@
     </ul>
     <p>This cleaner checks context before it touches anything, and the inspector shows kept characters with a dashed outline so you can see the decision instead of trusting it blindly.</p>
 
-    <h2>Questions people ask</h2>
+    <h2>💬 Questions people ask</h2>
     <h3>Is this an AI detector?</h3>
     <p>No. It finds characters, not authorship. Clean text is not proof a person wrote something, and hidden characters are not proof a machine did. What the tool removes are the mechanical artifacts that cause practical problems and false assumptions.</p>
     <h3>Will cleaning make AI text read as human?</h3>
@@ -134,7 +179,7 @@
     <h3>Can I use the detection rules in my own project?</h3>
     <p>Yes. The ruleset ships as <a href="data/rules.json">machine-readable JSON</a> and the engine is a dependency-free ES module under the MIT license.</p>
 
-    <h2>Why I built this</h2>
+    <h2>🌱 Why I built this</h2>
     <p>While cleaning up my own GitHub profile I went through every public file removing the typographic tells that AI tools leave behind, one em dash at a time. Halfway through it occurred to me that the invisible characters were the bigger risk, and that I had no way to see them. This is the tool I wanted that afternoon.</p>
   </div>
 </main>
@@ -149,6 +194,7 @@
   </div>
 </footer>
 
+<button id="to-top" class="to-top" type="button" aria-label="Back to top">&#8593;</button>
 <script type="module" src="app.js"></script>
 </body>
 </html>
