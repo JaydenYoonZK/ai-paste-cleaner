@@ -491,13 +491,15 @@ html[data-theme="light"] button.primary { background: #8bb018; border-color: #8b
 html[data-theme="light"] button.primary:hover { background: #7c9d13; box-shadow: 0 6px 22px rgba(139, 176, 24, 0.35); }
 html[data-theme="light"] .privacy { border-color: rgba(111, 141, 19, 0.4); }
 
-/* Background scene: calm drift through space */
+/* Background scene: depth-of-field drift with scroll parallax */
 .bg-scene {
   position: fixed;
   inset: 0;
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
+  --face-bg: rgba(171, 207, 55, 0.045);
+  --face-line: rgba(171, 207, 55, 0.26);
 }
 
 .orb { position: absolute; border-radius: 50%; filter: blur(70px); }
@@ -516,54 +518,48 @@ html[data-theme="light"] .privacy { border-color: rgba(111, 141, 19, 0.4); }
 @keyframes drift-a { to { transform: translate3d(90px, 60px, 0) scale(1.08); } }
 @keyframes drift-b { to { transform: translate3d(-70px, -50px, 0) scale(1.05); } }
 
-/* Star specks, two layers twinkling out of phase */
 .star {
   position: absolute;
   width: 3px; height: 3px;
   border-radius: 50%;
   background: rgba(214, 236, 132, 0.55);
   box-shadow: 0 0 6px rgba(214, 236, 132, 0.4);
-  animation: twinkle 5.2s ease-in-out infinite;
+  opacity: 0.12;
+  animation: twinkle 7s ease-in-out infinite;
+  will-change: opacity;
 }
-.star:nth-child(even) { width: 2px; height: 2px; animation-duration: 6.8s; animation-delay: 2.2s; }
-.star:nth-child(3n) { animation-delay: 3.6s; }
-@keyframes twinkle { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.75; } }
+@keyframes twinkle { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.7; } }
 html[data-theme="light"] .star { opacity: 0 !important; animation: none; }
 
-/* Shapes: parallax wrapper > drift-x > drift-y > spinning inner */
+/* Shape wrapper: pointer parallax + scroll parallax on one composited transform */
 .shape {
   position: absolute;
-  transform: translate3d(calc(var(--px, 0) * var(--depth, 12) * 1px), calc(var(--py, 0) * var(--depth, 12) * 1px), 0);
-  transition: transform 0.4s ease-out;
+  will-change: transform;
+  transform: translate3d(
+    calc(var(--px, 0) * var(--depth, 12) * 1px),
+    calc(var(--py, 0) * var(--depth, 12) * 1px - var(--sy, 0) * var(--sfac, 0) * 1px),
+    0);
 }
 .dx { animation: driftX var(--dxt, 24s) ease-in-out infinite alternate; }
 .dy { animation: driftY var(--dyt, 30s) ease-in-out infinite alternate; }
-.dx, .dy, .spin3d { width: 100%; height: 100%; }
-@keyframes driftX { to { transform: translateX(var(--dxa, 30px)); } }
-@keyframes driftY { to { transform: translateY(var(--dya, -40px)); } }
+.dx, .dy { width: 100%; height: 100%; }
+@keyframes driftX { to { transform: translateX(var(--dxa, 28px)); } }
+@keyframes driftY { to { transform: translateY(var(--dya, -36px)); } }
 
-.sphere { left: 5%; top: 62%; width: 88px; height: 88px; --depth: 30; --dxt: 19s; --dyt: 27s; --dxa: 26px; --dya: -44px; opacity: 0.55; }
-.sphere .inner {
-  width: 100%; height: 100%; border-radius: 50%;
-  background: radial-gradient(circle at 31% 28%, rgba(214, 236, 132, 0.55), rgba(171, 207, 55, 0.25) 42%, rgba(43, 54, 8, 0.3) 78%, transparent 100%);
-  box-shadow: inset -14px -12px 28px rgba(0, 0, 0, 0.35);
-  animation: sway 21s ease-in-out infinite alternate;
-}
-@keyframes sway { from { transform: rotate(-14deg); } to { transform: rotate(10deg); } }
-
-.cube { right: 9%; top: 32%; width: 110px; height: 110px; perspective: 900px; --depth: 22; --dxt: 26s; --dyt: 18s; --dxa: -34px; --dya: 30px; opacity: 0.85; }
-.cube .inner { position: absolute; inset: 0; transform-style: preserve-3d; animation: tumble 44s linear infinite; }
-.cube .f {
+/* Kinds */
+.cube3d { perspective: 900px; }
+.cube3d .inner {
   position: absolute; inset: 0;
-  background: rgba(171, 207, 55, 0.045);
-  border: 1px solid rgba(171, 207, 55, 0.26);
+  transform-style: preserve-3d;
+  animation: tumble var(--spin, 44s) linear infinite var(--dir, normal);
 }
-.cube .f:nth-child(1) { transform: rotateY(0deg) translateZ(55px); }
-.cube .f:nth-child(2) { transform: rotateY(90deg) translateZ(55px); }
-.cube .f:nth-child(3) { transform: rotateY(180deg) translateZ(55px); }
-.cube .f:nth-child(4) { transform: rotateY(270deg) translateZ(55px); }
-.cube .f:nth-child(5) { transform: rotateX(90deg) translateZ(55px); }
-.cube .f:nth-child(6) { transform: rotateX(-90deg) translateZ(55px); }
+.cube3d .f { position: absolute; inset: 0; background: var(--face-bg); border: 1px solid var(--face-line); }
+.cube3d .f:nth-child(1) { transform: rotateY(0deg) translateZ(var(--cs)); }
+.cube3d .f:nth-child(2) { transform: rotateY(90deg) translateZ(var(--cs)); }
+.cube3d .f:nth-child(3) { transform: rotateY(180deg) translateZ(var(--cs)); }
+.cube3d .f:nth-child(4) { transform: rotateY(270deg) translateZ(var(--cs)); }
+.cube3d .f:nth-child(5) { transform: rotateX(90deg) translateZ(var(--cs)); }
+.cube3d .f:nth-child(6) { transform: rotateX(-90deg) translateZ(var(--cs)); }
 @keyframes tumble {
   0%   { transform: rotateX(-8deg) rotateY(0deg) rotateZ(5deg); }
   25%  { transform: rotateX(-26deg) rotateY(90deg) rotateZ(-4deg); }
@@ -572,56 +568,39 @@ html[data-theme="light"] .star { opacity: 0 !important; animation: none; }
   100% { transform: rotateX(-8deg) rotateY(360deg) rotateZ(5deg); }
 }
 
-/* Octahedron crystal: two four-faced pyramids */
-.octa { left: 7%; top: 15%; width: 84px; height: 148px; perspective: 800px; --depth: 18; --dxt: 23s; --dyt: 31s; --dxa: 30px; --dya: 36px; opacity: 0.8; }
-.octa .inner { position: absolute; inset: 0; transform-style: preserve-3d; animation: crystal 36s linear infinite; }
-.octa .half { position: absolute; left: 0; top: 0; width: 84px; height: 74px; transform-style: preserve-3d; }
-.octa .half.bottom { transform-origin: 50% 100%; transform: rotateX(180deg); }
-.octa .t {
-  position: absolute; left: 0; bottom: 0; width: 84px; height: 74px;
-  clip-path: polygon(50% 0, 0 100%, 100% 100%);
-  transform-origin: 50% 100%;
-  background: linear-gradient(rgba(214, 236, 132, 0.28), rgba(171, 207, 55, 0.06));
+.sph .inner {
+  width: 100%; height: 100%; border-radius: 50%;
+  background: radial-gradient(circle at 31% 28%, rgba(214, 236, 132, 0.55), rgba(171, 207, 55, 0.25) 42%, rgba(43, 54, 8, 0.3) 78%, transparent 100%);
+  box-shadow: inset -14px -12px 28px rgba(0, 0, 0, 0.35);
+  animation: sway 21s ease-in-out infinite alternate;
 }
-.octa .t:nth-child(1) { transform: rotateY(0deg) translateZ(42px) rotateX(-30deg); opacity: 0.9; }
-.octa .t:nth-child(2) { transform: rotateY(90deg) translateZ(42px) rotateX(-30deg); opacity: 0.55; }
-.octa .t:nth-child(3) { transform: rotateY(180deg) translateZ(42px) rotateX(-30deg); opacity: 0.35; }
-.octa .t:nth-child(4) { transform: rotateY(270deg) translateZ(42px) rotateX(-30deg); opacity: 0.7; }
-@keyframes crystal {
-  0%   { transform: rotateY(0deg) rotateX(12deg) rotateZ(-6deg); }
-  33%  { transform: rotateY(120deg) rotateX(-6deg) rotateZ(8deg); }
-  66%  { transform: rotateY(240deg) rotateX(16deg) rotateZ(-2deg); }
-  100% { transform: rotateY(360deg) rotateX(12deg) rotateZ(-6deg); }
-}
+@keyframes sway { from { transform: rotate(-14deg); } to { transform: rotate(10deg); } }
 
-/* Far layer: small, blurred, slower = distance */
-.far { filter: blur(3px); }
-.far-cube { right: 23%; top: 7%; width: 44px; height: 44px; perspective: 500px; --depth: 6; --dxt: 33s; --dyt: 41s; --dxa: 18px; --dya: 22px; opacity: 0.5; }
-.far-cube .f:nth-child(1) { transform: rotateY(0deg) translateZ(22px); }
-.far-cube .f:nth-child(2) { transform: rotateY(90deg) translateZ(22px); }
-.far-cube .f:nth-child(3) { transform: rotateY(180deg) translateZ(22px); }
-.far-cube .f:nth-child(4) { transform: rotateY(270deg) translateZ(22px); }
-.far-cube .f:nth-child(5) { transform: rotateX(90deg) translateZ(22px); }
-.far-cube .f:nth-child(6) { transform: rotateX(-90deg) translateZ(22px); }
-.far-cube .inner { animation-duration: 58s; animation-direction: reverse; }
-.far-sphere { left: 13%; top: auto; bottom: 9%; width: 34px; height: 34px; filter: blur(2px); --depth: 8; --dxt: 29s; --dyt: 37s; --dxa: -20px; --dya: -26px; opacity: 0.45; }
+/* Composition: balanced left/right, sized XL to tiny, blur = distance */
+.p1 { left: -74px; top: 56%; width: 260px; height: 260px; --cs: 130px; --sfac: 0.3; --depth: 26; --spin: 76s; --dxt: 31s; --dyt: 24s; filter: blur(1.5px); opacity: 0.3; }
+.p2 { right: 8%; top: 30%; width: 110px; height: 110px; --cs: 55px; --sfac: 0.2; --depth: 22; --dxt: 26s; --dyt: 18s; --dxa: -34px; --dya: 30px; opacity: 0.8; }
+.p3 { left: 7%; top: 12%; width: 72px; height: 72px; --cs: 36px; --sfac: 0.15; --depth: 16; --spin: 36s; --dir: reverse; --dxt: 21s; --dyt: 28s; opacity: 0.7; }
+.p4 { left: 4%; top: 118%; width: 88px; height: 88px; --sfac: 0.22; --depth: 28; --dxt: 19s; --dyt: 27s; --dxa: 26px; --dya: -44px; opacity: 0.55; }
+.p5 { right: 12%; top: 108%; width: 52px; height: 52px; --sfac: 0.14; --depth: 12; --dxt: 25s; --dyt: 33s; filter: blur(1px); opacity: 0.5; }
+.p6 { right: 22%; top: 6%; width: 44px; height: 44px; --cs: 22px; --sfac: 0.06; --depth: 6; --spin: 58s; --dir: reverse; --dxt: 33s; --dyt: 41s; --dxa: 18px; --dya: 22px; filter: blur(3px); opacity: 0.5; }
+.p7 { left: 12%; top: 80%; width: 34px; height: 34px; --sfac: 0.05; --depth: 8; --dxt: 29s; --dyt: 37s; --dxa: -20px; --dya: -26px; filter: blur(2px); opacity: 0.45; }
+.p8 { right: 4%; top: 165%; width: 60px; height: 60px; --cs: 30px; --sfac: 0.26; --depth: 18; --spin: 40s; --dxt: 23s; --dyt: 30s; opacity: 0.65; }
+.p9 { left: 3%; top: 150%; width: 30px; height: 30px; --cs: 15px; --sfac: 0.12; --depth: 10; --spin: 50s; --dir: reverse; --dxt: 27s; --dyt: 35s; filter: blur(3.5px); opacity: 0.4; }
 
+html[data-theme="light"] .bg-scene { --face-bg: rgba(111, 141, 19, 0.04); --face-line: rgba(111, 141, 19, 0.3); }
 html[data-theme="light"] .orb-a { background: radial-gradient(circle, rgba(139, 176, 24, 0.16), transparent 65%); }
 html[data-theme="light"] .orb-b { background: radial-gradient(circle, rgba(84, 71, 65, 0.14), transparent 65%); }
-html[data-theme="light"] .sphere .inner,
-html[data-theme="light"] .far-sphere .inner {
+html[data-theme="light"] .sph .inner {
   background: radial-gradient(circle at 31% 28%, rgba(139, 176, 24, 0.5), rgba(111, 141, 19, 0.28) 42%, rgba(60, 76, 12, 0.24) 78%, transparent 100%);
   box-shadow: inset -14px -12px 28px rgba(60, 60, 40, 0.18);
 }
-html[data-theme="light"] .cube .f { background: rgba(111, 141, 19, 0.04); border-color: rgba(111, 141, 19, 0.3); }
-html[data-theme="light"] .octa .t { background: linear-gradient(rgba(111, 141, 19, 0.3), rgba(111, 141, 19, 0.05)); }
 
 @media (max-width: 1080px) {
-  .cube { right: 2%; } .sphere { left: 2%; } .octa { left: 2%; }
-  .far-cube { right: 12%; } .far-sphere { left: 6%; }
+  .p1 { left: -110px; } .p2 { right: 2%; } .p3 { left: 2%; } .p4 { left: 1%; }
+  .p5 { right: 4%; } .p6 { right: 10%; } .p7 { left: 4%; } .p8 { right: 1%; } .p9 { left: 1%; }
 }
 @media (max-width: 700px) { .shape { display: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .orb, .star, .dx, .dy, .sphere .inner, .cube .inner, .octa .inner { animation: none !important; }
-  .shape { transform: none; transition: none; }
+  .orb, .star, .dx, .dy, .sph .inner, .cube3d .inner { animation: none !important; }
+  .shape { transform: none; will-change: auto; }
 }
