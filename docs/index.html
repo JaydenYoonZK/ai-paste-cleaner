@@ -14,6 +14,13 @@
   <meta property="og:image" content="https://jaydenyoonzk.github.io/ai-paste-cleaner/assets/preview.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://jaydenyoonzk.github.io/ai-paste-cleaner/assets/preview.png">
+  <script>
+    (function () {
+      var t = new URLSearchParams(location.search).get("theme") || localStorage.getItem("theme");
+      if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
   <link rel="stylesheet" href="styles.css">
   <script type="application/ld+json">
   {
@@ -30,7 +37,21 @@
 </head>
 <body>
 
-<header>
+<nav class="site-nav" aria-label="Page navigation">
+  <div class="wrap">
+    <a class="brand" href="#top">Jayden Yoon ZK</a>
+    <div class="nav-links">
+      <a href="#why-matters">Why it matters</a>
+      <a href="#what-it-finds">What it finds</a>
+      <a href="#whats-kept">What's kept</a>
+      <a href="#faq">FAQ</a>
+      <a href="#why-built">Story</a>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle light and dark mode">☀️</button>
+  </div>
+</nav>
+
+<header id="top">
   <div class="wrap header-grid">
     <div class="header-copy">
     <p class="eyebrow">AI Paste Cleaner</p>
@@ -136,11 +157,11 @@
   </div>
 
   <div class="prose">
-    <h2>🫥 Why pasted text is not what it looks like</h2>
+    <h2 id="why-matters">🫥 Why pasted text is not what it looks like</h2>
     <p>Unicode contains dozens of characters with zero width. They render as nothing, yet they count as real characters everywhere it hurts: string comparisons, database keys, URLs, YAML indentation, git diffs. A product name with a zero-width space in it will never match a search for the same name without one. A config value with a trailing word joiner fails validation with an error message that looks impossible.</p>
     <p>AI writing tools made this an everyday problem. Chat models are trained on typographically rich text, so their output mixes curly quotes, em dashes, single-character ellipses, and unusual space characters into content that people then paste into code editors, CMS fields, terminals, and billing systems. Some of those characters are also used deliberately, as watermarks or worse.</p>
 
-    <h2>🕵️ What this tool finds</h2>
+    <h2 id="what-it-finds">🕵️ What this tool finds</h2>
     <table>
       <tr><th>Character</th><th>Code</th><th>What goes wrong</th></tr>
       <tr><td>Zero width space</td><td><code>U+200B</code></td><td>Splits words invisibly. Breaks search, matching, and deduplication.</td></tr>
@@ -158,7 +179,7 @@
     <h3>Hidden payloads</h3>
     <p>Unicode tag characters were designed for language tagging and later deprecated. Each one maps to an ASCII character, and all of them are invisible. That makes them a convenient channel for hiding text inside text: watermarks that survive copy-paste, or instructions smuggled into content that a person approves without ever seeing them. This tool decodes any tag run it finds and shows you the payload. The bidirectional overrides in the table above are the display-reordering cousins of this trick, documented as <a href="https://trojansource.codes/" rel="noopener">Trojan Source (CVE-2021-42574)</a>.</p>
 
-    <h2>🛡️ What gets left alone</h2>
+    <h2 id="whats-kept">🛡️ What gets left alone</h2>
     <p>Most cleanup scripts strip every invisible character they can match. That destroys real content, because several of these characters do essential work:</p>
     <ul>
       <li>Zero-width joiners hold emoji families together. Remove them and 👨‍👩‍👧 becomes three separate people.</li>
@@ -169,7 +190,7 @@
     </ul>
     <p>This cleaner checks context before it touches anything, and the inspector shows kept characters with a dashed outline so you can see the decision instead of trusting it blindly.</p>
 
-    <h2>💬 Questions people ask</h2>
+    <h2 id="faq">💬 Questions people ask</h2>
     <h3>Is this an AI detector?</h3>
     <p>No. It finds characters, not authorship. Clean text is not proof a person wrote something, and hidden characters are not proof a machine did. What the tool removes are the mechanical artifacts that cause practical problems and false assumptions.</p>
     <h3>Will cleaning make AI text read as human?</h3>
@@ -179,7 +200,7 @@
     <h3>Can I use the detection rules in my own project?</h3>
     <p>Yes. The ruleset ships as <a href="data/rules.json">machine-readable JSON</a> and the engine is a dependency-free ES module under the MIT license.</p>
 
-    <h2>🌱 Why I built this</h2>
+    <h2 id="why-built">🌱 Why I built this</h2>
     <p>While cleaning up my own GitHub profile I went through every public file removing the typographic tells that AI tools leave behind, one em dash at a time. Halfway through it occurred to me that the invisible characters were the bigger risk, and that I had no way to see them. This is the tool I wanted that afternoon.</p>
   </div>
 </main>

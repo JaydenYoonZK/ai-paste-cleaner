@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Sticky navigation bar with brand, section links that highlight as you scroll, and smooth anchor scrolling.
+- Light and dark mode toggle, persisted across visits, honoring the system preference on first visit, with a ?theme= URL override.
 - Animated header illustration in the suite's mini-window style, hidden on small screens to keep mobile content-first.
 - Scroll-to-top button that appears after scrolling.
 - Emoji accents on section headings.
@@ -18,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- Scroll-to-top button no longer turns dark on hover (it was caught by the generic secondary-button hover rule).
 - Reference tables now scroll inside their own container on narrow screens instead of widening the page.
 
 ### Changed
