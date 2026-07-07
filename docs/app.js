@@ -134,6 +134,23 @@ $("sample").addEventListener("click", () => {
   input.scrollIntoView({ behavior: "smooth", block: "center" });
 });
 
+const pasteBtn = $("paste");
+pasteBtn.addEventListener("click", async () => {
+  try {
+    const text = await navigator.clipboard.readText();
+    if (text) {
+      input.value = text;
+      run();
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+  } catch { /* permission denied or unsupported */ }
+  input.focus();
+  const prev = pasteBtn.textContent;
+  pasteBtn.textContent = navigator.platform?.includes("Mac") ? "Press \u2318V here" : "Press Ctrl+V here";
+  setTimeout(() => { pasteBtn.textContent = prev; }, 2400);
+});
+
 $("clear").addEventListener("click", () => {
   input.value = "";
   run();
