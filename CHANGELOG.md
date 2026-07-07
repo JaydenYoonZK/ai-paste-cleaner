@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Animated header illustration in the suite's mini-window style, hidden on small screens to keep mobile content-first.
+- Scroll-to-top button that appears after scrolling.
+- Emoji accents on section headings.
+
+### Changed (motion)
+
+- Entrance and hover motion throughout (CSS only, respects reduced-motion preferences).
+- Removed textarea autofocus so the page no longer loads scrolled past the header.
+
+### Fixed
+
+- Reference tables now scroll inside their own container on narrow screens instead of widening the page.
+
 ### Changed
 
 - The page eyebrow now names the tool instead of saying "free browser tool".
