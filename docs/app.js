@@ -213,3 +213,16 @@ const sectionSpy = new IntersectionObserver((entries) => {
   }
 }, { rootMargin: "-30% 0px -60% 0px" });
 navSections.forEach(sec => sectionSpy.observe(sec));
+
+const scene = document.querySelector(".bg-scene");
+if (scene && matchMedia("(pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  let rafId = 0;
+  addEventListener("mousemove", (e) => {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      rafId = 0;
+      scene.style.setProperty("--px", (e.clientX / innerWidth - 0.5).toFixed(3));
+      scene.style.setProperty("--py", (e.clientY / innerHeight - 0.5).toFixed(3));
+    });
+  }, { passive: true });
+}
