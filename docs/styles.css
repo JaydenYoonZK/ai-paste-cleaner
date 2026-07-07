@@ -490,3 +490,94 @@ html[data-theme="light"] .to-top:hover { background: #7c9d13; border-color: #7c9
 html[data-theme="light"] button.primary { background: #8bb018; border-color: #8bb018; color: #ffffff; }
 html[data-theme="light"] button.primary:hover { background: #7c9d13; box-shadow: 0 6px 22px rgba(139, 176, 24, 0.35); }
 html[data-theme="light"] .privacy { border-color: rgba(111, 141, 19, 0.4); }
+
+/* Background scene: 3D shapes in the page margins */
+.bg-scene {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.orb { position: absolute; border-radius: 50%; filter: blur(70px); }
+.orb-a {
+  width: clamp(260px, 40vw, 500px); height: clamp(260px, 40vw, 500px);
+  left: -120px; top: -100px;
+  background: radial-gradient(circle, rgba(171, 207, 55, 0.13), transparent 65%);
+  animation: drift-a 46s ease-in-out infinite alternate;
+}
+.orb-b {
+  width: clamp(300px, 44vw, 560px); height: clamp(300px, 44vw, 560px);
+  right: -160px; bottom: -140px;
+  background: radial-gradient(circle, rgba(84, 71, 65, 0.38), transparent 65%);
+  animation: drift-b 52s ease-in-out infinite alternate;
+}
+@keyframes drift-a { to { transform: translate3d(90px, 60px, 0) scale(1.08); } }
+@keyframes drift-b { to { transform: translate3d(-70px, -50px, 0) scale(1.05); } }
+
+.shape {
+  position: absolute;
+  transform: translate3d(calc(var(--px, 0) * var(--depth, 12) * 1px), calc(var(--py, 0) * var(--depth, 12) * 1px), 0);
+  transition: transform 0.4s ease-out;
+}
+
+.sphere { left: 5%; top: 60%; width: 88px; height: 88px; --depth: 30; opacity: 0.55; }
+.sphere .inner {
+  width: 100%; height: 100%; border-radius: 50%;
+  background: radial-gradient(circle at 31% 28%, rgba(214, 236, 132, 0.55), rgba(171, 207, 55, 0.25) 42%, rgba(43, 54, 8, 0.3) 78%, transparent 100%);
+  box-shadow: inset -14px -12px 28px rgba(0, 0, 0, 0.35);
+  animation: bob 13s ease-in-out infinite alternate;
+}
+@keyframes bob { to { transform: translateY(-34px); } }
+
+.ring { right: 7%; bottom: 16%; width: 150px; height: 150px; --depth: 16; opacity: 0.5; }
+.ring .inner {
+  width: 100%; height: 100%; border-radius: 50%;
+  border: 14px solid rgba(171, 207, 55, 0.14);
+  border-top-color: rgba(214, 236, 132, 0.34);
+  border-bottom-color: rgba(84, 71, 65, 0.4);
+  animation: spin-ring 26s linear infinite;
+}
+@keyframes spin-ring {
+  from { transform: rotateX(58deg) rotateZ(0deg); }
+  to { transform: rotateX(58deg) rotateZ(360deg); }
+}
+
+.cube { right: 9%; top: 34%; width: 110px; height: 110px; perspective: 900px; --depth: 22; opacity: 0.85; }
+.cube .inner { position: absolute; inset: 0; transform-style: preserve-3d; animation: tumble 38s linear infinite; }
+.cube .f {
+  position: absolute; inset: 0;
+  background: rgba(171, 207, 55, 0.045);
+  border: 1px solid rgba(171, 207, 55, 0.26);
+}
+.cube .f:nth-child(1) { transform: rotateY(0deg) translateZ(55px); }
+.cube .f:nth-child(2) { transform: rotateY(90deg) translateZ(55px); }
+.cube .f:nth-child(3) { transform: rotateY(180deg) translateZ(55px); }
+.cube .f:nth-child(4) { transform: rotateY(270deg) translateZ(55px); }
+.cube .f:nth-child(5) { transform: rotateX(90deg) translateZ(55px); }
+.cube .f:nth-child(6) { transform: rotateX(-90deg) translateZ(55px); }
+@keyframes tumble {
+  from { transform: rotateX(-18deg) rotateY(0deg); }
+  to { transform: rotateX(-18deg) rotateY(360deg); }
+}
+
+html[data-theme="light"] .orb-a { background: radial-gradient(circle, rgba(139, 176, 24, 0.16), transparent 65%); }
+html[data-theme="light"] .orb-b { background: radial-gradient(circle, rgba(84, 71, 65, 0.14), transparent 65%); }
+html[data-theme="light"] .sphere .inner {
+  background: radial-gradient(circle at 31% 28%, rgba(139, 176, 24, 0.5), rgba(111, 141, 19, 0.28) 42%, rgba(60, 76, 12, 0.24) 78%, transparent 100%);
+  box-shadow: inset -14px -12px 28px rgba(60, 60, 40, 0.18);
+}
+html[data-theme="light"] .ring .inner {
+  border-color: rgba(111, 141, 19, 0.16);
+  border-top-color: rgba(111, 141, 19, 0.4);
+  border-bottom-color: rgba(84, 71, 65, 0.28);
+}
+html[data-theme="light"] .cube .f { background: rgba(111, 141, 19, 0.04); border-color: rgba(111, 141, 19, 0.3); }
+
+@media (max-width: 1080px) { .cube { right: 3%; } .sphere { left: 2%; } .ring { right: 2%; } }
+@media (max-width: 700px) { .shape { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .orb, .sphere .inner, .ring .inner, .cube .inner { animation: none !important; }
+  .shape { transform: none; transition: none; }
+}
