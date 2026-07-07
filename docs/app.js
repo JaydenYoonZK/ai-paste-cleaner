@@ -187,3 +187,29 @@ if (toTop) {
   }, { passive: true });
   toTop.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
 }
+
+const themeToggle = document.getElementById("theme-toggle");
+function syncThemeIcon() {
+  themeToggle.textContent = document.documentElement.dataset.theme === "light" ? "🌙" : "☀️";
+}
+themeToggle.addEventListener("click", () => {
+  const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem("theme", next);
+  syncThemeIcon();
+});
+syncThemeIcon();
+
+const navAnchors = [...document.querySelectorAll(".nav-links a")];
+const navSections = navAnchors
+  .map(a => document.getElementById(a.hash.slice(1)))
+  .filter(Boolean);
+const sectionSpy = new IntersectionObserver((entries) => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    for (const a of navAnchors) {
+      a.classList.toggle("active", a.hash === "#" + entry.target.id);
+    }
+  }
+}, { rootMargin: "-30% 0px -60% 0px" });
+navSections.forEach(sec => sectionSpy.observe(sec));
