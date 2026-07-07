@@ -179,3 +179,11 @@ copyBtn.addEventListener("click", async () => {
 run();
 
 if (new URLSearchParams(location.search).has("demo")) loadSample();
+
+const toTop = document.getElementById("to-top");
+if (toTop) {
+  addEventListener("scroll", () => {
+    toTop.classList.toggle("show", scrollY > 600);
+  }, { passive: true });
+  toTop.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+}
