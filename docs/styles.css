@@ -246,7 +246,7 @@ button.primary:hover { background: #bcdf4e; }
 .badge.amber { background: var(--amber-soft); color: var(--amber); border: 1px solid rgba(255, 198, 92, 0.4); }
 .badge.red { background: var(--red-soft); color: var(--red); border: 1px solid rgba(255, 122, 110, 0.45); }
 .badge.blue { background: var(--blue-soft); color: var(--blue); border: 1px solid rgba(127, 184, 255, 0.4); }
-.badge.exempt { opacity: 0.55; border-style: dashed; }
+.badge.exempt { background: var(--green-soft); color: var(--green); border: 1px dashed rgba(167, 226, 106, 0.45); opacity: 0.85; }
 
 .hl {
   border-bottom: 2px solid;
