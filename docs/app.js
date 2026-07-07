@@ -226,3 +226,15 @@ if (scene && matchMedia("(pointer: fine)").matches && !matchMedia("(prefers-redu
     });
   }, { passive: true });
 }
+
+if (scene && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  let scrollRaf = 0;
+  const applyScroll = () => {
+    scrollRaf = 0;
+    scene.style.setProperty("--sy", String(scrollY));
+  };
+  addEventListener("scroll", () => {
+    if (!scrollRaf) scrollRaf = requestAnimationFrame(applyScroll);
+  }, { passive: true });
+  applyScroll();
+}
