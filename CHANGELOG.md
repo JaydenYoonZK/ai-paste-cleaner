@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.2.1] - 2026-07-09
+
+### Fixed
+
+- On phones the menu no longer hides items behind an invisible horizontal scroll. Below 720px it wraps onto its own row under the brand with every item visible and centered, and the bar scrolls away with the page instead of pinning several rows to a small screen; the back-to-top button brings it back into reach. Desktop keeps the single sticky row, and section jumps account for the new offsets.
+
 ## [1.2.0] - 2026-07-09
 
 ### Added
@@ -51,6 +57,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a sample text with one of everything planted.
 
+[1.2.1]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.2.1
 [1.2.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.2.0
 [1.1.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.1.0
 [1.0.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.0.0

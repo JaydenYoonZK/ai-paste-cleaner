@@ -481,6 +481,20 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 .theme-toggle { width: 38px; height: 38px; border-radius: 50%; padding: 0; font-size: 1rem; flex: 0 0 auto; line-height: 1; }
 [id] { scroll-margin-top: 76px; }
 
+/* Below this width the menu no longer fits on one line beside the brand.
+   Instead of hiding items behind an invisible horizontal scroll, the menu
+   moves to its own row under the brand with every item visible. */
+@media (max-width: 720px) {
+  /* The wrapped menu makes the bar two to three rows tall, and pinning that
+     much chrome to a phone screen costs too much space, so it scrolls away.
+     The to-top button brings it back within reach. */
+  .site-nav { position: static; }
+  .site-nav .wrap { flex-wrap: wrap; height: auto; padding-top: 9px; padding-bottom: 9px; row-gap: 4px; }
+  .brand { flex: 1; }
+  .nav-links { order: 3; flex: 1 1 100%; flex-wrap: wrap; justify-content: center; overflow: visible; row-gap: 2px; }
+  [id] { scroll-margin-top: 24px; }
+}
+
 /* Light theme */
 html[data-theme="light"] {
   color-scheme: light;
