@@ -189,11 +189,29 @@ export function analyze(text) {
   // the cap, a pasted run of thousands of modifiers costs O(n^2).
   const isJoinModifier = (c) =>
     (c >= 0xFE00 && c <= 0xFE0F) || c === 0x200D || (c >= 0x1F3FB && c <= 0x1F3FF);
+  const isEmojiNeighborModifier = (c) =>
+    (c >= 0xFE00 && c <= 0xFE0F) || (c >= 0x1F3FB && c <= 0x1F3FF);
   const MAX_MODIFIER_SCAN = 16;
   const prevOf = (i) => {
     for (let j = i - 1, skipped = 0; j >= 0 && skipped <= MAX_MODIFIER_SCAN; j--) {
       const c = cps[j].codePointAt(0);
       if (isJoinModifier(c)) { skipped++; continue; }
+      return cps[j];
+    }
+    return "";
+  };
+  const prevEmojiNeighborOf = (i) => {
+    for (let j = i - 1, skipped = 0; j >= 0 && skipped <= MAX_MODIFIER_SCAN; j--) {
+      const c = cps[j].codePointAt(0);
+      if (isEmojiNeighborModifier(c)) { skipped++; continue; }
+      return cps[j];
+    }
+    return "";
+  };
+  const nextEmojiNeighborOf = (i) => {
+    for (let j = i + 1, skipped = 0; j < cps.length && skipped <= MAX_MODIFIER_SCAN; j++) {
+      const c = cps[j].codePointAt(0);
+      if (isEmojiNeighborModifier(c)) { skipped++; continue; }
       return cps[j];
     }
     return "";
@@ -220,8 +238,9 @@ export function analyze(text) {
     let note = "";
 
     if (cp === 0x200D) {
-      const around = prevOf(i) + nextOf(i);
-      if (EMOJI_CORE.test(around)) {
+      const prev = prevEmojiNeighborOf(i);
+      const next = nextEmojiNeighborOf(i);
+      if (EMOJI_CORE.test(prev) && EMOJI_CORE.test(next)) {
         exempt = true;
         note = "Part of an emoji sequence. Removing it would split the emoji.";
       }

@@ -136,6 +136,15 @@ test("strips ZWJ hidden between digits (not an emoji join)", () => {
   assert.equal(clean("1‍2").text, "12");
 });
 
+test("strips ZWJ when only one side is emoji", () => {
+  assert.equal(clean("😀‍x").text, "😀x");
+  assert.equal(clean("x‍😀").text, "x😀");
+});
+
+test("strips doubled ZWJ between emoji", () => {
+  assert.equal(clean("😀‍‍😀").text, "😀😀");
+});
+
 test("black flag cannot launder a hidden payload", () => {
   const evil = "\u{1F3F4}" + [..."attack"].map(c => String.fromCodePoint(0xE0000 + c.codePointAt(0))).join("");
   const { hiddenMessages } = analyze(evil);
