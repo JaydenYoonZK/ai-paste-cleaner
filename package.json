@@ -1,6 +1,6 @@
 {
   "name": "ai-paste-cleaner",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Reveal and safely remove invisible Unicode, hidden watermarks, and AI typography from pasted text. Browser-based, no dependencies.",
   "type": "module",
   "private": true,

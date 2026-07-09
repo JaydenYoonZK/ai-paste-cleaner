@@ -275,3 +275,12 @@ if (scene && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   }, { passive: true });
   applyScroll();
 }
+
+// The bar is a brand row plus a menu band, and the band wraps on narrow
+// screens, so the anchor offset is measured rather than hardcoded.
+const siteNav = document.querySelector(".site-nav");
+if (siteNav) {
+  const setNavHeight = () => document.documentElement.style.setProperty("--nav-h", siteNav.offsetHeight + "px");
+  addEventListener("resize", setNavHeight, { passive: true });
+  setNavHeight();
+}
