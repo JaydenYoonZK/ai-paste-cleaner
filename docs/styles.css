@@ -640,7 +640,7 @@ html[data-theme="light"] .sph .inner {
 }
 
 /* Button tooltips: a small animated hint on hover and keyboard focus. */
-button[data-tip] { position: relative; }
+:where(button[data-tip]) { position: relative; } /* :where() = 0 specificity, so a button's own positioning (e.g. an absolute clear button) is never overridden */
 button[data-tip]::after {
   content: attr(data-tip);
   position: absolute;
