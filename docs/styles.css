@@ -153,19 +153,20 @@ button:active { transform: scale(0.97); }
 /* Disabled: visibly inert. Muted, dashed edge, no pointer, no hover response. */
 button:disabled,
 button:disabled:hover {
-  opacity: 0.4;
+  /* Dim with muted tokens, not opacity: opacity would also fade the tooltip,
+     which must stay fully readable (it explains WHY the button is disabled). */
   cursor: not-allowed;
   background: var(--panel-2);
   border-color: var(--line);
   border-style: dashed;
-  color: var(--ink-soft);
+  color: var(--ink-mute);
   box-shadow: none;
   transform: none;
 }
 button.primary:disabled,
 button.primary:disabled:hover {
   background: transparent;
-  color: var(--ink-soft);
+  color: var(--ink-mute);
 }
 
 button.primary {
@@ -688,6 +689,10 @@ button[data-tip][data-tip-off]:disabled:focus-visible::after {
   content: attr(data-tip-off);
 }
 button:disabled { pointer-events: auto; }
+/* No hover on touch devices, where tapping a button would flash a tooltip. */
+@media (hover: none) {
+  button[data-tip]::after, button[data-tip]::before { display: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   button[data-tip]::after, button[data-tip]::before { transition: opacity 0.12s ease; }
 }
