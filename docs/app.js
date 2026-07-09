@@ -156,6 +156,16 @@ $("sample").addEventListener("click", () => {
 
 const pasteBtn = $("paste");
 pasteBtn.addEventListener("click", async () => {
+    // On touch devices the async clipboard read triggers a system permission
+    // popup that needs a second tap. Instead focus the box, where iOS offers a
+    // native one-tap Paste on an empty field. Desktop keeps one-click paste.
+    if (matchMedia("(pointer: coarse)").matches) {
+      input.focus();
+      const p = pasteBtn.textContent;
+      pasteBtn.textContent = "Now paste into the box";
+      setTimeout(() => { pasteBtn.textContent = p; }, 2600);
+      return;
+    }
   try {
     const text = await navigator.clipboard.readText();
     if (text) {
