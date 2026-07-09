@@ -15,7 +15,6 @@ const clearBtn = $("clear");
 // what it exists to clean) as empty. Copy is enabled only when there is output.
 function syncControls() {
   clearBtn.disabled = input.value.length === 0;
-  $("paste").classList.toggle("primary", input.value.length === 0);
   copyBtn.disabled = output.value.length === 0;
 }
 const charcount = $("charcount");
@@ -162,6 +161,7 @@ pasteBtn.addEventListener("click", async () => {
     // native one-tap Paste on an empty field. Desktop keeps one-click paste.
     if (matchMedia("(pointer: coarse)").matches) {
       input.focus();
+      input.select(); // select existing text so a native paste replaces it
       const p = pasteBtn.textContent;
       pasteBtn.textContent = "Now paste into the box";
       setTimeout(() => { pasteBtn.textContent = p; }, 2600);
