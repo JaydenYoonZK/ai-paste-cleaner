@@ -126,3 +126,50 @@ test("empty and plain input pass through", () => {
   assert.equal(clean(plain).text, plain);
   assert.equal(analyze(plain).findings.length, 0);
 });
+
+test("preserves skin-toned ZWJ sequences", () => {
+  const couple = "\u{1F469}\u{1F3FD}‍\u{1F91D}‍\u{1F468}\u{1F3FC}";
+  assert.equal(clean(couple).text, couple);
+});
+
+test("strips ZWJ hidden between digits (not an emoji join)", () => {
+  assert.equal(clean("1‍2").text, "12");
+});
+
+test("black flag cannot launder a hidden payload", () => {
+  const evil = "\u{1F3F4}" + [..."attack"].map(c => String.fromCodePoint(0xE0000 + c.codePointAt(0))).join("");
+  const { hiddenMessages } = analyze(evil);
+  assert.deepEqual(hiddenMessages, ["attack"]);
+  assert.equal(clean(evil).text, "\u{1F3F4}");
+});
+
+test("unicode-only line breaks normalize to newlines", () => {
+  assert.equal(clean("a b cd").text, "a\nb\nc\nd");
+});
+
+test("detects and removes CGJ, object replacement, Mongolian FVS", () => {
+  assert.equal(clean("a͏b￼c᠋d").text, "abcd");
+});
+
+test("braille pattern blank becomes a plain space", () => {
+  assert.equal(clean("a⠀b").text, "a b");
+});
+
+test("ideographic space is kept in CJK text, cleaned elsewhere", () => {
+  const jp = "こんにちは　世界";
+  assert.equal(clean(jp).text, jp);
+  assert.equal(clean("code　here").text, "code here");
+});
+
+test("French spacing before punctuation is kept, AI narrow space cleaned", () => {
+  const fr = "Bonjour ! « salut »";
+  assert.equal(clean(fr).text, fr);
+  assert.equal(clean("9:30 AM").text, "9:30 AM");
+});
+
+test("modifier floods stay linear, not quadratic", () => {
+  const bomb = "️".repeat(30000);
+  const t0 = Date.now();
+  analyze(bomb);
+  assert.ok(Date.now() - t0 < 500, "30k modifiers should analyze in milliseconds");
+});

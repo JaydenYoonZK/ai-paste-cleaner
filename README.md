@@ -21,7 +21,8 @@ Text copied from AI chats, web pages, and word processors carries characters tha
 - A zero-width space inside a product name breaks search and matching forever.
 - A narrow no-break space (`U+202F`, a known fingerprint of AI chat output) makes `9:30 AM` fail to equal `9:30 AM`.
 - Bidirectional overrides can display `exe.txt` as `txt.exe` (the Trojan Source technique, CVE-2021-42574).
-- Unicode tag characters carry invisible ASCII payloads used for watermarking and hidden instructions. This tool decodes them and shows you the message.
+- Unicode tag characters carry invisible ASCII payloads used for watermarking and hidden instructions. This tool decodes them and shows you the message, and it is not fooled by a payload hiding behind a flag emoji prefix.
+- The Unicode-only line breaks (`U+2028`, `U+2029`) render as nothing in most editors but make `JSON.parse` and older JavaScript engines reject otherwise valid text.
 - A Cyrillic `о` inside a Latin word defeats every filter and review that relies on reading.
 
 ## What makes this cleaner different
@@ -35,6 +36,8 @@ Most strippers delete everything invisible and destroy real content in the proce
 | Variation selector after ❤ | Chooses emoji vs text presentation |
 | Tag characters in 🏴󠁧󠁢󠁳󠁣󠁴󠁿 | Subdivision flags are built from them |
 | En dash in `2019–2024` | Correct typography for ranges |
+| Ideographic space in Japanese text | Standard CJK typography |
+| Narrow spaces in `Bonjour !` and `« mot »` | Standard French punctuation spacing |
 
 The inspector shows every kept character with a dashed outline and a reason, so you can verify each decision.
 
@@ -71,7 +74,7 @@ The full ruleset is also published as [machine-readable JSON](docs/data/rules.js
 npm test
 ```
 
-21 tests cover the risky cases: emoji preservation, Persian ZWNJ, subdivision flags, payload decoding, idempotency.
+30 tests cover the risky cases: emoji preservation including skin-toned sequences, Persian ZWNJ, subdivision flags versus disguised payloads, payload decoding, Japanese and French spacing, Unicode-only line breaks, idempotency, and a linear-time guarantee against pastes flooded with modifier characters.
 
 ## Contributing
 
