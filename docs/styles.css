@@ -158,14 +158,14 @@ button:disabled:hover {
   background: var(--panel-2);
   border-color: var(--line);
   border-style: dashed;
-  color: var(--muted);
+  color: var(--ink-soft);
   box-shadow: none;
   transform: none;
 }
 button.primary:disabled,
 button.primary:disabled:hover {
   background: transparent;
-  color: var(--muted);
+  color: var(--ink-soft);
 }
 
 button.primary {
@@ -637,4 +637,57 @@ html[data-theme="light"] .sph .inner {
 @media (prefers-reduced-motion: reduce) {
   .orb, .star, .dx, .dy, .sph .inner, .cube3d .inner { animation: none !important; }
   .shape, .star-layer { transform: none; will-change: auto; }
+}
+
+/* Button tooltips: a small animated hint on hover and keyboard focus. */
+button[data-tip] { position: relative; }
+button[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translate(-50%, 6px);
+  width: max-content;
+  max-width: 230px;
+  padding: 8px 11px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--bg);
+  border: 1px solid var(--line-strong);
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+  white-space: normal;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 60;
+}
+button[data-tip]::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  transform: translate(-50%, 6px);
+  border: 6px solid transparent;
+  border-top-color: var(--ink);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 60;
+}
+button[data-tip]:hover::after, button[data-tip]:focus-visible::after,
+button[data-tip]:hover::before, button[data-tip]:focus-visible::before {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+button[data-tip][data-tip-off]:disabled:hover::after,
+button[data-tip][data-tip-off]:disabled:focus-visible::after {
+  content: attr(data-tip-off);
+}
+button:disabled { pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) {
+  button[data-tip]::after, button[data-tip]::before { transition: opacity 0.12s ease; }
 }

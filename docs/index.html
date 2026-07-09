@@ -147,9 +147,9 @@
     <label for="input" style="display:none">Text to inspect</label>
     <textarea id="input" placeholder="Paste text here to inspect it..." spellcheck="false"></textarea>
     <div class="toolbar">
-      <button id="paste" class="primary" type="button">Paste from clipboard</button>
-      <button id="sample" type="button">Try a sample</button>
-      <button id="clear" disabled type="button">Clear</button>
+      <button id="paste" class="primary" type="button" data-tip="Paste from your clipboard and clean it">Paste from clipboard</button>
+      <button id="sample" type="button" data-tip="Load an example with hidden characters to try it">Try a sample</button>
+      <button id="clear" disabled type="button" data-tip="Clear the box and start over" data-tip-off="Nothing to clear yet">Clear</button>
       <span class="spacer"></span>
       <span class="charcount" id="charcount"></span>
     </div>
@@ -188,7 +188,7 @@
 
     <h2 class="section-title">✨ Cleaned text</h2>
     <div class="output">
-      <div class="copy-wrap"><button id="copy" disabled class="primary" type="button">Copy cleaned text</button></div>
+      <div class="copy-wrap"><button id="copy" disabled class="primary" type="button" data-tip="Copy the cleaned text" data-tip-off="Nothing to copy yet">Copy cleaned text</button></div>
       <textarea id="output" readonly spellcheck="false"></textarea>
     </div>
   </div>
