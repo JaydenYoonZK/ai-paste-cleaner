@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.2.4] - 2026-07-09
+
+### Added
+
+- The hero illustration now has a light-mode version. It is the same inline drawing recolored through the theme tokens, so it follows the theme toggle instantly and always stays in step with the palette. Dark mode is unchanged.
+
 ## [1.2.3] - 2026-07-09
 
 ### Fixed
@@ -69,6 +75,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a sample text with one of everything planted.
 
+[1.2.4]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.2.4
 [1.2.3]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.2.3
 [1.2.2]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.2.2
 [1.2.1]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.2.1

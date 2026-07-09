@@ -700,3 +700,26 @@ button:disabled { pointer-events: auto; }
 @media (prefers-reduced-motion: reduce) {
   button[data-tip]::after, button[data-tip]::before { transition: opacity 0.12s ease; }
 }
+
+/* Hero illustration theming. The hero is an inline SVG drawn with the dark
+   palette in its attributes. CSS outranks presentation attributes, so these
+   rules remap every raw color onto the matching theme token: in dark mode
+   they resolve to the same values, and in light mode the same drawing
+   renders as a proper light version. Elements that soften a color with
+   fill-opacity or stroke-opacity keep doing so on the remapped color. */
+.hero-art [fill="#16140f"] { fill: var(--bg-raise); }
+.hero-art [fill="#0d0c0a"] { fill: var(--bg); }
+.hero-art [fill="#ffffff"] { fill: var(--ink); }
+.hero-art [stroke="#ffffff"] { stroke: var(--ink); }
+.hero-art [fill="#f3f0e9"] { fill: var(--ink); }
+.hero-art [fill="#c8c2b6"] { fill: var(--ink-soft); }
+.hero-art [fill="#8f887c"] { fill: var(--ink-mute); }
+.hero-art [fill="#abcf37"] { fill: var(--accent); }
+.hero-art [stroke="#abcf37"] { stroke: var(--accent); }
+.hero-art [fill="#a7e26a"] { fill: var(--green); }
+.hero-art [stroke="#a7e26a"] { stroke: var(--green); }
+.hero-art [fill="#ffc65c"] { fill: var(--amber); }
+.hero-art [stroke="#ffc65c"] { stroke: var(--amber); }
+.hero-art [fill="#ff7a6e"] { fill: var(--red); }
+.hero-art [stroke="#ff7a6e"] { stroke: var(--red); }
+.hero-art [stop-color="#abcf37"] { stop-color: var(--accent); }
