@@ -15,6 +15,7 @@ const clearBtn = $("clear");
 // what it exists to clean) as empty. Copy is enabled only when there is output.
 function syncControls() {
   clearBtn.disabled = input.value.length === 0;
+  $("paste").classList.toggle("primary", input.value.length === 0);
   copyBtn.disabled = output.value.length === 0;
 }
 const charcount = $("charcount");
