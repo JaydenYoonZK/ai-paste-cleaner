@@ -3,6 +3,16 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## Unreleased
+
+### Added
+
+- Continuous integration now runs the cleaner test suite and checks that the generated rules JSON is current.
+
+### Fixed
+
+- A zero-width joiner is no longer preserved just because it touches one emoji. It now has to sit between two emoji neighbors to count as a real emoji sequence, so cases like `😀(zwj)x`, `x(zwj)😀`, and doubled joiners between emoji are cleaned instead of treated as legitimate emoji internals.
+
 ## [1.3.1] - 2026-07-09
 
 ### Fixed

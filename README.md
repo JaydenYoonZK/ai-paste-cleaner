@@ -4,7 +4,8 @@ Reveal and safely remove the characters you cannot see: invisible Unicode, hidde
 
 <p>
   <a href="https://jaydenyoonzk.github.io/ai-paste-cleaner/"><img src="https://img.shields.io/badge/Live%20tool-open-abcf37?style=for-the-badge&logo=githubpages&logoColor=black" alt="Open the live tool"></a>
-  <a href="https://github.com/JaydenYoonZK/ai-paste-cleaner/stargazers"><img src="https://img.shields.io/github/stars/JaydenYoonZK/ai-paste-cleaner?style=for-the-badge&logo=github" alt="GitHub stars"></a>
+  <a href="https://github.com/JaydenYoonZK/ai-paste-cleaner/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/JaydenYoonZK/ai-paste-cleaner/ci.yml?branch=main&style=for-the-badge&label=tests" alt="Automated test status"></a>
+  <a href="https://github.com/JaydenYoonZK/ai-paste-cleaner"><img src="https://img.shields.io/github/stars/JaydenYoonZK/ai-paste-cleaner?style=for-the-badge&logo=github" alt="GitHub stars"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/JaydenYoonZK/ai-paste-cleaner?style=for-the-badge" alt="MIT License"></a>
 </p>
 
@@ -74,7 +75,7 @@ The full ruleset is also published as [machine-readable JSON](docs/data/rules.js
 npm test
 ```
 
-30 tests cover the risky cases: emoji preservation including skin-toned sequences, Persian ZWNJ, subdivision flags versus disguised payloads, payload decoding, Japanese and French spacing, Unicode-only line breaks, idempotency, and a linear-time guarantee against pastes flooded with modifier characters.
+32 tests cover the risky cases: emoji preservation including skin-toned sequences, stray joiners next to emoji, Persian ZWNJ, subdivision flags versus disguised payloads, payload decoding, Japanese and French spacing, Unicode-only line breaks, idempotency, and a linear-time guarantee against pastes flooded with modifier characters.
 
 ## Contributing
 
