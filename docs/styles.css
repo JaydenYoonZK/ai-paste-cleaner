@@ -226,6 +226,13 @@ button.primary:hover { background: #bcdf4e; }
   border-radius: 6px;
 }
 
+/* Neutral variant: a capacity note, not a warning. */
+.alert.info {
+  background: var(--panel-2);
+  border-color: var(--line);
+  color: var(--ink-soft);
+}
+
 /* Inspector */
 .section-title {
   margin: 40px 0 6px;
