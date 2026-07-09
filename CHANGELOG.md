@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.3.1] - 2026-07-09
+
+### Fixed
+
+- The inspector no longer bogs the tab down on an enormous paste. It draws one marker per finding, so a paste of a million invisible characters used to create a million DOM nodes and leave the page janky for seconds (a forced layout measured over three seconds). The visual markup is now capped at 20,000 marks, which no real document reaches, and a note says so when it triggers. The character counts and the cleaned output are still computed from every finding, so nothing is silently dropped: on that million-character paste the layout cost fell from about 3 seconds to 128 milliseconds.
+
 ## [1.3.0] - 2026-07-09
 
 ### Added
@@ -100,6 +106,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a sample text with one of everything planted.
 
+[1.3.1]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.3.1
 [1.3.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.3.0
 [1.2.5]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.2.5
 [1.2.4]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.2.4

@@ -78,10 +78,18 @@ function chipRow(counts, removed, replaced) {
   return rows.join("");
 }
 
+// The inspector draws one DOM node per finding. Fine for any real document,
+// but this tool is built for hostile input, and a paste of a million invisible
+// characters would create a million nodes and leave the tab janky for seconds.
+// So the visual markup is capped. The cleaned output and the counts are
+// computed from ALL findings and stay complete; only this view is bounded.
+const MAX_INSPECTOR_MARKS = 20000;
+
 function renderInspector(text, findings) {
+  const shown = findings.length > MAX_INSPECTOR_MARKS ? findings.slice(0, MAX_INSPECTOR_MARKS) : findings;
   let html = "";
   let cursor = 0;
-  for (const f of findings) {
+  for (const f of shown) {
     html += esc(text.slice(cursor, f.index));
     const color = CAT_COLOR[f.category];
     const tip = esc(`${f.code} ${f.name}${f.note ? " · " + f.note : ""}${f.exempt ? " · kept" : ""}`);
@@ -93,7 +101,11 @@ function renderInspector(text, findings) {
     cursor = f.index + f.length;
   }
   html += esc(text.slice(cursor));
-  return html || '<span style="color:var(--ink-mute)">Paste something above to inspect it.</span>';
+  return {
+    html: html || '<span style="color:var(--ink-mute)">Paste something above to inspect it.</span>',
+    shownMarks: shown.length,
+    totalMarks: findings.length
+  };
 }
 
 function run() {
@@ -112,11 +124,17 @@ function run() {
 
   stats.innerHTML = chipRow(counts, cleaned.removed, cleaned.replaced);
 
-  alerts.innerHTML = hiddenMessages.length
-    ? `<div class="alert">⚠️ <strong>Hidden payload found.</strong> Invisible tag characters in this text decode to: <code>${esc(hiddenMessages.join(" · "))}</code>. Someone embedded this on purpose, most likely as a watermark or a smuggled instruction.</div>`
-    : "";
+  const view = renderInspector(text, findings);
+  const notices = [];
+  if (hiddenMessages.length) {
+    notices.push(`<div class="alert">⚠️ <strong>Hidden payload found.</strong> Invisible tag characters in this text decode to: <code>${esc(hiddenMessages.join(" · "))}</code>. Someone embedded this on purpose, most likely as a watermark or a smuggled instruction.</div>`);
+  }
+  if (view.totalMarks > view.shownMarks) {
+    notices.push(`<div class="alert info">The inspector is showing the first ${view.shownMarks.toLocaleString()} of ${view.totalMarks.toLocaleString()} marks so the page stays responsive. The summary above and the cleaned text below still cover every one.</div>`);
+  }
+  alerts.innerHTML = notices.join("");
 
-  inspector.innerHTML = renderInspector(text, findings);
+  inspector.innerHTML = view.html;
   output.value = cleaned.text;
   syncControls();
 }
