@@ -150,6 +150,24 @@ button {
 button:hover { border-color: rgba(171, 207, 55, 0.45); }
 button:active { transform: scale(0.97); }
 
+/* Disabled: visibly inert. Muted, dashed edge, no pointer, no hover response. */
+button:disabled,
+button:disabled:hover {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: var(--panel-2);
+  border-color: var(--line);
+  border-style: dashed;
+  color: var(--muted);
+  box-shadow: none;
+  transform: none;
+}
+button.primary:disabled,
+button.primary:disabled:hover {
+  background: transparent;
+  color: var(--muted);
+}
+
 button.primary {
   background: var(--accent);
   border-color: var(--accent);
@@ -383,9 +401,9 @@ main > .card:first-of-type { animation: fade-up 0.55s 0.34s ease both; }
 
 /* Button and link feel */
 button { transition: transform 0.15s ease, background 0.2s, border-color 0.2s, box-shadow 0.2s; }
-button:hover { transform: translateY(-1.5px); }
-button:not(.primary):not(.to-top):hover { background: var(--panel); }
-button.primary:hover { box-shadow: 0 6px 22px rgba(171, 207, 55, 0.28); }
+button:not(:disabled):hover { transform: translateY(-1.5px); }
+button:not(.primary):not(.to-top):not(:disabled):hover { background: var(--panel); }
+button.primary:not(:disabled):hover { box-shadow: 0 6px 22px rgba(171, 207, 55, 0.28); }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
 .results-table tbody tr { transition: background 0.15s; }
 .results-table tbody tr:hover { background: rgba(255, 255, 255, 0.025); }
