@@ -3,6 +3,25 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.3.0] - 2026-07-09
+
+### Added
+
+- Seven new detections: the Unicode-only line breaks (`U+2028`, `U+2029`) and `NEL` (`U+0085`), normalized to real newlines instead of removed; the combining grapheme joiner (`U+034F`); the object replacement character (`U+FFFC`) that rich editors leave behind; the braille pattern blank (`U+2800`) used to fake empty text; and the Mongolian free variation selectors (`U+180B..U+180D`). The machine-readable ruleset includes them all.
+- Two new keep rules, honoring the promise to never damage legitimate text: the ideographic space next to CJK characters (standard Japanese typography), and no-break spaces adjacent to French punctuation marks. The AI-fingerprint narrow space in contexts like `9:30(nnbsp)AM` is still cleaned.
+- A Content Security Policy with `connect-src 'none'`, enforcing "your text never leaves your device" at the browser level rather than only in the code.
+
+### Fixed
+
+- A hidden payload can no longer hide behind a flag emoji. Only a genuine subdivision flag (black flag, short lowercase region code, cancel tag) is preserved; any other tag run after a black flag is decoded and cleaned like the watermark it is.
+- A zero-width joiner between digits is no longer mistaken for an emoji join, and is removed.
+- Analysis stays linear on hostile input. A paste flooded with tens of thousands of modifier characters used to cost quadratic time and could hang the tab; context scanning is now capped, and a regression test pins the bound.
+
+### Changed
+
+- Accessibility: the paste box has a real label and the cleaned-text box an accessible name.
+- 30 tests, up from 21.
+
 ## [1.2.5] - 2026-07-09
 
 ### Changed
@@ -81,6 +100,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a sample text with one of everything planted.
 
+[1.3.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.3.0
 [1.2.5]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.2.5
 [1.2.4]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.2.4
 [1.2.3]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.2.3

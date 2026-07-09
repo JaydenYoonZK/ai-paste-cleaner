@@ -66,6 +66,14 @@ const CHAR_RULES = new Map([
   [0xFFA0, N(0xFFA0, "HALFWIDTH HANGUL FILLER", "invisible")],
   [0x115F, N(0x115F, "HANGUL CHOSEONG FILLER", "invisible")],
   [0x1160, N(0x1160, "HANGUL JUNGSEONG FILLER", "invisible")],
+  [0x034F, N(0x034F, "COMBINING GRAPHEME JOINER", "invisible")],
+  [0xFFFC, N(0xFFFC, "OBJECT REPLACEMENT CHARACTER", "invisible")],
+  // Unicode-only line breaks: valid text, but JSON.parse rejects them raw,
+  // pre-ES2019 JavaScript string literals break on them, and most editors
+  // render them as nothing. Normalized to a plain newline.
+  [0x0085, N(0x0085, "NEXT LINE (NEL)", "invisible", "\n")],
+  [0x2028, N(0x2028, "LINE SEPARATOR", "invisible", "\n")],
+  [0x2029, N(0x2029, "PARAGRAPH SEPARATOR", "invisible", "\n")],
   // Joiners (context-aware, see exemptions)
   [0x200C, N(0x200C, "ZERO WIDTH NON-JOINER", "invisible")],
   [0x200D, N(0x200D, "ZERO WIDTH JOINER", "invisible")],
@@ -79,6 +87,7 @@ const CHAR_RULES = new Map([
   [0x1680, N(0x1680, "OGHAM SPACE MARK", "spaces", " ")],
   [0x205F, N(0x205F, "MEDIUM MATHEMATICAL SPACE", "spaces", " ")],
   [0x3000, N(0x3000, "IDEOGRAPHIC SPACE", "spaces", " ")],
+  [0x2800, N(0x2800, "BRAILLE PATTERN BLANK", "spaces", " ")],
   // Typography
   [0x2018, N(0x2018, "LEFT SINGLE QUOTATION MARK", "typography", "'")],
   [0x2019, N(0x2019, "RIGHT SINGLE QUOTATION MARK", "typography", "'")],
@@ -99,6 +108,7 @@ const RANGE_RULES = [
   { from: 0x2066, to: 0x2069, name: "BIDI ISOLATE CONTROL", category: "bidi" },
   { from: 0x2000, to: 0x200A, name: "TYPOGRAPHIC SPACE", category: "spaces", replacement: " " },
   { from: 0xFE00, to: 0xFE0F, name: "VARIATION SELECTOR", category: "variation" },
+  { from: 0x180B, to: 0x180D, name: "MONGOLIAN FREE VARIATION SELECTOR", category: "variation" },
   { from: 0xE0100, to: 0xE01EF, name: "VARIATION SELECTOR SUPPLEMENT", category: "variation" },
   { from: 0xE0000, to: 0xE007F, name: "TAG CHARACTER", category: "tags" }
 ];
@@ -118,7 +128,12 @@ export const CONFUSABLES = new Map(Object.entries({
 }));
 
 const PICTOGRAPHIC = /[\p{Extended_Pictographic}0-9#*©®]/u;
+// For ZWJ context, digits and #/* must NOT count as emoji: they are keycap
+// bases for variation selectors, but no emoji ZWJ sequence joins through
+// them, and a ZWJ hidden between digits is a watermark, not an emoji.
+const EMOJI_CORE = /\p{Extended_Pictographic}/u;
 const HAN = /\p{Script=Han}/u;
+const CJK = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;
 const ZWNJ_SCRIPTS = new RegExp(
   "[" +
   "\\p{Script=Arabic}\\p{Script=Syriac}\\p{Script=Nko}\\p{Script=Mongolian}" +
@@ -168,25 +183,32 @@ export function analyze(text) {
     pos += cps[i].length;
   }
 
+  // Modifiers to look through when finding the real neighbor: variation
+  // selectors, ZWJ, and skin tone modifiers. The scan is capped because a
+  // legitimate emoji sequence never stacks more than a few of these; without
+  // the cap, a pasted run of thousands of modifiers costs O(n^2).
+  const isJoinModifier = (c) =>
+    (c >= 0xFE00 && c <= 0xFE0F) || c === 0x200D || (c >= 0x1F3FB && c <= 0x1F3FF);
+  const MAX_MODIFIER_SCAN = 16;
   const prevOf = (i) => {
-    // Nearest earlier codepoint that is not itself a modifier.
-    for (let j = i - 1; j >= 0; j--) {
+    for (let j = i - 1, skipped = 0; j >= 0 && skipped <= MAX_MODIFIER_SCAN; j--) {
       const c = cps[j].codePointAt(0);
-      if (c >= 0xFE00 && c <= 0xFE0F) continue;
-      if (c === 0x200D) continue;
+      if (isJoinModifier(c)) { skipped++; continue; }
       return cps[j];
     }
     return "";
   };
   const nextOf = (i) => {
-    for (let j = i + 1; j < cps.length; j++) {
+    for (let j = i + 1, skipped = 0; j < cps.length && skipped <= MAX_MODIFIER_SCAN; j++) {
       const c = cps[j].codePointAt(0);
-      if (c >= 0xFE00 && c <= 0xFE0F) continue;
-      if (c === 0x200D) continue;
+      if (isJoinModifier(c)) { skipped++; continue; }
       return cps[j];
     }
     return "";
   };
+  // Tag runs are classified once per run, not once per character.
+  let tagRunEnd = -1;
+  let tagRunExempt = false;
 
   for (let i = 0; i < cps.length; i++) {
     const ch = cps[i];
@@ -199,7 +221,7 @@ export function analyze(text) {
 
     if (cp === 0x200D) {
       const around = prevOf(i) + nextOf(i);
-      if (PICTOGRAPHIC.test(around)) {
+      if (EMOJI_CORE.test(around)) {
         exempt = true;
         note = "Part of an emoji sequence. Removing it would split the emoji.";
       }
@@ -220,24 +242,43 @@ export function analyze(text) {
         note = "Part of a CJK ideographic variation sequence.";
       }
     } else if (rule.category === "tags") {
-      // Subdivision flags (Scotland, Wales, England) are pictograph + tag run.
-      let start = i;
-      while (start > 0 && ruleFor(cps[start - 1].codePointAt(0))?.category === "tags") start--;
-      const before = start > 0 ? cps[start - 1].codePointAt(0) : 0;
-      if (before === BLACK_FLAG) {
-        exempt = true;
-        note = "Part of a subdivision flag emoji.";
-      } else if (i === start) {
-        // Decode the payload once, at the start of the run.
-        let msg = "";
+      if (i > tagRunEnd) {
+        // New run: find its end and decode the payload once.
         let j = i;
+        let msg = "";
         while (j < cps.length) {
           const c = cps[j].codePointAt(0);
           if (ruleFor(c)?.category !== "tags") break;
           if (c >= 0xE0020 && c <= 0xE007E) msg += String.fromCodePoint(c - 0xE0000);
           j++;
         }
-        if (msg.trim()) hiddenMessages.push(msg);
+        tagRunEnd = j - 1;
+        // A real subdivision flag (Scotland, Wales, England) is a black flag
+        // followed by a short lowercase region code and a cancel tag. A black
+        // flag in front of anything else does not launder the payload: a run
+        // that fails this shape is decoded and cleaned like any other.
+        const before = i > 0 ? cps[i - 1].codePointAt(0) : 0;
+        const endsWithCancel = cps[tagRunEnd].codePointAt(0) === CANCEL_TAG;
+        tagRunExempt = before === BLACK_FLAG && endsWithCancel && /^[a-z0-9]{1,6}$/.test(msg);
+        if (!tagRunExempt && msg.trim()) hiddenMessages.push(msg);
+      }
+      if (tagRunExempt) {
+        exempt = true;
+        note = "Part of a subdivision flag emoji.";
+      }
+    } else if (cp === 0x3000) {
+      const prev = i > 0 ? cps[i - 1] : "";
+      const next = i + 1 < cps.length ? cps[i + 1] : "";
+      if (CJK.test(prev) || CJK.test(next)) {
+        exempt = true;
+        note = "Ideographic space next to CJK text is standard typography.";
+      }
+    } else if (cp === 0x00A0 || cp === 0x202F) {
+      const prev = i > 0 ? cps[i - 1] : "";
+      const next = i + 1 < cps.length ? cps[i + 1] : "";
+      if (/[«‹]/.test(prev) || /[»›!?;:]/.test(next)) {
+        exempt = true;
+        note = "Standard French spacing around punctuation.";
       }
     } else if (cp === 0x2013) {
       const prev = i > 0 ? cps[i - 1] : "";

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
   <title>AI Paste Cleaner: find hidden characters in copied text</title>
   <meta name="description" content="Free browser tool that reveals invisible Unicode, hidden watermarks, and AI typography in pasted text, then cleans it safely. Runs entirely on your device.">
   <link rel="canonical" href="https://jaydenyoonzk.github.io/ai-paste-cleaner/">
@@ -21,7 +22,7 @@
       document.documentElement.dataset.theme = t;
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=20260709l">
+  <link rel="stylesheet" href="styles.css?v=20260709m">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -146,7 +147,7 @@
 
 <main class="wrap">
   <div class="card">
-    <label for="input" style="display:none">Text to inspect</label>
+    <label for="input" class="sr-only">Text to inspect</label>
     <textarea id="input" placeholder="Paste text here to inspect it..." spellcheck="false"></textarea>
     <div class="toolbar">
       <button id="paste" class="primary" type="button" data-tip="Paste from your clipboard and clean it">Paste from clipboard</button>
@@ -191,7 +192,7 @@
     <h2 class="section-title">✨ Cleaned text</h2>
     <div class="output">
       <div class="copy-wrap"><button id="copy" disabled class="primary" type="button" data-tip="Copy the cleaned text" data-tip-off="Nothing to copy yet">Copy cleaned text</button></div>
-      <textarea id="output" readonly spellcheck="false"></textarea>
+      <textarea id="output" readonly spellcheck="false" aria-label="Cleaned text"></textarea>
     </div>
   </div>
 
@@ -255,6 +256,6 @@
 </footer>
 
 <button id="to-top" class="to-top" type="button" aria-label="Back to top">&#8593;</button>
-<script type="module" src="app.js?v=20260709l"></script>
+<script type="module" src="app.js?v=20260709m"></script>
 </body>
 </html>

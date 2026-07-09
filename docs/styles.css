@@ -409,6 +409,17 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 .results-table tbody tr { transition: background 0.15s; }
 .results-table tbody tr:hover { background: rgba(255, 255, 255, 0.025); }
 
+/* Screen-reader-only: present in the accessibility tree, hidden visually */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Scroll to top */
 .to-top {
   position: fixed;

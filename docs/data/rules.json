@@ -89,6 +89,36 @@
       "replacement": ""
     },
     {
+      "codepoint": "U+034F",
+      "name": "COMBINING GRAPHEME JOINER",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+FFFC",
+      "name": "OBJECT REPLACEMENT CHARACTER",
+      "category": "invisible",
+      "replacement": ""
+    },
+    {
+      "codepoint": "U+0085",
+      "name": "NEXT LINE (NEL)",
+      "category": "invisible",
+      "replacement": "\n"
+    },
+    {
+      "codepoint": "U+2028",
+      "name": "LINE SEPARATOR",
+      "category": "invisible",
+      "replacement": "\n"
+    },
+    {
+      "codepoint": "U+2029",
+      "name": "PARAGRAPH SEPARATOR",
+      "category": "invisible",
+      "replacement": "\n"
+    },
+    {
       "codepoint": "U+200C",
       "name": "ZERO WIDTH NON-JOINER",
       "category": "invisible",
@@ -145,6 +175,12 @@
     {
       "codepoint": "U+3000",
       "name": "IDEOGRAPHIC SPACE",
+      "category": "spaces",
+      "replacement": " "
+    },
+    {
+      "codepoint": "U+2800",
+      "name": "BRAILLE PATTERN BLANK",
       "category": "spaces",
       "replacement": " "
     },
@@ -235,6 +271,12 @@
     {
       "range": "U+FE00..U+FE0F",
       "name": "VARIATION SELECTOR",
+      "category": "variation",
+      "replacement": ""
+    },
+    {
+      "range": "U+180B..U+180D",
+      "name": "MONGOLIAN FREE VARIATION SELECTOR",
       "category": "variation",
       "replacement": ""
     },
