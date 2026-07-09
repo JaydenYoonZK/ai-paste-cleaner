@@ -237,19 +237,33 @@ themeToggle.addEventListener("click", () => {
 });
 syncThemeIcon();
 
+// Scroll spy: the active menu item is the last section whose heading sits
+// at or above the reading line just below the sticky header. Computed from
+// the scroll position rather than an IntersectionObserver band, because a
+// menu jump lands the heading at the top of the viewport, outside any
+// mid-viewport band, which left the highlight stuck on a section the page
+// merely scrolled past.
 const navAnchors = [...document.querySelectorAll(".nav-links a")];
-const navSections = navAnchors
-  .map(a => document.getElementById(a.hash.slice(1)))
-  .filter(Boolean);
-const sectionSpy = new IntersectionObserver((entries) => {
-  for (const entry of entries) {
-    if (!entry.isIntersecting) continue;
-    for (const a of navAnchors) {
-      a.classList.toggle("active", a.hash === "#" + entry.target.id);
-    }
+const navSections = navAnchors.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
+navSections.sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1);
+function syncActiveLink() {
+  const nav = document.querySelector(".site-nav");
+  const line = (nav ? nav.offsetHeight : 0) + 40;
+  let current = null;
+  for (const sec of navSections) {
+    if (sec.getBoundingClientRect().top <= line) current = sec;
   }
-}, { rootMargin: "-30% 0px -60% 0px" });
-navSections.forEach(sec => sectionSpy.observe(sec));
+  // At the very bottom the last section is current even when the page is
+  // too short to lift its heading up to the line.
+  if (navSections.length && Math.ceil(scrollY + innerHeight) >= document.documentElement.scrollHeight - 2) {
+    current = navSections[navSections.length - 1];
+  }
+  for (const a of navAnchors) a.classList.toggle("active", !!current && a.hash === "#" + current.id);
+}
+let spyRaf = 0;
+addEventListener("scroll", () => { if (!spyRaf) spyRaf = requestAnimationFrame(() => { spyRaf = 0; syncActiveLink(); }); }, { passive: true });
+addEventListener("resize", syncActiveLink, { passive: true });
+syncActiveLink();
 
 const scene = document.querySelector(".bg-scene");
 if (scene && matchMedia("(pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
