@@ -155,18 +155,19 @@ $("sample").addEventListener("click", () => {
 });
 
 const pasteBtn = $("paste");
+const pasteLabel = pasteBtn.textContent;
+let pasteFlashTimer = 0;
+let waitingForPaste = false;
+function flashPaste(msg) {
+  pasteBtn.textContent = msg;
+  clearTimeout(pasteFlashTimer);
+  pasteFlashTimer = setTimeout(() => { pasteBtn.textContent = pasteLabel; }, 2600);
+}
 pasteBtn.addEventListener("click", async () => {
-    // On touch devices the async clipboard read triggers a system permission
-    // popup that needs a second tap. Instead focus the box, where iOS offers a
-    // native one-tap Paste on an empty field. Desktop keeps one-click paste.
-    if (matchMedia("(pointer: coarse)").matches) {
-      input.focus();
-      input.select(); // select existing text so a native paste replaces it
-      const p = pasteBtn.textContent;
-      pasteBtn.textContent = "Now paste into the box";
-      setTimeout(() => { pasteBtn.textContent = p; }, 2600);
-      return;
-    }
+  // Read the clipboard on every device. On iOS the system shows its Paste
+  // confirmation bubble at the tap point; confirming it fills the box and
+  // cleans in one motion. That bubble is the minimum iOS allows before a
+  // page may read the clipboard.
   try {
     const text = await navigator.clipboard.readText();
     if (text) {
@@ -175,11 +176,23 @@ pasteBtn.addEventListener("click", async () => {
       input.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
-  } catch { /* permission denied or unsupported */ }
+    flashPaste("Clipboard is empty");
+    return;
+  } catch { /* declined or unsupported, fall back to a manual paste */ }
+  waitingForPaste = true;
   input.focus();
-  const prev = pasteBtn.textContent;
-  pasteBtn.textContent = navigator.platform?.includes("Mac") ? "Press \u2318V here" : "Press Ctrl+V here";
-  setTimeout(() => { pasteBtn.textContent = prev; }, 2400);
+  input.select(); // a manual paste then replaces the old content
+  flashPaste(matchMedia("(pointer: coarse)").matches
+    ? "Long-press the box, then Paste"
+    : (navigator.platform?.includes("Mac") ? "Press \u2318V to paste" : "Press Ctrl+V to paste"));
+});
+// After a manual paste the box's input listener runs the cleaner; this only
+// restores the button label.
+input.addEventListener("paste", () => {
+  if (!waitingForPaste) return;
+  waitingForPaste = false;
+  clearTimeout(pasteFlashTimer);
+  pasteBtn.textContent = pasteLabel;
 });
 
 $("clear").addEventListener("click", () => {
