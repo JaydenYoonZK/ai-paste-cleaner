@@ -8,6 +8,15 @@ const inspector = $("inspector");
 const output = $("output");
 const results = $("results");
 const copyBtn = $("copy");
+const clearBtn = $("clear");
+
+// Clear is enabled when the input has ANY content. This tool targets invisible
+// characters, so trimming would wrongly treat an all-invisible paste (exactly
+// what it exists to clean) as empty. Copy is enabled only when there is output.
+function syncControls() {
+  clearBtn.disabled = input.value.length === 0;
+  copyBtn.disabled = output.value.length === 0;
+}
 const charcount = $("charcount");
 
 const options = { ...DEFAULT_OPTIONS };
@@ -92,6 +101,8 @@ function run() {
   charcount.textContent = text ? `${Array.from(text).length} characters` : "";
   if (!text) {
     results.hidden = true;
+    output.value = "";
+    syncControls();
     return;
   }
   results.hidden = false;
@@ -107,6 +118,7 @@ function run() {
 
   inspector.innerHTML = renderInspector(text, findings);
   output.value = cleaned.text;
+  syncControls();
 }
 
 // Options panel
@@ -124,6 +136,7 @@ $("emdash-style").addEventListener("change", (e) => {
 });
 
 input.addEventListener("input", run);
+syncControls();
 
 function loadSample() {
   const hidden = [..."wm:demo-7f3a"].map(c => String.fromCodePoint(0xE0000 + c.codePointAt(0))).join("");
