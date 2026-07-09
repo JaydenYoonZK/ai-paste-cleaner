@@ -9,7 +9,7 @@ Reveal and safely remove the characters you cannot see: invisible Unicode, hidde
 </p>
 
 <a href="https://jaydenyoonzk.github.io/ai-paste-cleaner/?demo">
-  <img src="docs/assets/preview.png" alt="The inspector revealing hidden characters in a sample marketing paragraph: soft hyphens, narrow no-break spaces, a decoded watermark payload, and preserved emoji sequences" width="100%">
+  <img src="docs/assets/preview.png" alt="AI Paste Cleaner shown in light and dark themes, the hero with its illustration revealing hidden characters and keeping legitimate ones" width="100%">
 </a>
 
 **[Open the live tool](https://jaydenyoonzk.github.io/ai-paste-cleaner/)** or **[jump straight to a loaded demo](https://jaydenyoonzk.github.io/ai-paste-cleaner/?demo)**. Everything runs in your browser. Your text never leaves your device.
