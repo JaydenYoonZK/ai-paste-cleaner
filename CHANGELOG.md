@@ -3,7 +3,7 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## Unreleased
+## [1.4.0] - 2026-07-10
 
 ### Added
 
@@ -140,6 +140,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.0
 [1.3.2]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.3.2
 [1.3.1]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.3.1
 [1.3.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.3.0
