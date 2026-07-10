@@ -3,6 +3,13 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.17] - 2026-07-10
+
+### Changed
+
+- The Typography option is now ticked when the page loads. Cleaning pasted rich text is the main reason people arrive here, and straightened quotes with dash and ellipsis cleanup is usually wanted. The cleaning engine's own default is unchanged for direct clean() calls.
+- Pressing a button now reads as the cap sinking into its socket. Before, the dark bottom edge collapsed as the button traveled down, which looked like the base rising to meet it. The edge now stays put beneath the sunken cap and a soft shadow falls across the cap's top, so the press feels like a real key going down.
+
 ## [1.4.16] - 2026-07-10
 
 ### Added
@@ -253,6 +260,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.17]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.17
 [1.4.16]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.16
 [1.4.15]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.15
 [1.4.14]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.14

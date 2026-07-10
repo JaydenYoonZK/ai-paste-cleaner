@@ -1,4 +1,4 @@
-import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.16";
+import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.17";
 
 const $ = (id) => document.getElementById(id);
 const input = $("input");
@@ -22,7 +22,9 @@ function syncControls() {
 }
 const charcount = $("charcount");
 
-const options = { ...DEFAULT_OPTIONS };
+// The page ships with Typography ticked: cleaning pasted rich text is the
+// main use case here. The engine's own default stays conservative for clean().
+const options = { ...DEFAULT_OPTIONS, typography: true };
 
 const CAT_COLOR = {
   invisible: "green",
