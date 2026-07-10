@@ -511,26 +511,26 @@ html[data-theme="light"] {
   --panel-2: #edeade;
   --line: rgba(30, 24, 12, 0.12);
   --line-strong: rgba(30, 24, 12, 0.22);
-  --ink: #211c14;
-  --ink-soft: #4f4739;
+  --ink: #362a1b;
+  --ink-soft: #574a38;
   --ink-mute: #6e6556;
-  --accent: #0e7534;
-  --accent-soft: rgba(171, 207, 55, 0.2);
-  --green: #03765a; --green-soft: rgba(52, 199, 89, 0.14);
+  --accent: #a03920;
+  --accent-soft: rgba(232, 96, 76, 0.14);
+  --green: #03765a; --green-soft: rgba(190, 203, 182, 0.3);
   --amber: #b83c08; --amber-soft: rgba(255, 159, 10, 0.14);
-  --red: #c02418; --red-soft: rgba(255, 69, 58, 0.1);
+  --red: #b3261e; --red-soft: rgba(255, 69, 58, 0.1);
   --blue: #1d63c4; --blue-soft: rgba(10, 132, 255, 0.11);
   --nav-bg: rgba(246, 244, 238, 0.85);
-  --subnav-bg: rgba(84, 71, 65, 0.06);
+  --subnav-bg: rgba(143, 163, 135, 0.14);
 }
 html[data-theme="light"] body {
-  background-image: radial-gradient(1100px 500px at 15% -5%, rgba(171, 207, 55, 0.2), transparent 60%);
+  background-image: radial-gradient(1100px 500px at 15% -5%, rgba(232, 110, 80, 0.1), transparent 60%);
 }
 html[data-theme="light"] .to-top { background: var(--accent); border-color: var(--accent); color: #ffffff; }
-html[data-theme="light"] .to-top:hover { background: #0b5f2a; border-color: #0b5f2a; }
+html[data-theme="light"] .to-top:hover { background: #8a3019; border-color: #8a3019; }
 html[data-theme="light"] button.primary { background: var(--accent); border-color: var(--accent); color: #ffffff; }
-html[data-theme="light"] button.primary:hover { background: #0b5f2a; box-shadow: 0 6px 22px rgba(14, 117, 52, 0.35); }
-html[data-theme="light"] .privacy { border-color: rgba(171, 207, 55, 0.6); }
+html[data-theme="light"] button.primary:hover { background: #8a3019; box-shadow: 0 6px 22px rgba(160, 57, 32, 0.35); }
+html[data-theme="light"] .privacy { border-color: rgba(232, 96, 76, 0.45); }
 
 /* Background scene: depth-of-field drift with scroll parallax */
 .bg-scene {
@@ -644,11 +644,11 @@ html[data-theme="light"] .star { opacity: 0 !important; animation: none; }
 .p10 { right: 5%; top: 92%; width: 122px; height: 122px; --sfac: 0.24; --depth: 26; --dxt: 22s; --dyt: 29s; --dxa: -28px; --dya: -38px; opacity: 0.5; }
 .p11 { right: 17%; top: 52%; width: 30px; height: 30px; --sfac: 0.06; --depth: 7; --dxt: 31s; --dyt: 39s; --dxa: 16px; --dya: 20px; filter: blur(2px); opacity: 0.4; }
 
-html[data-theme="light"] .bg-scene { --face-bg: rgba(171, 207, 55, 0.06); --face-line: rgba(20, 130, 60, 0.3); }
-html[data-theme="light"] .orb-a { background: radial-gradient(circle, rgba(171, 207, 55, 0.2), transparent 65%); }
+html[data-theme="light"] .bg-scene { --face-bg: rgba(84, 71, 65, 0.05); --face-line: rgba(84, 71, 65, 0.3); }
+html[data-theme="light"] .orb-a { background: radial-gradient(circle, rgba(232, 96, 76, 0.16), transparent 65%); }
 html[data-theme="light"] .orb-b { background: radial-gradient(circle, rgba(84, 71, 65, 0.14), transparent 65%); }
 html[data-theme="light"] .sph .inner {
-  background: radial-gradient(circle at 31% 28%, rgba(171, 207, 55, 0.55), rgba(52, 168, 83, 0.3) 42%, rgba(11, 95, 42, 0.22) 78%, transparent 100%);
+  background: radial-gradient(circle at 31% 28%, rgba(232, 120, 90, 0.5), rgba(143, 163, 135, 0.35) 42%, rgba(120, 80, 60, 0.25) 78%, transparent 100%);
   box-shadow: inset -14px -12px 28px rgba(60, 60, 40, 0.18);
 }
 
@@ -744,3 +744,11 @@ button:disabled { pointer-events: auto; }
 
 /* Note shown when the inspector preview is truncated for very large pastes */
 .inspector-truncated { color: var(--ink-mute); font-style: italic; }
+
+/* Light mode focus and border accents follow the coral accent instead of the
+   dark theme's chartreuse constants. */
+html[data-theme="light"] textarea:focus,
+html[data-theme="light"] input[type="text"]:focus,
+html[data-theme="light"] input[type="search"]:focus { border-color: rgba(232, 96, 76, 0.55); }
+html[data-theme="light"] button:not(.primary):not(:disabled):hover { border-color: rgba(160, 57, 32, 0.45); }
+html[data-theme="light"] .chip.ok { border-color: rgba(3, 118, 90, 0.4); }
