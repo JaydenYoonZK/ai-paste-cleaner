@@ -605,7 +605,7 @@ html[data-theme="dark"] .tt-moon { opacity: 1; transform: rotate(0deg) scale(1);
 /* The toggle sits at the top edge, so its tooltip opens downward and hugs
    the right edge instead of running off screen. */
 .theme-toggle[data-tip]::after { bottom: auto; top: calc(100% + 10px); left: auto; right: 0; transform: translateY(-6px); }
-.theme-toggle[data-tip]::before { bottom: auto; top: calc(100% + 4px); border-top-color: transparent; border-bottom-color: var(--ink); transform: translate(-50%, -6px); }
+.theme-toggle[data-tip]::before { bottom: auto; top: calc(100% - 1px); border-top-color: transparent; border-bottom-color: var(--ink); transform: translate(-50%, -6px); }
 .theme-toggle[data-tip]:hover::after, .theme-toggle[data-tip]:focus-visible::after { transform: translateY(0); }
 .theme-toggle[data-tip]:hover::before, .theme-toggle[data-tip]:focus-visible::before { transform: translate(-50%, 0); }
 [id] { scroll-margin-top: calc(var(--nav-h, 104px) + 16px); }
@@ -808,14 +808,14 @@ button[data-tip]::before {
   content: "";
   position: absolute;
   left: 50%;
-  bottom: calc(100% + 4px);
+  bottom: calc(100% - 1px); /* wedge tip in the gap, base tucked 1px under the bubble */
   transform: translate(-50%, 6px);
   border: 6px solid transparent;
   border-top-color: var(--ink);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.18s ease, transform 0.18s ease;
-  z-index: 60;
+  z-index: 61; /* paints over the bubble edge so wedge and bubble read as one shape */
 }
 button[data-tip]:hover::after, button[data-tip]:focus-visible::after,
 button[data-tip]:hover::before, button[data-tip]:focus-visible::before {
