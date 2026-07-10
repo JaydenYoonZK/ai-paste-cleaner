@@ -1,4 +1,4 @@
-import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=20260709o";
+import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=20260710a";
 
 const $ = (id) => document.getElementById(id);
 const input = $("input");
@@ -100,7 +100,9 @@ function renderInspector(text, findings) {
     }
     cursor = f.index + f.length;
   }
-  html += esc(text.slice(cursor));
+  html += shown.length < findings.length
+    ? '<span class="inspector-truncated"> Remainder omitted from this preview.</span>'
+    : esc(text.slice(cursor));
   return {
     html: html || '<span style="color:var(--ink-mute)">Paste something above to inspect it.</span>',
     shownMarks: shown.length,
@@ -119,8 +121,9 @@ function run() {
   }
   results.hidden = false;
 
-  const { findings, hiddenMessages, counts } = analyze(text);
-  const cleaned = clean(text, options);
+  const analysis = analyze(text);
+  const { findings, hiddenMessages, counts } = analysis;
+  const cleaned = clean(text, options, analysis);
 
   stats.innerHTML = chipRow(counts, cleaned.removed, cleaned.replaced);
 

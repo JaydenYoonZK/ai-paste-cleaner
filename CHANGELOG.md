@@ -3,6 +3,19 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## Unreleased
+
+### Added
+
+- Mongolian free variation selector four (`U+180F`) is now included in the published ruleset.
+
+### Fixed
+
+- Cleaning no longer collapses intentional pairs of ordinary spaces in otherwise clean text.
+- Emoji, CJK, and Mongolian variation selectors are preserved only when they directly follow a compatible base, so duplicate or misplaced selectors are removed.
+- Malformed tag runs after a black flag can no longer pass as subdivision flag data.
+- The browser UI reuses one analysis result and omits the unmarked remainder of oversized inspector previews, reducing duplicate work and preventing hidden direction controls beyond the preview cap from affecting the display.
+
 ## [1.3.2] - 2026-07-10
 
 ### Added

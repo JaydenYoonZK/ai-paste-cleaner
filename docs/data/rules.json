@@ -41,6 +41,12 @@
       "replacement": ""
     },
     {
+      "codepoint": "U+180F",
+      "name": "MONGOLIAN FREE VARIATION SELECTOR FOUR",
+      "category": "variation",
+      "replacement": ""
+    },
+    {
       "codepoint": "U+2061",
       "name": "FUNCTION APPLICATION",
       "category": "invisible",
