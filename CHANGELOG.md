@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.24] - 2026-07-11
+
+### Fixed
+
+- The cursor dust now lands directly on the pointer. The trail canvas is a replaced element, so inset alone did not stretch it and it laid out at its intrinsic retina-scaled size; on high-density displays every spark drew at a multiple of the cursor's position, drifting further from it toward the bottom right of the page. The canvas is now explicitly stretched to the viewport, verified at retina density.
+
 ## [1.4.23] - 2026-07-11
 
 ### Added
@@ -299,6 +305,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.24]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.24
 [1.4.23]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.23
 [1.4.22]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.22
 [1.4.21]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.21
