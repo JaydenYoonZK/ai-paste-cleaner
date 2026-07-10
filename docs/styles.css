@@ -274,6 +274,11 @@ html[data-theme="light"] .alert code {
    invisible. Transitions are unaffected, so the toggle morph still plays. */
 html.vt-active * { animation-play-state: paused !important; }
 
+/* iOS and Android flash their default grey tap rectangle over touched
+   controls. The design supplies its own pressed states, so the system
+   flash only reads as a glitch. Keyboard focus outlines are unaffected. */
+html { -webkit-tap-highlight-color: transparent; }
+
 /* Film grain over the whole composition. Large soft gradients band on most
    displays; a whisper of static monochrome noise dithers the steps away and
    gives the surface a print-like tooth. One tiled turbulence texture, no
@@ -487,11 +492,13 @@ main > .card:first-of-type { animation: fade-up 0.55s 0.34s ease both; }
 .chip:nth-child(5) { animation-delay: 0.2s; }
 .chip:nth-child(6) { animation-delay: 0.25s; }
 
-/* Button and link feel */
-button { transition: transform 0.15s ease, background 0.2s, border-color 0.2s, box-shadow 0.2s; }
-button:not(:disabled):hover { transform: translateY(-1px); }
+/* Button and link feel. The press is declared after the hover lift at the
+   same specificity: during a click the pointer is still hovering, so
+   whichever rule loses here never shows. The press must win. */
+button { transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s, border-color 0.2s; }
 button:not(.primary):not(.to-top):not(:disabled):hover { background: var(--panel); }
-button.primary:not(:disabled):hover { box-shadow: 0 6px 22px rgba(171, 207, 55, 0.28); }
+button:not(:disabled):hover { transform: translateY(-1px); }
+button:not(:disabled):active { transform: translateY(3px); }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
 .results-table tbody tr { transition: background 0.15s; }
 .results-table tbody tr:hover { background: rgba(255, 255, 255, 0.025); }
@@ -534,7 +541,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   header .eyebrow, header h1, header .lede, header .privacy,
   .hero-art, main > .card:first-of-type, .chip { animation: none !important; }
   button, .to-top { transition: none; }
-  button:hover, .to-top:hover, button:active, .to-top:active { transform: none; }
+  button:hover, .to-top:hover, button:active, .to-top:active, button:not(:disabled):hover, button:not(:disabled):active { transform: none; }
   button:active { box-shadow: 0 5px 0 var(--btn-edge), 0 7px 3px 1px var(--btn-ambient), inset 0 2px 6px 1px rgba(0, 0, 0, 0.25), inset 0 1.5px 0 rgba(255, 255, 255, 0.06); }
   button.primary:active { box-shadow: 0 5px 0 var(--btn-edge-primary), 0 7px 3px 1px var(--btn-ambient), 0 3px 10px var(--btn-glow), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28), inset 0 1.5px 0 rgba(255, 255, 255, 0.12); }
   .tt-sun, .tt-moon { transition: none; }
@@ -672,6 +679,7 @@ html[data-theme="light"] .to-top { background: #abcf37; border-color: #abcf37; c
 html[data-theme="light"] .to-top:hover { background: #bcdf4e; border-color: #bcdf4e; }
 html[data-theme="light"] button.primary { background: #abcf37; border-color: #abcf37; color: #101400; }
 html[data-theme="light"] button.primary:hover { background: #bcdf4e; box-shadow: 0 6px 0 var(--btn-edge-primary), 0 8px 4px 1px var(--btn-ambient), 0 4px 14px rgba(171, 207, 55, 0.45), inset 0 1.5px 0 rgba(255, 255, 255, 0.35); }
+html[data-theme="light"] button.primary:active { box-shadow: 0 2px 0 var(--btn-edge-primary), 0 4px 3px 1px var(--btn-ambient), 0 2px 8px rgba(171, 207, 55, 0.45), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28), inset 0 1.5px 0 rgba(255, 255, 255, 0.12); }
 html[data-theme="light"] .privacy { border-color: rgba(171, 207, 55, 0.55); }
 
 /* Background scene: depth-of-field drift with scroll parallax */
