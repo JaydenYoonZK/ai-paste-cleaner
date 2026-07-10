@@ -56,17 +56,17 @@ header { padding: 72px 0 40px; }
   color: var(--accent);
   font-size: 0.8rem;
   font-weight: 800;
-  letter-spacing: 0.24em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
 h1 {
   margin: 0;
   max-width: 15ch;
-  font-size: clamp(2.1rem, 6vw, 3.4rem);
+  font-size: 3.4rem;
   font-weight: 800;
   line-height: 1.08;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .lede {
@@ -123,7 +123,11 @@ textarea {
   transition: border-color 0.2s;
 }
 
-textarea:focus { outline: none; border-color: rgba(171, 207, 55, 0.5); }
+textarea:focus { border-color: rgba(171, 207, 55, 0.5); }
+textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 textarea::placeholder { color: var(--ink-mute); }
 
 .toolbar {
@@ -135,6 +139,7 @@ textarea::placeholder { color: var(--ink-mute); }
 }
 
 button {
+  min-height: 44px;
   font-family: var(--font);
   font-size: 0.92rem;
   font-weight: 700;
@@ -238,7 +243,7 @@ button.primary:hover { background: #bcdf4e; }
   margin: 40px 0 6px;
   font-size: 1.25rem;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 .section-sub { margin: 0 0 16px; color: var(--ink-mute); font-size: 0.92rem; }
@@ -262,7 +267,7 @@ button.primary:hover { background: #bcdf4e; }
   font-family: var(--mono);
   font-size: 0.68em;
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
   vertical-align: 0.12em;
   cursor: help;
   line-height: 1.7;
@@ -282,6 +287,11 @@ button.primary:hover { background: #bcdf4e; }
 
 .hl.blue { border-color: var(--blue); background: var(--blue-soft); }
 .hl.red { border-color: var(--red); background: var(--red-soft); }
+.badge:focus-visible, .hl:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.inspector-truncated { color: var(--ink-mute); font-style: italic; }
 
 /* Options */
 .options {
@@ -303,11 +313,13 @@ button.primary:hover { background: #bcdf4e; }
 }
 
 .opt:hover { border-color: var(--line-strong); }
+.opt:focus-within { border-color: var(--accent); }
 .opt input { accent-color: var(--accent); margin-top: 4px; }
 .opt .t { font-weight: 700; font-size: 0.92rem; }
 .opt .d { color: var(--ink-mute); font-size: 0.8rem; line-height: 1.45; }
 
 .opt select {
+  min-height: 40px;
   margin-top: 6px;
   font-family: var(--font);
   font-size: 0.85rem;
@@ -334,7 +346,7 @@ button.primary:hover { background: #bcdf4e; }
   margin: 52px 0 14px;
   font-size: 1.5rem;
   font-weight: 800;
-  letter-spacing: -0.015em;
+  letter-spacing: 0;
 }
 .prose h3 { margin: 30px 0 8px; font-size: 1.08rem; font-weight: 750; }
 .prose p, .prose li { color: var(--ink-soft); max-width: 68ch; }
@@ -390,7 +402,11 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 26px; }
 .header-copy { min-width: 0; }
 .hero-art { flex: 0 0 auto; width: 310px; max-width: 34vw; }
 .hero-art svg { width: 100%; height: auto; display: block; }
-@media (max-width: 760px) { .hero-art { display: none; } }
+@media (max-width: 760px) {
+  .hero-art { display: none; }
+  h1 { font-size: 2.35rem; }
+}
+@media (max-width: 420px) { h1 { font-size: 2.1rem; } }
 
 /* Entrance motion */
 @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
@@ -453,6 +469,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 @media (prefers-reduced-motion: reduce) {
   header .eyebrow, header h1, header .lede, header .privacy,
   .hero-art, main > .card:first-of-type, .chip { animation: none !important; }
+  .hero-art animate { display: none; }
   button, .to-top { transition: none; }
   button:hover, .to-top:hover { transform: none; }
 }
@@ -478,7 +495,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 .brand {
   font-weight: 800;
   font-size: 0.95rem;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   color: var(--ink);
   white-space: nowrap;
 }
@@ -489,6 +506,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 .sub-nav { background: var(--subnav-bg); border-top: 1px solid var(--line); }
 .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; padding: 6px 0; }
 .nav-links a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   color: var(--ink-mute);
   font-size: 0.85rem;
   font-weight: 600;
