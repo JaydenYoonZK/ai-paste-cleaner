@@ -11,10 +11,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Static site checks now verify local assets, internal anchors, structured metadata, and explicit accessible names for interactive controls.
 - A security policy, private-reporting route, issue guidance, and monthly GitHub Actions update checks now cover repository maintenance.
 - CI now tests Node.js 22, 24, and 26 on Linux, macOS, and Windows with pinned action revisions and syntax checks.
+- A one-page sitemap, robots policy, and complete social-preview metadata improve search and link-preview discovery.
 
 ### Changed
 
 - Inspector findings can be focused from the keyboard, buttons meet a 44-pixel minimum touch height, and reduced-motion preferences now cover scripted scrolling and the inline illustration.
+- Public copy now distinguishes character findings from authorship claims and documents browser, confusables, variation-sequence, clipboard, and large-input limits.
+- The ambient scene now uses restrained geometric forms and stars without gradient or blurred sphere decoration.
 
 ### Fixed
 

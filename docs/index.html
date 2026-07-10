@@ -5,15 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
   <title>AI Paste Cleaner: find hidden characters in copied text</title>
-  <meta name="description" content="Free browser tool that reveals invisible Unicode, hidden watermarks, and AI typography in pasted text, then cleans it safely. Runs entirely on your device.">
+  <meta name="description" content="Inspect invisible Unicode, hidden tag payloads, direction controls, mixed-script lookalikes, and unusual spaces. Clean text locally in your browser.">
   <link rel="canonical" href="https://jaydenyoonzk.github.io/ai-paste-cleaner/">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d0c0a'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='34' font-family='monospace' fill='%23abcf37'%3E%C2%B6%3C/text%3E%3C/svg%3E">
   <meta property="og:title" content="AI Paste Cleaner: find hidden characters in copied text">
-  <meta property="og:description" content="Reveal invisible Unicode, hidden watermarks, and AI typography in pasted text, then clean it safely. Nothing leaves your browser.">
+  <meta property="og:description" content="Inspect hidden Unicode and mixed-script lookalikes, preserve recognized emoji and multilingual text, then copy a clean version.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://jaydenyoonzk.github.io/ai-paste-cleaner/">
   <meta property="og:image" content="https://jaydenyoonzk.github.io/ai-paste-cleaner/assets/preview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AI Paste Cleaner showing its local Unicode inspection workflow">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Paste Cleaner: find hidden characters in copied text">
+  <meta name="twitter:description" content="Inspect and clean invisible Unicode locally while preserving recognized emoji and multilingual text.">
   <meta name="twitter:image" content="https://jaydenyoonzk.github.io/ai-paste-cleaner/assets/preview.png">
   <script>
     (function () {
@@ -29,6 +35,7 @@
     "@type": "SoftwareApplication",
     "name": "AI Paste Cleaner",
     "applicationCategory": "UtilitiesApplication",
+    "softwareVersion": "1.3.2",
     "operatingSystem": "Any (browser-based)",
     "url": "https://jaydenyoonzk.github.io/ai-paste-cleaner/",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
@@ -39,8 +46,6 @@
 <body>
 
 <div class="bg-scene" aria-hidden="true">
-  <div class="orb orb-a"></div>
-  <div class="orb orb-b"></div>
   <div class="star-layer sl-far">
     <span class="star" style="left:12%;top:18%;animation-delay:-1.4s"></span>
     <span class="star" style="left:38%;top:8%;animation-delay:-3.8s;animation-duration:8.6s"></span>
@@ -65,12 +70,7 @@
   <div class="shape cube3d p1"><div class="dx"><div class="dy"><div class="inner"><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div></div></div></div></div>
   <div class="shape cube3d p2"><div class="dx"><div class="dy"><div class="inner"><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div></div></div></div></div>
   <div class="shape cube3d p3"><div class="dx"><div class="dy"><div class="inner"><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div></div></div></div></div>
-  <div class="shape sph p4"><div class="dx"><div class="dy"><div class="inner"></div></div></div></div>
-  <div class="shape sph p5"><div class="dx"><div class="dy"><div class="inner"></div></div></div></div>
   <div class="shape cube3d p6"><div class="dx"><div class="dy"><div class="inner"><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div></div></div></div></div>
-  <div class="shape sph p7"><div class="dx"><div class="dy"><div class="inner"></div></div></div></div>
-  <div class="shape sph p10"><div class="dx"><div class="dy"><div class="inner"></div></div></div></div>
-  <div class="shape sph p11"><div class="dx"><div class="dy"><div class="inner"></div></div></div></div>
   <div class="shape cube3d p8"><div class="dx"><div class="dy"><div class="inner"><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div></div></div></div></div>
   <div class="shape cube3d p9"><div class="dx"><div class="dy"><div class="inner"><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div><div class="f"></div></div></div></div></div>
 </div>
@@ -94,9 +94,9 @@
 <header id="top">
   <div class="wrap header-grid">
     <div class="header-copy">
-    <p class="eyebrow">AI Paste Cleaner</p>
-    <h1>See every hidden character in your text.</h1>
-    <p class="lede">Text copied from AI chats, web pages, and word processors often carries characters you cannot see: zero-width spaces, odd non-breaking spaces, direction marks, even invisible payloads. They break code, corrupt config files, and quietly mark text as machine-made. Paste below to reveal them, then copy a clean version.</p>
+    <p class="eyebrow">Unicode inspection and cleaning</p>
+    <h1>AI Paste Cleaner</h1>
+    <p class="lede">See every hidden character in text copied from chat tools, web pages, and word processors: zero-width spaces, unusual non-breaking spaces, direction marks, even invisible payloads. Inspect what was found, preserve recognized legitimate uses, then copy a clean version.</p>
     <p class="privacy"><span class="dot"></span> 🔒 Runs entirely on your device. No requests, no analytics, no storage.</p>
     </div>
     <div class="hero-art" aria-hidden="true">
@@ -175,7 +175,7 @@
       <label class="opt"><input type="checkbox" data-opt="tags">
         <span><span class="t">Hidden tag characters</span><br><span class="d">Invisible ASCII payloads and watermarks</span></span></label>
       <label class="opt"><input type="checkbox" data-opt="variation">
-        <span><span class="t">Stray variation selectors</span><br><span class="d">Emoji and CJK sequences are preserved</span></span></label>
+        <span><span class="t">Stray variation selectors</span><br><span class="d">Recognized emoji, CJK, and Mongolian sequences are preserved</span></span></label>
       <label class="opt"><input type="checkbox" data-opt="spaces">
         <span><span class="t">Nonstandard spaces</span><br><span class="d">NBSP, narrow NBSP, and friends become plain spaces</span></span></label>
       <label class="opt"><input type="checkbox" data-opt="confusables">
@@ -199,13 +199,13 @@
   <div class="prose">
     <h2 id="why-matters">🫥 Why pasted text is not what it looks like</h2>
     <p>Unicode contains dozens of characters with zero width. They render as nothing, yet they count as real characters everywhere it hurts: string comparisons, database keys, URLs, YAML indentation, git diffs. A product name with a zero-width space in it will never match a search for the same name without one. A config value with a trailing word joiner fails validation with an error message that looks impossible.</p>
-    <p>AI writing tools made this an everyday problem. Chat models are trained on typographically rich text, so their output mixes curly quotes, em dashes, single-character ellipses, and unusual space characters into content that people then paste into code editors, CMS fields, terminals, and billing systems. Some of those characters are also used deliberately, as watermarks or worse.</p>
+    <p>Pasted text moves between systems with different typography and encoding behavior. Curly quotes, em dashes, single-character ellipses, unusual spaces, and invisible controls can travel from a rich editor into code, CMS fields, terminals, and billing systems. Some invisible characters are also used deliberately to carry hidden data.</p>
 
     <h2 id="what-it-finds">🕵️ What this tool finds</h2>
     <table>
       <tr><th>Character</th><th>Code</th><th>What goes wrong</th></tr>
       <tr><td>Zero width space</td><td><code>U+200B</code></td><td>Splits words invisibly. Breaks search, matching, and deduplication.</td></tr>
-      <tr><td>Narrow no-break space</td><td><code>U+202F</code></td><td>Appears in AI chat output around times and units. Looks like a space, fails <code>==</code>.</td></tr>
+      <tr><td>Narrow no-break space</td><td><code>U+202F</code></td><td>Appears in typographic text around times and units. Looks like a space, fails <code>==</code>.</td></tr>
       <tr><td>Soft hyphen</td><td><code>U+00AD</code></td><td>Invisible until a line wraps. Corrupts identifiers and product codes.</td></tr>
       <tr><td>Bidi overrides</td><td><code>U+202A..U+202E</code></td><td>Reorder displayed text. Can make <code>exe.txt</code> read as <code>txt.exe</code>.</td></tr>
       <tr><td>Tag characters</td><td><code>U+E0000..U+E007F</code></td><td>Carry an invisible ASCII payload. Used for watermarking and hidden instructions.</td></tr>
@@ -214,7 +214,7 @@
     </table>
 
     <h3>The narrow no-break space</h3>
-    <p>If one character deserves its own paragraph, it is <code>U+202F</code>. ChatGPT and similar tools insert it between numbers and units, and around times, where a typographer would. Almost nobody types it on purpose. When you find one in a support macro, a WHMCS email template, or a spreadsheet formula, it almost certainly arrived through a paste. It is also why "9:30 AM" sometimes refuses to match "9:30 AM" even though both look identical on screen.</p>
+    <p>If one character deserves its own paragraph, it is <code>U+202F</code>. Rich-text and chat interfaces may use it between numbers and units or around times. In a support macro, a WHMCS email template, or a spreadsheet formula, it can arrive unnoticed through copy and paste. It is also why "9:30 AM" sometimes refuses to match "9:30 AM" even though both look identical on screen.</p>
 
     <h3>Hidden payloads</h3>
     <p>Unicode tag characters were designed for language tagging and later deprecated. Each one maps to an ASCII character, and all of them are invisible. That makes them a convenient channel for hiding text inside text: watermarks that survive copy-paste, or instructions smuggled into content that a person approves without ever seeing them. This tool decodes any tag run it finds and shows you the payload. The bidirectional overrides in the table above are the display-reordering cousins of this trick, documented as <a href="https://trojansource.codes/" rel="noopener">Trojan Source (CVE-2021-42574)</a>.</p>
@@ -225,6 +225,7 @@
       <li>Zero-width joiners hold emoji families together. Remove them and 👨‍👩‍👧 becomes three separate people.</li>
       <li>The zero-width non-joiner is required spelling in Persian and appears throughout Hindi, Tamil, and other scripts. Stripping it mangles words.</li>
       <li>Variation selectors decide whether ❤ renders as text or as the red emoji heart, and select glyph variants in Japanese names.</li>
+      <li>Mongolian free variation selectors choose defined letter forms and remain attached to Mongolian text.</li>
       <li>The flags of Scotland, Wales, and England are built from tag characters. A naive tag stripper deletes the flag.</li>
       <li>An en dash between digits, as in 2019–2024, is correct typography and stays put.</li>
     </ul>
@@ -239,9 +240,11 @@
     <p>No. The page is static, the analysis runs in your browser, and there are no network requests after the page loads. You can disconnect from the internet and it keeps working, or run it locally from the <a href="https://github.com/JaydenYoonZK/ai-paste-cleaner" rel="noopener">source</a>.</p>
     <h3>Can I use the detection rules in my own project?</h3>
     <p>Yes. The ruleset ships as <a href="data/rules.json">machine-readable JSON</a> and the engine is a dependency-free ES module under the MIT license.</p>
+    <h3>Can this catch every unusual Unicode sequence?</h3>
+    <p>No. Unicode defines specialized variation sequences and a much larger confusables dataset than this focused cleaner includes. Review mathematical, historical, and scholarly text carefully, and report false positives or missed characters through the project issue templates.</p>
 
     <h2 id="why-built">🌱 Why I built this</h2>
-    <p>While cleaning up my own GitHub profile I went through every public file removing the typographic tells that AI tools leave behind, one em dash at a time. Halfway through it occurred to me that the invisible characters were the bigger risk, and that I had no way to see them. This is the tool I wanted that afternoon.</p>
+    <p>While checking copied text across my public repositories, I kept finding punctuation and spacing that looked ordinary but behaved differently in code and search. The invisible characters were harder to reason about because I could not see what a cleaner planned to remove. This is the review-first tool I wanted that afternoon.</p>
   </div>
 </main>
 
