@@ -1,4 +1,4 @@
-import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.8";
+import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.9";
 
 const $ = (id) => document.getElementById(id);
 const input = $("input");
@@ -252,9 +252,9 @@ if (toTop) {
 
 const themeToggle = document.getElementById("theme-toggle");
 function syncThemeIcon() {
-  const isLight = document.documentElement.dataset.theme === "light";
-  themeToggle.textContent = isLight ? "🌙" : "☀️";
-  themeToggle.setAttribute("aria-label", `Switch to ${isLight ? "dark" : "light"} mode`);
+  const label = document.documentElement.dataset.theme === "light" ? "Switch to dark mode" : "Switch to light mode";
+  themeToggle.setAttribute("aria-label", label);
+  themeToggle.setAttribute("data-tip", label);
 }
 themeToggle.addEventListener("click", () => {
   const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
