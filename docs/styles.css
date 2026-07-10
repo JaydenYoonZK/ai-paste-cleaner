@@ -150,10 +150,12 @@ button {
   box-shadow: 0 5px 0 var(--btn-edge), 0 7px 3px 1px var(--btn-ambient), inset 0 1.5px 0 rgba(255, 255, 255, 0.09);
 }
 
+@media (hover: hover) {
 button:hover {
   border-color: rgba(171, 207, 55, 0.45);
   transform: translateY(-1px);
   box-shadow: 0 6px 0 var(--btn-edge), 0 8px 4px 1px var(--btn-ambient), inset 0 1.5px 0 rgba(255, 255, 255, 0.12);
+}
 }
 /* The press: the cap sinks into its socket. The dark edge below stays put
    while the face travels down, and the socket shades the top of the cap. */
@@ -188,10 +190,12 @@ button.primary {
   box-shadow: 0 5px 0 var(--btn-edge-primary), 0 7px 3px 1px var(--btn-ambient), 0 3px 10px var(--btn-glow), inset 0 1.5px 0 rgba(255, 255, 255, 0.28);
 }
 
+@media (hover: hover) {
 button.primary:hover {
   background: #bcdf4e;
   transform: translateY(-1px);
   box-shadow: 0 6px 0 var(--btn-edge-primary), 0 8px 4px 1px var(--btn-ambient), 0 4px 14px var(--btn-glow), inset 0 1.5px 0 rgba(255, 255, 255, 0.32);
+}
 }
 button.primary:active {
   transform: translateY(3px);
@@ -393,7 +397,9 @@ html.theme-fading :where(*:not(.theme-toggle):not(.theme-toggle *))::after {
   transition: border-color 0.2s;
 }
 
+@media (hover: hover) {
 .opt:hover { border-color: var(--line-strong); }
+}
 .opt input { accent-color: var(--accent); margin-top: 4px; }
 .opt .t { font-weight: 700; font-size: 0.92rem; }
 .opt .d { color: var(--ink-mute); font-size: 0.8rem; line-height: 1.45; }
@@ -497,16 +503,23 @@ main > .card:first-of-type { animation: fade-up 0.55s 0.34s ease both; }
 .chip:nth-child(5) { animation-delay: 0.2s; }
 .chip:nth-child(6) { animation-delay: 0.25s; }
 
-/* Button and link feel. The press is declared after the hover lift at the
-   same specificity: during a click the pointer is still hovering, so
-   whichever rule loses here never shows. The press must win. */
+/* Button and link feel. Hover styling lives behind (hover: hover): touch
+   browsers pin :hover to the last-tapped control, which left the theme
+   toggle stuck mid-twist after a tap. The press is declared after the
+   hover lift at the same specificity: during a click the pointer is still
+   hovering, so whichever rule loses here never shows. The press must win. */
+button, .to-top { touch-action: manipulation; } /* no double-tap zoom hesitation on controls */
 button { transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s, border-color 0.2s; }
+@media (hover: hover) {
 button:not(.primary):not(.to-top):not(:disabled):hover { background: var(--panel); }
 button:not(:disabled):hover { transform: translateY(-1px); }
+}
 button:not(:disabled):active { transform: translateY(3px); }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
 .results-table tbody tr { transition: background 0.15s; }
+@media (hover: hover) {
 .results-table tbody tr:hover { background: rgba(255, 255, 255, 0.025); }
+}
 
 /* Screen-reader-only: present in the accessibility tree, hidden visually */
 .sr-only {
@@ -539,7 +552,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   padding: 0;
 }
 .to-top.show { opacity: 1; pointer-events: auto; transform: none; }
+@media (hover: hover) {
 .to-top:hover { transform: translateY(-3px); background: #bcdf4e; border-color: #bcdf4e; box-shadow: var(--fab-shadow-hover); }
+}
 .to-top:active { transform: translateY(1px); background: #9dbd2f; border-color: #9dbd2f; box-shadow: var(--fab-shadow-active); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -622,11 +637,13 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 html[data-theme="light"] .theme-toggle { color: var(--amber); } /* warm sun by day */
 /* button.theme-toggle outranks the tactile key rules (button:not(:disabled):hover
    and friends), so the toggle turns on hover instead of inheriting the lift. */
+@media (hover: hover) {
 button.theme-toggle:hover {
   background: var(--accent-soft);
   border-color: rgba(171, 207, 55, 0.55);
   transform: rotate(12deg) scale(1.08);
   box-shadow: 0 0 0 4px rgba(171, 207, 55, 0.16);
+}
 }
 button.theme-toggle:active { transform: rotate(-18deg) scale(0.88); box-shadow: none; }
 /* Only opacity and transform: the previous build animated SVG geometry
@@ -681,9 +698,13 @@ html[data-theme="light"] body {
   background-image: radial-gradient(1100px 500px at 15% -5%, rgba(171, 207, 55, 0.18), transparent 60%);
 }
 html[data-theme="light"] .to-top { background: #abcf37; border-color: #abcf37; color: #101400; }
+@media (hover: hover) {
 html[data-theme="light"] .to-top:hover { background: #bcdf4e; border-color: #bcdf4e; }
+}
 html[data-theme="light"] button.primary { background: #abcf37; border-color: #abcf37; color: #101400; }
+@media (hover: hover) {
 html[data-theme="light"] button.primary:hover { background: #bcdf4e; box-shadow: 0 6px 0 var(--btn-edge-primary), 0 8px 4px 1px var(--btn-ambient), 0 4px 14px rgba(171, 207, 55, 0.45), inset 0 1.5px 0 rgba(255, 255, 255, 0.35); }
+}
 html[data-theme="light"] button.primary:active { box-shadow: 0 2px 0 var(--btn-edge-primary), 0 4px 3px 1px var(--btn-ambient), 0 2px 8px rgba(171, 207, 55, 0.45), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28), inset 0 1.5px 0 rgba(255, 255, 255, 0.12); }
 html[data-theme="light"] .privacy { border-color: rgba(171, 207, 55, 0.55); }
 
@@ -905,5 +926,7 @@ button:disabled { pointer-events: auto; }
 html[data-theme="light"] textarea:focus,
 html[data-theme="light"] input[type="text"]:focus,
 html[data-theme="light"] input[type="search"]:focus { border-color: rgba(171, 207, 55, 0.7); }
+@media (hover: hover) {
 html[data-theme="light"] button:not(.primary):not(:disabled):hover { border-color: rgba(13, 106, 47, 0.45); }
+}
 html[data-theme="light"] .chip.ok { border-color: rgba(171, 207, 55, 0.5); }
