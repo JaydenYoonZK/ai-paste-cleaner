@@ -474,6 +474,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   .hero-art, main > .card:first-of-type, .chip { animation: none !important; }
   button, .to-top { transition: none; }
   button:hover, .to-top:hover, button:active, .to-top:active { transform: none; }
+  .theme-toggle svg, .tt-core, .tt-bite, .tt-rays { transition: none; }
 }
 
 /* Tables scroll in place on narrow screens instead of widening the page */
@@ -527,7 +528,44 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   .nav-links a:hover { color: var(--ink); background: rgba(171, 207, 55, 0.12); }
 }
 .nav-links a.active { color: var(--accent); background: var(--accent-soft); }
-.theme-toggle { width: 38px; height: 38px; border-radius: 50%; padding: 0; font-size: 1rem; flex: 0 0 auto; line-height: 1; }
+/* Theme toggle: a sun that morphs into a moon. The core circle grows, a
+   masked bite slides in to carve the crescent, the rays spring away, and
+   the whole mark tilts to seat the crescent. Driven by the theme attribute
+   so the morph plays on every switch. */
+.theme-toggle {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  padding: 0;
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  box-shadow: none; /* a round icon button opts out of the key edge */
+  color: var(--accent); /* chartreuse moon at night */
+  transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1), background 0.25s, border-color 0.25s, box-shadow 0.25s, color 0.35s;
+}
+html[data-theme="light"] .theme-toggle { color: var(--amber); } /* warm sun by day */
+.theme-toggle:hover {
+  background: var(--accent-soft);
+  border-color: rgba(171, 207, 55, 0.55);
+  transform: rotate(12deg) scale(1.08);
+  box-shadow: 0 0 0 4px rgba(171, 207, 55, 0.16);
+}
+.theme-toggle:active { transform: rotate(-18deg) scale(0.88); box-shadow: none; }
+.theme-toggle svg { transition: transform 0.5s cubic-bezier(0.34, 1.45, 0.64, 1); }
+html[data-theme="dark"] .theme-toggle svg { transform: rotate(-30deg); }
+.tt-core { transition: r 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+html[data-theme="dark"] .tt-core { r: 9.5; }
+.tt-bite { transition: cx 0.45s cubic-bezier(0.4, 0, 0.2, 1), cy 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
+html[data-theme="dark"] .tt-bite { cx: 17; cy: 8; }
+.tt-rays { transform-origin: 12px 12px; transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s; }
+html[data-theme="dark"] .tt-rays { opacity: 0; transform: rotate(-50deg) scale(0.3); }
+/* The toggle sits at the top edge, so its tooltip opens downward and hugs
+   the right edge instead of running off screen. */
+.theme-toggle[data-tip]::after { bottom: auto; top: calc(100% + 10px); left: auto; right: 0; transform: translateY(-6px); }
+.theme-toggle[data-tip]::before { bottom: auto; top: calc(100% + 4px); border-top-color: transparent; border-bottom-color: var(--ink); transform: translate(-50%, -6px); }
+.theme-toggle[data-tip]:hover::after, .theme-toggle[data-tip]:focus-visible::after { transform: translateY(0); }
+.theme-toggle[data-tip]:hover::before, .theme-toggle[data-tip]:focus-visible::before { transform: translate(-50%, 0); }
 [id] { scroll-margin-top: calc(var(--nav-h, 104px) + 16px); }
 
 /* Light theme */

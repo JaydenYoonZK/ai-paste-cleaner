@@ -3,6 +3,13 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.9] - 2026-07-10
+
+### Changed
+
+- The theme toggle is redesigned from an emoji swap into a morphing mark. One vector drawing plays the whole switch: the sun's core grows into the moon while a masked bite slides in to carve the crescent, the eight rays spring away with an overshoot, and the mark tilts to seat the crescent, all reversed when switching back. The moon is brand chartreuse at night and the sun is warm amber by day, the round button trades the key edge for a soft brand halo on hover, and a tooltip appears below it saying which mode a click will switch to, on hover and keyboard focus only, never on touch. The morph is disabled under reduced-motion preferences.
+- The README preview is regenerated.
+
 ## [1.4.8] - 2026-07-10
 
 ### Fixed
@@ -199,6 +206,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.9]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.9
 [1.4.8]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.8
 [1.4.7]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.7
 [1.4.6]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.6
