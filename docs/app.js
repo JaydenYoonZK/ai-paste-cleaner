@@ -1,4 +1,4 @@
-import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=20260709o";
+import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.0";
 
 const $ = (id) => document.getElementById(id);
 const input = $("input");
@@ -8,7 +8,10 @@ const inspector = $("inspector");
 const output = $("output");
 const results = $("results");
 const copyBtn = $("copy");
+const copyStatus = $("copy-status");
 const clearBtn = $("clear");
+const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+const scrollBehavior = () => reducedMotion.matches ? "auto" : "smooth";
 
 // Clear is enabled when the input has ANY content. This tool targets invisible
 // characters, so trimming would wrongly treat an all-invisible paste (exactly
@@ -78,11 +81,7 @@ function chipRow(counts, removed, replaced) {
   return rows.join("");
 }
 
-// The inspector draws one DOM node per finding. Fine for any real document,
-// but this tool is built for hostile input, and a paste of a million invisible
-// characters would create a million nodes and leave the tab janky for seconds.
-// So the visual markup is capped. The cleaned output and the counts are
-// computed from ALL findings and stay complete; only this view is bounded.
+// Bound the inspector DOM for large inputs. Counts and cleaned output remain complete.
 const MAX_INSPECTOR_MARKS = 20000;
 
 function renderInspector(text, findings) {
@@ -94,13 +93,15 @@ function renderInspector(text, findings) {
     const color = CAT_COLOR[f.category];
     const tip = esc(`${f.code} ${f.name}${f.note ? " · " + f.note : ""}${f.exempt ? " · kept" : ""}`);
     if (f.category === "typography" || f.category === "confusables") {
-      html += `<span class="hl ${color}" title="${tip}">${esc(f.char)}</span>`;
+      html += `<span class="hl ${color}" title="${tip}" aria-label="${tip}" tabindex="0">${esc(f.char)}</span>`;
     } else {
-      html += `<span class="badge ${f.exempt ? "exempt" : color}" title="${tip}">${f.exempt ? "\u2713 " : ""}${shortLabel(f)}</span>`;
+      html += `<span class="badge ${f.exempt ? "exempt" : color}" title="${tip}" aria-label="${tip}" tabindex="0">${f.exempt ? "\u2713 " : ""}${shortLabel(f)}</span>`;
     }
     cursor = f.index + f.length;
   }
-  html += esc(text.slice(cursor));
+  html += shown.length < findings.length
+    ? '<span class="inspector-truncated"> Remainder omitted from this preview.</span>'
+    : esc(text.slice(cursor));
   return {
     html: html || '<span style="color:var(--ink-mute)">Paste something above to inspect it.</span>',
     shownMarks: shown.length,
@@ -119,18 +120,19 @@ function run() {
   }
   results.hidden = false;
 
-  const { findings, hiddenMessages, counts } = analyze(text);
-  const cleaned = clean(text, options);
+  const analysis = analyze(text);
+  const { findings, hiddenMessages, counts } = analysis;
+  const cleaned = clean(text, options, analysis);
 
   stats.innerHTML = chipRow(counts, cleaned.removed, cleaned.replaced);
 
   const view = renderInspector(text, findings);
   const notices = [];
   if (hiddenMessages.length) {
-    notices.push(`<div class="alert">⚠️ <strong>Hidden payload found.</strong> Invisible tag characters in this text decode to: <code>${esc(hiddenMessages.join(" · "))}</code>. Someone embedded this on purpose, most likely as a watermark or a smuggled instruction.</div>`);
+    notices.push(`<div class="alert" role="alert">⚠️ <strong>Hidden payload found.</strong> Invisible tag characters in this text decode to: <code>${esc(hiddenMessages.join(" · "))}</code>. This may be a watermark or a hidden instruction; review the text's source before using it.</div>`);
   }
   if (view.totalMarks > view.shownMarks) {
-    notices.push(`<div class="alert info">The inspector is showing the first ${view.shownMarks.toLocaleString()} of ${view.totalMarks.toLocaleString()} marks so the page stays responsive. The summary above and the cleaned text below still cover every one.</div>`);
+    notices.push(`<div class="alert info" role="status">The inspector is showing the first ${view.shownMarks.toLocaleString()} of ${view.totalMarks.toLocaleString()} marks so the page stays responsive. The summary above and the cleaned text below still cover every one.</div>`);
   }
   alerts.innerHTML = notices.join("");
 
@@ -169,7 +171,7 @@ function loadSample() {
 
 $("sample").addEventListener("click", () => {
   loadSample();
-  input.scrollIntoView({ behavior: "smooth", block: "center" });
+  input.scrollIntoView({ behavior: scrollBehavior(), block: "center" });
 });
 
 const pasteBtn = $("paste");
@@ -191,7 +193,7 @@ pasteBtn.addEventListener("click", async () => {
     if (text) {
       input.value = text;
       run();
-      input.scrollIntoView({ behavior: "smooth", block: "center" });
+      input.scrollIntoView({ behavior: scrollBehavior(), block: "center" });
       return;
     }
     flashPaste("Clipboard is empty");
@@ -220,15 +222,20 @@ $("clear").addEventListener("click", () => {
 });
 
 copyBtn.addEventListener("click", async () => {
+  let copied = false;
   try {
     await navigator.clipboard.writeText(output.value);
-    copyBtn.textContent = "Copied ✓";
+    copied = true;
   } catch {
     output.select();
-    document.execCommand("copy");
-    copyBtn.textContent = "Copied ✓";
+    try { copied = document.execCommand("copy"); } catch { /* leave selected */ }
   }
-  setTimeout(() => { copyBtn.textContent = "Copy cleaned text"; }, 1600);
+  copyBtn.textContent = copied ? "Copied ✓" : "Copy manually";
+  copyStatus.textContent = copied ? "Cleaned text copied." : "Automatic copy failed. The cleaned text is selected for manual copying.";
+  setTimeout(() => {
+    copyBtn.textContent = "Copy cleaned text";
+    copyStatus.textContent = "";
+  }, 2200);
 });
 
 run();
@@ -240,12 +247,14 @@ if (toTop) {
   addEventListener("scroll", () => {
     toTop.classList.toggle("show", scrollY > 600);
   }, { passive: true });
-  toTop.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+  toTop.addEventListener("click", () => scrollTo({ top: 0, behavior: scrollBehavior() }));
 }
 
 const themeToggle = document.getElementById("theme-toggle");
 function syncThemeIcon() {
-  themeToggle.textContent = document.documentElement.dataset.theme === "light" ? "🌙" : "☀️";
+  const isLight = document.documentElement.dataset.theme === "light";
+  themeToggle.textContent = isLight ? "🌙" : "☀️";
+  themeToggle.setAttribute("aria-label", `Switch to ${isLight ? "dark" : "light"} mode`);
 }
 themeToggle.addEventListener("click", () => {
   const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
@@ -255,12 +264,10 @@ themeToggle.addEventListener("click", () => {
 });
 syncThemeIcon();
 
-// Scroll spy: the active menu item is the last section whose heading sits
-// at or above the reading line just below the sticky header. Computed from
-// the scroll position rather than an IntersectionObserver band, because a
-// menu jump lands the heading at the top of the viewport, outside any
-// mid-viewport band, which left the highlight stuck on a section the page
-// merely scrolled past.
+if (reducedMotion.matches) document.querySelector(".hero-art svg")?.pauseAnimations?.();
+
+// Use a reading line below the sticky header so menu jumps and scrolling
+// resolve the active section consistently.
 const navAnchors = [...document.querySelectorAll(".nav-links a")];
 const navSections = navAnchors.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
 navSections.sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1);
