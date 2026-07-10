@@ -30,4 +30,4 @@ body:
     id: source
     attributes:
       label: Where did the text come from?
-      placeholder: e.g. ChatGPT response pasted into VS Code
+      placeholder: e.g. chat response pasted into a code editor

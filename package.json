@@ -1,11 +1,14 @@
 {
   "name": "ai-paste-cleaner",
-  "version": "1.3.2",
-  "description": "Reveal and safely remove invisible Unicode, hidden watermarks, and AI typography from pasted text. Browser-based, no dependencies.",
+  "version": "1.4.0",
+  "description": "Inspect and clean invisible Unicode, hidden tag payloads, and optional typographic substitutions in pasted text.",
   "type": "module",
   "private": true,
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "test": "node --test test/cleaner.test.mjs",
+    "test": "node --test test/*.test.mjs",
     "export-rules": "node scripts/export-rules.mjs",
     "serve": "python3 -m http.server 8321 -d docs"
   },
