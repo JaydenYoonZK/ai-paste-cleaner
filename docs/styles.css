@@ -260,6 +260,10 @@ html[data-theme="light"] .alert code {
    passes that stutter on phone GPUs, so instead the new page sits fully
    opaque below while the old snapshot fades out above it. On an opaque page
    that reads identically and costs one alpha layer. */
+/* The crossfade overlay eats pointer input by default, deadening hovers and
+   tooltips for half a second after every toggle click. The live page below
+   stays interactive instead. */
+::view-transition { pointer-events: none; }
 ::view-transition-image-pair(root) { isolation: auto; }
 ::view-transition-old(root), ::view-transition-new(root) { mix-blend-mode: normal; }
 ::view-transition-new(root) { animation: none; }
@@ -584,13 +588,15 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1), background 0.25s, border-color 0.25s, box-shadow 0.25s, color 0.35s;
 }
 html[data-theme="light"] .theme-toggle { color: var(--amber); } /* warm sun by day */
-.theme-toggle:hover {
+/* button.theme-toggle outranks the tactile key rules (button:not(:disabled):hover
+   and friends), so the toggle turns on hover instead of inheriting the lift. */
+button.theme-toggle:hover {
   background: var(--accent-soft);
   border-color: rgba(171, 207, 55, 0.55);
   transform: rotate(12deg) scale(1.08);
   box-shadow: 0 0 0 4px rgba(171, 207, 55, 0.16);
 }
-.theme-toggle:active { transform: rotate(-18deg) scale(0.88); box-shadow: none; }
+button.theme-toggle:active { transform: rotate(-18deg) scale(0.88); box-shadow: none; }
 /* Only opacity and transform: the previous build animated SVG geometry
    (r, cx, cy) from CSS, which iOS Safari does not apply, leaving a plain
    dot instead of a moon on phones. */
