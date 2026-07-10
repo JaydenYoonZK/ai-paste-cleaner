@@ -31,3 +31,5 @@ Rules should cite what breaks. "This character exists" is not a reason to strip 
 ## Pull requests
 
 Small, focused PRs are easiest to review and merge. If you are planning something larger, open an issue first so we can agree on the direction before you spend the time.
+
+Please report security-sensitive findings privately through [GitHub Security Advisories](https://github.com/JaydenYoonZK/ai-paste-cleaner/security/advisories/new), not in a public issue.
