@@ -497,7 +497,16 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   white-space: nowrap;
   transition: color 0.15s, background 0.15s;
 }
-.nav-links a:hover { color: var(--ink); background: var(--panel-2); text-decoration: none; }
+/* Keep the global underline off menu items in every input mode. */
+.nav-links a:hover { text-decoration: none; }
+/* Hover styling only where a real hover exists. On touch, a tap glues a
+   sticky :hover to the last-tapped item, which lingered as a stale grey
+   pill after the active section moved on. The hover wash is a faint brand
+   tint; the active state below stays the stronger brand wash and wins on
+   an item that is both hovered and active. */
+@media (hover: hover) {
+  .nav-links a:hover { color: var(--ink); background: rgba(171, 207, 55, 0.12); }
+}
 .nav-links a.active { color: var(--accent); background: var(--accent-soft); }
 .theme-toggle { width: 38px; height: 38px; border-radius: 50%; padding: 0; font-size: 1rem; flex: 0 0 auto; line-height: 1; }
 [id] { scroll-margin-top: calc(var(--nav-h, 104px) + 16px); }
