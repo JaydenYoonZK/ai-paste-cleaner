@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.20] - 2026-07-11
+
+### Fixed
+
+- The film grain now actually renders on iPhone and iPad. WebKit does not apply SVG filters when an SVG is rasterized as a CSS background image, so the turbulence-based tile painted a faint dark veil with no noise at all on iOS, leaving gradient banding fully visible there. The grain is now a small pre-rendered raster tile that every browser draws identically, and it renders pixel-crisp on high-density screens instead of being smoothed into blur when the display upscales it. Gradient banding is dithered away in both themes with no soft or low-quality look. README previews regenerated.
+
 ## [1.4.19] - 2026-07-11
 
 ### Fixed
@@ -275,6 +281,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.20]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.20
 [1.4.19]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.19
 [1.4.18]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.18
 [1.4.17]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.17
