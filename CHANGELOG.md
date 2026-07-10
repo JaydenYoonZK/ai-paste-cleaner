@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.16] - 2026-07-10
+
+### Added
+
+- A whisper of film grain now sits over the whole page in both themes. Large soft gradients band into visible steps on most displays; the static monochrome noise dithers those steps away and gives the surface a subtle print-like tooth. It is one tiled SVG turbulence texture with no blend mode and no animation, so it composites for free, stays out of pointer input, and is dropped entirely in print. README previews are regenerated with the new surface.
+
 ## [1.4.15] - 2026-07-10
 
 ### Fixed
@@ -247,6 +253,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.16]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.16
 [1.4.15]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.15
 [1.4.14]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.14
 [1.4.13]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.13

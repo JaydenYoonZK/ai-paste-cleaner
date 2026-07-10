@@ -272,6 +272,23 @@ html[data-theme="light"] .alert code {
    need the headroom, and freezing a slow drift for half a second is
    invisible. Transitions are unaffected, so the toggle morph still plays. */
 html.vt-active * { animation-play-state: paused !important; }
+
+/* Film grain over the whole composition. Large soft gradients band on most
+   displays; a whisper of static monochrome noise dithers the steps away and
+   gives the surface a print-like tooth. One tiled turbulence texture, no
+   blend mode, no animation, so phones composite it for free. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  opacity: 0.055;
+}
+html[data-theme="light"] body::after { opacity: 0.042; }
+@media print { body::after { display: none; } }
 .theme-toggle { view-transition-name: theme-toggle; }
 ::view-transition-old(theme-toggle) { animation: none; opacity: 0; }
 ::view-transition-new(theme-toggle) { animation: none; opacity: 1; }
