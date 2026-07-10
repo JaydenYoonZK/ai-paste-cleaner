@@ -1,4 +1,4 @@
-import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.12";
+import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.13";
 
 const $ = (id) => document.getElementById(id);
 const input = $("input");
@@ -263,12 +263,14 @@ themeToggle.addEventListener("click", () => {
   // behind the page. Elsewhere, fall back to fading only non-inherited
   // colors so text switches in one clean step.
   if (document.startViewTransition) {
-    document.startViewTransition(() => {
+    document.documentElement.classList.add("vt-active");
+    const vt = document.startViewTransition(() => {
       const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
       document.documentElement.dataset.theme = next;
       localStorage.setItem("theme", next);
       syncThemeIcon();
     });
+    vt.finished.finally(() => document.documentElement.classList.remove("vt-active"));
     return;
   }
   document.documentElement.classList.add("theme-fading");
