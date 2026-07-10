@@ -474,7 +474,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   .hero-art, main > .card:first-of-type, .chip { animation: none !important; }
   button, .to-top { transition: none; }
   button:hover, .to-top:hover, button:active, .to-top:active { transform: none; }
-  .theme-toggle svg, .tt-core, .tt-bite, .tt-rays { transition: none; }
+  .tt-sun, .tt-moon { transition: none; }
 }
 
 /* Tables scroll in place on narrow screens instead of widening the page */
@@ -528,10 +528,10 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   .nav-links a:hover { color: var(--ink); background: rgba(171, 207, 55, 0.12); }
 }
 .nav-links a.active { color: var(--accent); background: var(--accent-soft); }
-/* Theme toggle: a sun that morphs into a moon. The core circle grows, a
-   masked bite slides in to carve the crescent, the rays spring away, and
-   the whole mark tilts to seat the crescent. Driven by the theme attribute
-   so the morph plays on every switch. */
+/* Theme toggle: the sun spins away as the crescent moon spins in, one
+   drawing crossfading between two marks. Driven by the theme attribute so
+   the swap plays on every switch, using only opacity and transform, which
+   every mobile browser animates. */
 .theme-toggle {
   width: 40px; height: 40px;
   border-radius: 50%;
@@ -552,14 +552,17 @@ html[data-theme="light"] .theme-toggle { color: var(--amber); } /* warm sun by d
   box-shadow: 0 0 0 4px rgba(171, 207, 55, 0.16);
 }
 .theme-toggle:active { transform: rotate(-18deg) scale(0.88); box-shadow: none; }
-.theme-toggle svg { transition: transform 0.5s cubic-bezier(0.34, 1.45, 0.64, 1); }
-html[data-theme="dark"] .theme-toggle svg { transform: rotate(-30deg); }
-.tt-core { transition: r 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-html[data-theme="dark"] .tt-core { r: 9.5; }
-.tt-bite { transition: cx 0.45s cubic-bezier(0.4, 0, 0.2, 1), cy 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
-html[data-theme="dark"] .tt-bite { cx: 17; cy: 8; }
-.tt-rays { transform-origin: 12px 12px; transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s; }
-html[data-theme="dark"] .tt-rays { opacity: 0; transform: rotate(-50deg) scale(0.3); }
+/* Only opacity and transform: the previous build animated SVG geometry
+   (r, cx, cy) from CSS, which iOS Safari does not apply, leaving a plain
+   dot instead of a moon on phones. */
+.tt-sun, .tt-moon {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transition: transform 0.5s cubic-bezier(0.34, 1.45, 0.64, 1), opacity 0.35s;
+}
+.tt-moon { opacity: 0; transform: rotate(90deg) scale(0.4); }
+html[data-theme="dark"] .tt-sun { opacity: 0; transform: rotate(-90deg) scale(0.3); }
+html[data-theme="dark"] .tt-moon { opacity: 1; transform: rotate(0deg) scale(1); }
 /* The toggle sits at the top edge, so its tooltip opens downward and hugs
    the right edge instead of running off screen. */
 .theme-toggle[data-tip]::after { bottom: auto; top: calc(100% + 10px); left: auto; right: 0; transform: translateY(-6px); }
