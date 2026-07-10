@@ -1,6 +1,6 @@
 # AI Paste Cleaner
 
-Reveal and safely remove the characters you cannot see: invisible Unicode, hidden watermarks, direction overrides, lookalike letters, and the typographic tells that AI writing tools leave in copied text.
+Inspect and clean the characters you cannot see: invisible Unicode, hidden tag payloads, direction overrides, mixed-script lookalikes, and punctuation that can break code or exact matching.
 
 <p>
   <a href="https://jaydenyoonzk.github.io/ai-paste-cleaner/"><img src="https://img.shields.io/badge/Live%20tool-open-abcf37?style=for-the-badge&logo=githubpages&logoColor=black" alt="Open the live tool"></a>
@@ -10,25 +10,25 @@ Reveal and safely remove the characters you cannot see: invisible Unicode, hidde
 </p>
 
 <a href="https://jaydenyoonzk.github.io/ai-paste-cleaner/?demo">
-  <img src="docs/assets/preview.png" alt="AI Paste Cleaner shown in light and dark themes, the hero with its illustration revealing hidden characters and keeping legitimate ones" width="100%">
+  <img src="docs/assets/preview.png" alt="AI Paste Cleaner showing its local Unicode inspection workflow" width="100%">
 </a>
 
 **[Open the live tool](https://jaydenyoonzk.github.io/ai-paste-cleaner/)** or **[jump straight to a loaded demo](https://jaydenyoonzk.github.io/ai-paste-cleaner/?demo)**. Everything runs in your browser. Your text never leaves your device.
 
 ## The problem
 
-Text copied from AI chats, web pages, and word processors carries characters that render as nothing or look identical to what you expect. They cause real damage:
+Text copied from chat tools, web pages, and word processors can carry characters that render as nothing or look identical to what you expect. They cause practical problems:
 
 - A zero-width space inside a product name breaks search and matching forever.
-- A narrow no-break space (`U+202F`, a known fingerprint of AI chat output) makes `9:30 AM` fail to equal `9:30 AM`.
+- A narrow no-break space (`U+202F`) looks ordinary but can make `9:30 AM` fail to equal `9:30 AM`.
 - Bidirectional overrides can display `exe.txt` as `txt.exe` (the Trojan Source technique, CVE-2021-42574).
 - Unicode tag characters carry invisible ASCII payloads used for watermarking and hidden instructions. This tool decodes them and shows you the message, and it is not fooled by a payload hiding behind a flag emoji prefix.
 - The Unicode-only line breaks (`U+2028`, `U+2029`) render as nothing in most editors but make `JSON.parse` and older JavaScript engines reject otherwise valid text.
-- A Cyrillic `о` inside a Latin word defeats every filter and review that relies on reading.
+- A Cyrillic `о` inside a Latin word can bypass exact-match filters and visual review.
 
 ## What makes this cleaner different
 
-Most strippers delete everything invisible and destroy real content in the process. This one checks context first:
+Many strippers delete every invisible character and damage real content in the process. This one checks recognized context first:
 
 | Kept | Why |
 |---|---|
@@ -40,11 +40,11 @@ Most strippers delete everything invisible and destroy real content in the proce
 | Ideographic space in Japanese text | Standard CJK typography |
 | Narrow spaces in `Bonjour !` and `« mot »` | Standard French punctuation spacing |
 
-The inspector shows every kept character with a dashed outline and a reason, so you can verify each decision.
+The inspector shows each recognized character it keeps with a dashed outline and a reason, so you can verify the decision.
 
 ## Use it
 
-No install. Open [the tool](https://jaydenyoonzk.github.io/ai-paste-cleaner/), paste, review, copy. It works offline once loaded.
+No install. Open [the tool](https://jaydenyoonzk.github.io/ai-paste-cleaner/), paste, review, copy. After the page assets load, the current tab continues to work without a network connection; an offline reload depends on your browser cache.
 
 To run locally:
 
@@ -75,11 +75,23 @@ The full ruleset is also published as [machine-readable JSON](docs/data/rules.js
 npm test
 ```
 
-32 tests cover the risky cases: emoji preservation including skin-toned sequences, stray joiners next to emoji, Persian ZWNJ, subdivision flags versus disguised payloads, payload decoding, Japanese and French spacing, Unicode-only line breaks, idempotency, and a linear-time guarantee against pastes flooded with modifier characters.
+The test suite covers risky cases including emoji preservation, Mongolian and Persian shaping controls, malformed tag payloads, Japanese and French spacing, Unicode-only line breaks, idempotency, generated metadata, internal links, and bounded scanning of modifier-heavy text.
+
+Automated checks run on Node.js 22, 24, and 26 across Linux, macOS, and Windows. The browser interface is manually smoke-tested in Chromium; other browser and assistive-technology combinations still need independent validation.
+
+## Limits
+
+- This is a character inspector, not an authorship detector. A finding does not prove where text came from.
+- Unicode defines standardized variation sequences beyond the emoji, CJK, and Mongolian contexts recognized here. Review specialized mathematical, historical, or scholarly text before cleaning it. See the [Unicode variation-sequence FAQ](https://www.unicode.org/faq/vs.html).
+- The mixed-script lookalike map is deliberately small and does not implement the full Unicode confusables dataset. Expansion is tracked in [issue #2](https://github.com/JaydenYoonZK/ai-paste-cleaner/issues/2).
+- The inspector preview caps rendered marks at 20,000 to keep the page usable. Counts and cleaned output still cover the complete input.
+- Clipboard buttons depend on browser permissions; manual paste and copy remain available when permission is denied.
 
 ## Contributing
 
 Found a character this tool misses, or one it should leave alone? That is exactly the feedback this project needs. See [CONTRIBUTING.md](CONTRIBUTING.md), or open a [false positive/negative report](https://github.com/JaydenYoonZK/ai-paste-cleaner/issues/new/choose).
+
+For security-sensitive findings, use the private route in [SECURITY.md](SECURITY.md).
 
 ## License
 

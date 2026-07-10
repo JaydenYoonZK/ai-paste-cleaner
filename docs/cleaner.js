@@ -4,10 +4,10 @@
  * Pure functions, no DOM access. The same module runs in the browser
  * and under Node's test runner.
  *
- * Design rule: never damage legitimate text. Zero-width joiners inside
- * emoji, ZWNJ inside Persian or Hindi words, variation selectors after
- * pictographs, and the tag sequences inside subdivision flags are all
- * detected but exempted from cleaning, and the UI explains why.
+ * Design rule: preserve recognized legitimate contexts. Zero-width joiners
+ * inside emoji, ZWNJ inside joining scripts, supported variation sequences,
+ * and subdivision-flag tags are detected but exempted from cleaning, and the
+ * UI explains why.
  */
 
 export const CATEGORIES = {
@@ -29,22 +29,22 @@ export const CATEGORIES = {
   variation: {
     label: "Variation selectors",
     color: "amber",
-    why: "Variation selectors are invisible modifiers. Outside emoji and CJK ideographs they serve no purpose in plain text and can encode hidden data."
+    why: "Variation selectors choose defined glyph forms. Misplaced or repeated selectors have no visible purpose and can carry hidden data."
   },
   spaces: {
     label: "Nonstandard spaces",
     color: "amber",
-    why: "Spaces that look like ordinary spaces but are not. They break search, deduplication, shell commands, and CSV parsing. The narrow no-break space is a known fingerprint of AI chat output."
+    why: "Spaces that look ordinary but are not can break search, deduplication, shell commands, and CSV parsing."
   },
   typography: {
     label: "Typographic substitutions",
     color: "blue",
-    why: "Smart quotes, em dashes, and the single-character ellipsis read fine in prose but break code, config files, and shell one-liners, and they are common tells of machine-generated text."
+    why: "Smart quotes, em dashes, and the single-character ellipsis are valid prose typography but can break code, configuration files, and shell commands."
   },
   confusables: {
     label: "Mixed-script lookalikes",
     color: "red",
-    why: "Cyrillic or Greek letters hiding inside Latin words. Used in phishing domains and to defeat plagiarism and spam filters. The word looks normal and matches nothing."
+    why: "Cyrillic or Greek letters inside Latin words can be used in phishing and can bypass exact-match filters while appearing familiar to a reader."
   }
 };
 

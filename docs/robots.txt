@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jaydenyoonzk.github.io/ai-paste-cleaner/sitemap.xml

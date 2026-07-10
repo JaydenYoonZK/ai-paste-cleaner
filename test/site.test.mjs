@@ -37,3 +37,12 @@ test("security and structured metadata remain valid", () => {
   assert.ok(jsonLd, "missing JSON-LD metadata");
   assert.doesNotThrow(() => JSON.parse(jsonLd[1]));
 });
+
+test("search and social metadata point to the canonical site", () => {
+  const robots = readFileSync(join(docs, "robots.txt"), "utf8");
+  const sitemap = readFileSync(join(docs, "sitemap.xml"), "utf8");
+  assert.match(robots, /Sitemap: https:\/\/jaydenyoonzk\.github\.io\/ai-paste-cleaner\/sitemap\.xml/);
+  assert.match(sitemap, /<loc>https:\/\/jaydenyoonzk\.github\.io\/ai-paste-cleaner\/<\/loc>/);
+  assert.match(html, /<meta property="og:image:alt" content="[^"]+">/);
+  assert.match(html, /<meta name="twitter:description" content="[^"]+">/);
+});
