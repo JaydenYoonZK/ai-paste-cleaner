@@ -500,9 +500,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   white-space: nowrap;
 }
 .brand:hover { color: var(--accent); text-decoration: none; }
-/* Menu band: its own tinted row under the brand bar, giving the bar a
-   clear hierarchy. Every item is always visible on every width, wrapping
-   onto more rows when space runs out. */
+/* Keep every menu item visible by wrapping the row when needed. */
 .sub-nav { background: var(--subnav-bg); border-top: 1px solid var(--line); }
 .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; padding: 6px 0; }
 .nav-links a {
@@ -701,12 +699,7 @@ button:disabled { pointer-events: auto; }
   button[data-tip]::after, button[data-tip]::before { transition: opacity 0.12s ease; }
 }
 
-/* Hero illustration theming. The hero is an inline SVG drawn with the dark
-   palette in its attributes. CSS outranks presentation attributes, so these
-   rules remap every raw color onto the matching theme token: in dark mode
-   they resolve to the same values, and in light mode the same drawing
-   renders as a proper light version. Elements that soften a color with
-   fill-opacity or stroke-opacity keep doing so on the remapped color. */
+/* Map the inline SVG's presentation colors to the active theme tokens. */
 .hero-art [fill="#16140f"] { fill: var(--bg-raise); }
 .hero-art [fill="#0d0c0a"] { fill: var(--bg); }
 .hero-art [fill="#ffffff"] { fill: var(--ink); }

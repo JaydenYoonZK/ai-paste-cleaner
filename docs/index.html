@@ -173,7 +173,7 @@
       <label class="opt"><input type="checkbox" data-opt="bidi">
         <span><span class="t">Direction controls</span><br><span class="d">Bidi overrides and marks (Trojan Source vectors)</span></span></label>
       <label class="opt"><input type="checkbox" data-opt="tags">
-        <span><span class="t">Hidden tag characters</span><br><span class="d">Invisible ASCII payloads and watermarks</span></span></label>
+        <span><span class="t">Hidden tag characters</span><br><span class="d">Invisible ASCII-based tag strings</span></span></label>
       <label class="opt"><input type="checkbox" data-opt="variation">
         <span><span class="t">Stray variation selectors</span><br><span class="d">Recognized emoji, CJK, and Mongolian sequences are preserved</span></span></label>
       <label class="opt"><input type="checkbox" data-opt="spaces">
@@ -208,16 +208,16 @@
       <tr><td>Narrow no-break space</td><td><code>U+202F</code></td><td>Appears in typographic text around times and units. Looks like a space, fails <code>==</code>.</td></tr>
       <tr><td>Soft hyphen</td><td><code>U+00AD</code></td><td>Invisible until a line wraps. Corrupts identifiers and product codes.</td></tr>
       <tr><td>Bidi overrides</td><td><code>U+202A..U+202E</code></td><td>Reorder displayed text. Can make <code>exe.txt</code> read as <code>txt.exe</code>.</td></tr>
-      <tr><td>Tag characters</td><td><code>U+E0000..U+E007F</code></td><td>Carry an invisible ASCII payload. Used for watermarking and hidden instructions.</td></tr>
+      <tr><td>Tag characters</td><td><code>U+E0000..U+E007F</code></td><td>Encode ASCII-based tag strings. Preserved only in recognized subdivision flags.</td></tr>
       <tr><td>Lookalike letters</td><td>various</td><td>A Cyrillic <code>о</code> inside a Latin word defeats search, filters, and reviews.</td></tr>
       <tr><td>Smart punctuation</td><td><code>U+2018..U+2026</code></td><td>Fine in prose. Breaks shell commands, JSON, and code snippets.</td></tr>
     </table>
 
     <h3>The narrow no-break space</h3>
-    <p>If one character deserves its own paragraph, it is <code>U+202F</code>. Rich-text and chat interfaces may use it between numbers and units or around times. In a support macro, a WHMCS email template, or a spreadsheet formula, it can arrive unnoticed through copy and paste. It is also why "9:30 AM" sometimes refuses to match "9:30 AM" even though both look identical on screen.</p>
+    <p><code>U+202F</code> may appear between numbers and units or around times in rich-text and chat interfaces. In a support macro, a WHMCS email template, or a spreadsheet formula, it can arrive unnoticed through copy and paste. It is one reason two visible strings such as "9:30 AM" may fail an exact comparison.</p>
 
     <h3>Hidden payloads</h3>
-    <p>Unicode tag characters were designed for language tagging and later deprecated. Each one maps to an ASCII character, and all of them are invisible. That makes them a convenient channel for hiding text inside text: watermarks that survive copy-paste, or instructions smuggled into content that a person approves without ever seeing them. This tool decodes any tag run it finds and shows you the payload. The bidirectional overrides in the table above are the display-reordering cousins of this trick, documented as <a href="https://trojansource.codes/" rel="noopener">Trojan Source (CVE-2021-42574)</a>.</p>
+    <p>Unicode tag characters encode ASCII-based strings without ordinary visible glyphs. Their old language-tagging use is deprecated; the current conformant use is in emoji tag sequences. Outside recognized subdivision flags, this tool decodes tag runs and shows their content for review. See <a href="https://www.unicode.org/versions/latest/core-spec/chapter-23/" rel="noopener">Section 23.9 of the Unicode Standard</a>. Bidirectional overrides are a separate display-reordering risk documented by <a href="https://trojansource.codes/" rel="noopener">Trojan Source (CVE-2021-42574)</a>.</p>
 
     <h2 id="whats-kept">🛡️ What gets left alone</h2>
     <p>Most cleanup scripts strip every invisible character they can match. That destroys real content, because several of these characters do essential work:</p>

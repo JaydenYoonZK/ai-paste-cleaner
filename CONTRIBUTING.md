@@ -9,7 +9,7 @@ Open a [false positive/negative report](https://github.com/JaydenYoonZK/ai-paste
 - The text (or a minimal sample that reproduces it)
 - The codepoint if you know it, in `U+XXXX` form
 - What the tool did, and what you expected instead
-- Where the text came from, if relevant (which AI tool, which app)
+- The source application and destination editor, if relevant
 
 If the text is sensitive, reproduce the problem with the sample loader first and share that instead.
 

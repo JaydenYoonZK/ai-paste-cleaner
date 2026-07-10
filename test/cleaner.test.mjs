@@ -199,7 +199,7 @@ test("ideographic space is kept in CJK text, cleaned elsewhere", () => {
   assert.equal(clean("code　here").text, "code here");
 });
 
-test("French spacing before punctuation is kept, AI narrow space cleaned", () => {
+test("French spacing before punctuation is kept, unrelated narrow space cleaned", () => {
   const fr = "Bonjour ! « salut »";
   assert.equal(clean(fr).text, fr);
   assert.equal(clean("9:30 AM").text, "9:30 AM");

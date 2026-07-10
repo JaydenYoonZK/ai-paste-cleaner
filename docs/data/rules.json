@@ -3,7 +3,7 @@
   "categories": {
     "invisible": "Zero-width and filler characters survive copy-paste, break string comparisons, corrupt YAML and JSON, and show up as phantom diffs in git.",
     "bidi": "Bidirectional control characters can reorder how source code and filenames are displayed. This is the Trojan Source technique (CVE-2021-42574).",
-    "tags": "Unicode tag characters are invisible but carry ASCII payloads. They are used for text watermarking and for smuggling hidden instructions past human reviewers.",
+    "tags": "Unicode tag characters encode ASCII-based strings without ordinary visible glyphs. Outside valid emoji tag sequences, they are decoded and removed for review.",
     "variation": "Variation selectors choose defined glyph forms. Misplaced or repeated selectors have no visible purpose and can carry hidden data.",
     "spaces": "Spaces that look ordinary but are not can break search, deduplication, shell commands, and CSV parsing.",
     "typography": "Smart quotes, em dashes, and the single-character ellipsis are valid prose typography but can break code, configuration files, and shell commands.",
