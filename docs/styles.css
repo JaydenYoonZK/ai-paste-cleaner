@@ -86,7 +86,7 @@ h1 {
   align-items: center;
   gap: 9px;
   margin-top: 22px;
-  padding: 8px 16px 8px 12px;
+  padding: 8px 16px;
   background: var(--accent-soft);
   border: 1px solid rgba(171, 207, 55, 0.3);
   border-radius: 999px;
@@ -95,14 +95,6 @@ h1 {
   font-weight: 600;
 }
 
-.privacy .dot {
-  width: 8px; height: 8px;
-  background: var(--accent);
-  border-radius: 50%;
-  animation: pulse 3s ease-in-out infinite;
-}
-
-@keyframes pulse { 50% { opacity: 0.35; } }
 
 /* Cards */
 .card {
@@ -406,7 +398,6 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 26px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .privacy .dot { animation: none; }
   html { scroll-behavior: auto; }
 }
 

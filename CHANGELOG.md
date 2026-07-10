@@ -3,6 +3,13 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.7] - 2026-07-10
+
+### Changed
+
+- Removed the pulsing status dot from the privacy pill. The animated dot has become one of the most recognizable template cliches on the web, and it was redundant next to the lock icon that already carries the meaning. The pill now leads with the lock alone, with its padding evened out.
+- The README preview is regenerated.
+
 ## [1.4.6] - 2026-07-10
 
 ### Added
@@ -186,6 +193,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.7]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.7
 [1.4.6]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.6
 [1.4.5]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.5
 [1.4.4]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.4
