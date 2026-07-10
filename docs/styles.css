@@ -155,10 +155,11 @@ button:hover {
   transform: translateY(-1px);
   box-shadow: 0 3px 0 var(--btn-edge), 0 6px 14px var(--btn-ambient), inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
-/* The press: the key travels down and its edge collapses underneath it. */
+/* The press: the cap sinks into its socket. The dark edge below stays put
+   while the face travels down, and the socket shades the top of the cap. */
 button:active {
   transform: translateY(2px);
-  box-shadow: 0 0 0 var(--btn-edge), 0 1px 2px var(--btn-ambient), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  box-shadow: 0 2px 0 var(--btn-edge), 0 1px 2px var(--btn-ambient), inset 0 2px 3px rgba(0, 0, 0, 0.28);
 }
 
 /* Disabled: visibly inert. Muted, dashed edge, no pointer, no hover response. */
@@ -194,7 +195,7 @@ button.primary:hover {
 }
 button.primary:active {
   transform: translateY(2px);
-  box-shadow: 0 0 0 var(--btn-edge-primary), 0 1px 3px var(--btn-glow), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 0 var(--btn-edge-primary), 0 1px 3px var(--btn-glow), inset 0 2px 3px rgba(0, 0, 0, 0.3);
 }
 
 .spacer { flex: 1; }
