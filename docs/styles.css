@@ -255,8 +255,19 @@ html[data-theme="light"] .alert code {
 /* Theme switching crossfades the whole page as one composited snapshot via
    the View Transitions API, so text cannot re-ease its inherited color and
    rubber-band behind the page. The toggle renders live so the sun and moon
-   morph keeps its own spring timing. */
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.45s; }
+   morph keeps its own spring timing. The browser's default crossfade blends
+   both snapshots with plus-lighter inside an isolated group, two full-screen
+   passes that stutter on phone GPUs, so instead the new page sits fully
+   opaque below while the old snapshot fades out above it. On an opaque page
+   that reads identically and costs one alpha layer. */
+::view-transition-image-pair(root) { isolation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { mix-blend-mode: normal; }
+::view-transition-new(root) { animation: none; }
+::view-transition-old(root) { animation-duration: 0.45s; z-index: 1; }
+/* Decorative drift animations pause while the crossfade runs. Phone GPUs
+   need the headroom, and freezing a slow drift for half a second is
+   invisible. Transitions are unaffected, so the toggle morph still plays. */
+html.vt-active * { animation-play-state: paused !important; }
 .theme-toggle { view-transition-name: theme-toggle; }
 ::view-transition-old(theme-toggle) { animation: none; opacity: 0; }
 ::view-transition-new(theme-toggle) { animation: none; opacity: 1; }
