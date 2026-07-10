@@ -24,7 +24,7 @@ export const CATEGORIES = {
   tags: {
     label: "Hidden tag characters",
     color: "red",
-    why: "Unicode tag characters are invisible but carry ASCII payloads. They are used for text watermarking and for smuggling hidden instructions past human reviewers."
+    why: "Unicode tag characters encode ASCII-based strings without ordinary visible glyphs. Outside valid emoji tag sequences, they are decoded and removed for review."
   },
   variation: {
     label: "Variation selectors",
@@ -69,9 +69,8 @@ const CHAR_RULES = new Map([
   [0x1160, N(0x1160, "HANGUL JUNGSEONG FILLER", "invisible")],
   [0x034F, N(0x034F, "COMBINING GRAPHEME JOINER", "invisible")],
   [0xFFFC, N(0xFFFC, "OBJECT REPLACEMENT CHARACTER", "invisible")],
-  // Unicode-only line breaks: valid text, but JSON.parse rejects them raw,
-  // pre-ES2019 JavaScript string literals break on them, and most editors
-  // render them as nothing. Normalized to a plain newline.
+  // Unicode-only line breaks can create unexpected boundaries and break
+  // pre-ES2019 JavaScript source. Normalize them to a plain newline.
   [0x0085, N(0x0085, "NEXT LINE (NEL)", "invisible", "\n")],
   [0x2028, N(0x2028, "LINE SEPARATOR", "invisible", "\n")],
   [0x2029, N(0x2029, "PARAGRAPH SEPARATOR", "invisible", "\n")],
@@ -131,7 +130,7 @@ export const CONFUSABLES = new Map(Object.entries({
 const EMOJI_BASE = /\p{Emoji}/u;
 // For ZWJ context, digits and #/* must NOT count as emoji: they are keycap
 // bases for variation selectors, but no emoji ZWJ sequence joins through
-// them, and a ZWJ hidden between digits is a watermark, not an emoji.
+// them, so a ZWJ between digits is not a valid emoji join.
 const EMOJI_CORE = /\p{Extended_Pictographic}/u;
 const HAN = /\p{Script=Han}/u;
 const CJK = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;

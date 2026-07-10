@@ -19,11 +19,11 @@ Inspect and clean the characters you cannot see: invisible Unicode, hidden tag p
 
 Text copied from chat tools, web pages, and word processors can carry characters that render as nothing or look identical to what you expect. They cause practical problems:
 
-- A zero-width space inside a product name breaks search and matching forever.
+- A zero-width space inside a product name prevents an exact match with the visible spelling.
 - A narrow no-break space (`U+202F`) looks ordinary but can make `9:30 AM` fail to equal `9:30 AM`.
 - Bidirectional overrides can display `exe.txt` as `txt.exe` (the Trojan Source technique, CVE-2021-42574).
-- Unicode tag characters carry invisible ASCII payloads used for watermarking and hidden instructions. This tool decodes them and shows you the message, and it is not fooled by a payload hiding behind a flag emoji prefix.
-- The Unicode-only line breaks (`U+2028`, `U+2029`) render as nothing in most editors but make `JSON.parse` and older JavaScript engines reject otherwise valid text.
+- Unicode tag characters encode ASCII-based strings without ordinary visible glyphs. Outside recognized emoji tag sequences, this tool decodes and reports them for review.
+- Unicode line and paragraph separators (`U+2028`, `U+2029`) can create unexpected line boundaries and break older JavaScript source handling.
 - A Cyrillic `о` inside a Latin word can bypass exact-match filters and visual review.
 
 ## What makes this cleaner different
@@ -89,7 +89,7 @@ Automated checks run on Node.js 22, 24, and 26 across Linux, macOS, and Windows.
 
 ## Contributing
 
-Found a character this tool misses, or one it should leave alone? That is exactly the feedback this project needs. See [CONTRIBUTING.md](CONTRIBUTING.md), or open a [false positive/negative report](https://github.com/JaydenYoonZK/ai-paste-cleaner/issues/new/choose).
+Detection reports are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md), or open a [false positive/negative report](https://github.com/JaydenYoonZK/ai-paste-cleaner/issues/new/choose).
 
 For security-sensitive findings, use the private route in [SECURITY.md](SECURITY.md).
 

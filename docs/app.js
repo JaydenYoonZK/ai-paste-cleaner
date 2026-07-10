@@ -81,11 +81,7 @@ function chipRow(counts, removed, replaced) {
   return rows.join("");
 }
 
-// The inspector draws one DOM node per finding. Fine for any real document,
-// but this tool is built for hostile input, and a paste of a million invisible
-// characters would create a million nodes and leave the tab janky for seconds.
-// So the visual markup is capped. The cleaned output and the counts are
-// computed from ALL findings and stay complete; only this view is bounded.
+// Bound the inspector DOM for large inputs. Counts and cleaned output remain complete.
 const MAX_INSPECTOR_MARKS = 20000;
 
 function renderInspector(text, findings) {
@@ -270,12 +266,8 @@ syncThemeIcon();
 
 if (reducedMotion.matches) document.querySelector(".hero-art svg")?.pauseAnimations?.();
 
-// Scroll spy: the active menu item is the last section whose heading sits
-// at or above the reading line just below the sticky header. Computed from
-// the scroll position rather than an IntersectionObserver band, because a
-// menu jump lands the heading at the top of the viewport, outside any
-// mid-viewport band, which left the highlight stuck on a section the page
-// merely scrolled past.
+// Use a reading line below the sticky header so menu jumps and scrolling
+// resolve the active section consistently.
 const navAnchors = [...document.querySelectorAll(".nav-links a")];
 const navSections = navAnchors.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
 navSections.sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1);
