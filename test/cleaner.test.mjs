@@ -53,6 +53,16 @@ test("preserves emoji variation selector, strips stray one", () => {
   assert.equal(text, `${heart} xy`);
 });
 
+test("preserves one emoji variation selector but removes duplicates", () => {
+  assert.equal(clean("❤️️").text, "❤️");
+  assert.equal(clean("1️⃣").text, "1️⃣");
+});
+
+test("preserves Mongolian variation selectors only after Mongolian letters", () => {
+  assert.equal(clean("ᠠ᠋ᠠ᠏").text, "ᠠ᠋ᠠ᠏");
+  assert.equal(clean("漢᠋x᠏").text, "漢x");
+});
+
 test("decodes hidden tag payload and strips it", () => {
   const hidden = "hello" + [..."secret"].map(c =>
     String.fromCodePoint(0xE0000 + c.codePointAt(0))).join("") + " world";
@@ -122,9 +132,13 @@ test("clean is idempotent", () => {
 
 test("empty and plain input pass through", () => {
   assert.equal(clean("").text, "");
-  const plain = "Nothing to see here.\nJust text.";
+  const plain = "Nothing  to see here.\nJust text.";
   assert.equal(clean(plain).text, plain);
   assert.equal(analyze(plain).findings.length, 0);
+});
+
+test("normalizing nonstandard spaces does not collapse neighboring plain spaces", () => {
+  assert.equal(clean("a \u00A0 b").text, "a   b");
 });
 
 test("preserves skin-toned ZWJ sequences", () => {
@@ -150,6 +164,21 @@ test("black flag cannot launder a hidden payload", () => {
   const { hiddenMessages } = analyze(evil);
   assert.deepEqual(hiddenMessages, ["attack"]);
   assert.equal(clean(evil).text, "\u{1F3F4}");
+});
+
+test("black flag cannot launder malformed tag runs", () => {
+  const languageTag = String.fromCodePoint(0xE0001);
+  const g = String.fromCodePoint(0xE0067);
+  const cancel = String.fromCodePoint(0xE007F);
+  const malformed = "🏴" + languageTag + g + cancel;
+  assert.ok(analyze(malformed).findings.every(f => !f.exempt));
+  assert.equal(clean(malformed).text, "🏴");
+});
+
+test("clean can reuse a completed analysis", () => {
+  const input = "a​b";
+  const analysis = analyze(input);
+  assert.deepEqual(clean(input, {}, analysis), clean(input));
 });
 
 test("unicode-only line breaks normalize to newlines", () => {

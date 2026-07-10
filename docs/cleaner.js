@@ -58,6 +58,7 @@ const CHAR_RULES = new Map([
   [0xFEFF, N(0xFEFF, "ZERO WIDTH NO-BREAK SPACE (BOM)", "invisible")],
   [0x00AD, N(0x00AD, "SOFT HYPHEN", "invisible")],
   [0x180E, N(0x180E, "MONGOLIAN VOWEL SEPARATOR", "invisible")],
+  [0x180F, N(0x180F, "MONGOLIAN FREE VARIATION SELECTOR FOUR", "variation")],
   [0x2061, N(0x2061, "FUNCTION APPLICATION", "invisible")],
   [0x2062, N(0x2062, "INVISIBLE TIMES", "invisible")],
   [0x2063, N(0x2063, "INVISIBLE SEPARATOR", "invisible")],
@@ -127,13 +128,14 @@ export const CONFUSABLES = new Map(Object.entries({
   "Ρ": "P", "Τ": "T", "Υ": "Y", "Χ": "X"
 }));
 
-const PICTOGRAPHIC = /[\p{Extended_Pictographic}0-9#*©®]/u;
+const EMOJI_BASE = /\p{Emoji}/u;
 // For ZWJ context, digits and #/* must NOT count as emoji: they are keycap
 // bases for variation selectors, but no emoji ZWJ sequence joins through
 // them, and a ZWJ hidden between digits is a watermark, not an emoji.
 const EMOJI_CORE = /\p{Extended_Pictographic}/u;
 const HAN = /\p{Script=Han}/u;
 const CJK = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;
+const MONGOLIAN = /\p{Script=Mongolian}/u;
 const ZWNJ_SCRIPTS = new RegExp(
   "[" +
   "\\p{Script=Arabic}\\p{Script=Syriac}\\p{Script=Nko}\\p{Script=Mongolian}" +
@@ -251,12 +253,20 @@ export function analyze(text) {
         note = "Required for correct shaping in this script (Persian, Hindi, and others).";
       }
     } else if (cp === 0xFE0E || cp === 0xFE0F) {
-      if (PICTOGRAPHIC.test(prevOf(i))) {
+      const prev = i > 0 ? cps[i - 1] : "";
+      if (EMOJI_BASE.test(prev)) {
         exempt = true;
         note = "Selects emoji or text presentation for the preceding symbol.";
       }
+    } else if ((cp >= 0x180B && cp <= 0x180D) || cp === 0x180F) {
+      const prev = i > 0 ? cps[i - 1] : "";
+      if (MONGOLIAN.test(prev)) {
+        exempt = true;
+        note = "Selects a standardized glyph form for the preceding Mongolian letter.";
+      }
     } else if (rule.category === "variation") {
-      if (HAN.test(prevOf(i))) {
+      const prev = i > 0 ? cps[i - 1] : "";
+      if (HAN.test(prev)) {
         exempt = true;
         note = "Part of a CJK ideographic variation sequence.";
       }
@@ -277,8 +287,13 @@ export function analyze(text) {
         // flag in front of anything else does not launder the payload: a run
         // that fails this shape is decoded and cleaned like any other.
         const before = i > 0 ? cps[i - 1].codePointAt(0) : 0;
-        const endsWithCancel = cps[tagRunEnd].codePointAt(0) === CANCEL_TAG;
-        tagRunExempt = before === BLACK_FLAG && endsWithCancel && /^[a-z0-9]{1,6}$/.test(msg);
+        const run = cps.slice(i, j).map(c => c.codePointAt(0));
+        const endsWithCancel = run[run.length - 1] === CANCEL_TAG;
+        const body = endsWithCancel ? run.slice(0, -1) : run;
+        const validFlagBody = body.length >= 1 && body.length <= 6 && body.every(c =>
+          (c >= 0xE0030 && c <= 0xE0039) || (c >= 0xE0061 && c <= 0xE007A)
+        );
+        tagRunExempt = before === BLACK_FLAG && endsWithCancel && validFlagBody;
         if (!tagRunExempt && msg.trim()) hiddenMessages.push(msg);
       }
       if (tagRunExempt) {
@@ -374,10 +389,11 @@ export const DEFAULT_OPTIONS = {
 /**
  * Clean text. Returns { text, removed, replaced } where removed/replaced
  * count the characters acted on. Exempt findings are always preserved.
+ * A completed analysis may be supplied to avoid scanning the same text twice.
  */
-export function clean(text, options = {}) {
+export function clean(text, options = {}, analysis = null) {
   const opts = { ...DEFAULT_OPTIONS, ...options };
-  const { findings } = analyze(text);
+  const { findings } = analysis ?? analyze(text);
   let out = "";
   let cursor = 0;
   let removed = 0;
@@ -409,9 +425,6 @@ export function clean(text, options = {}) {
     cursor = f.index + f.length;
   }
   out += text.slice(cursor);
-
-  // Collapse doubled plain spaces introduced by space normalization.
-  if (opts.spaces) out = out.replace(/(?<! ) {2}(?! )/g, " ");
 
   return { text: out, removed, replaced };
 }
