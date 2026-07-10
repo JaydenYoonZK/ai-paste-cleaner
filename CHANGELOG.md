@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.14] - 2026-07-10
+
+### Fixed
+
+- Tooltip arrows are visible again. The arrow is a bordered square whose colored wedge sat entirely behind the tooltip bubble, which paints later and shares the same ink color, so the bubble swallowed the arrow and nothing bridged the gap to the button. The arrow now sits with its tip in the gap, 4px off the button, and its base tucked one pixel under the bubble edge, painting above the bubble so the two read as a single speech-bubble shape. Both variants are fixed, the standard bubble above a button and the theme toggle's bubble below it.
+
 ## [1.4.13] - 2026-07-10
 
 ### Fixed
@@ -234,6 +240,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.14]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.14
 [1.4.13]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.13
 [1.4.12]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.12
 [1.4.11]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.11
