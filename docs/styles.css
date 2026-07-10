@@ -252,14 +252,24 @@ html[data-theme="light"] .alert code {
   box-shadow: inset 0 0 0 1px rgba(192, 36, 24, 0.25);
 }
 
-/* Theme switching fades colors instead of snapping between night and day.
-   Color properties only, and the toggle is excluded, so the sun and moon
+/* Theme switching crossfades the whole page as one composited snapshot via
+   the View Transitions API, so text cannot re-ease its inherited color and
+   rubber-band behind the page. The toggle renders live so the sun and moon
    morph keeps its own spring timing. */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.45s; }
+.theme-toggle { view-transition-name: theme-toggle; }
+::view-transition-old(theme-toggle) { animation: none; opacity: 0; }
+::view-transition-new(theme-toggle) { animation: none; opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
+/* Fallback fade for browsers without view transitions: non-inherited color
+   properties only. Text switches in one clean step instead of lagging. */
 html.theme-fading, html.theme-fading body,
 html.theme-fading :where(*:not(.theme-toggle):not(.theme-toggle *)),
 html.theme-fading :where(*:not(.theme-toggle):not(.theme-toggle *))::before,
 html.theme-fading :where(*:not(.theme-toggle):not(.theme-toggle *))::after {
-  transition-property: background-color, color, border-color, box-shadow, fill, stroke !important;
+  transition-property: background-color, border-color, box-shadow !important;
   transition-duration: 0.45s !important;
   transition-timing-function: ease !important;
 }
