@@ -22,7 +22,7 @@
       document.documentElement.dataset.theme = t;
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=20260709n">
+  <link rel="stylesheet" href="styles.css?v=20260710a">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -78,7 +78,7 @@
 <nav class="site-nav" aria-label="Page navigation">
   <div class="wrap">
     <a class="brand" href="#top">Jayden Yoon ZK</a>
-    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle light and dark mode">☀️</button>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch color theme">☀️</button>
   </div>
   <div class="sub-nav">
     <div class="wrap nav-links">
@@ -150,9 +150,9 @@
     <label for="input" class="sr-only">Text to inspect</label>
     <textarea id="input" placeholder="Paste text here to inspect it..." spellcheck="false"></textarea>
     <div class="toolbar">
-      <button id="paste" class="primary" type="button" data-tip="Paste from your clipboard and clean it">Paste from clipboard</button>
-      <button id="sample" type="button" data-tip="Load an example with hidden characters to try it">Try a sample</button>
-      <button id="clear" disabled type="button" data-tip="Clear the box and start over" data-tip-off="Nothing to clear yet">Clear</button>
+      <button id="paste" class="primary" type="button" aria-label="Paste from clipboard" data-tip="Paste from your clipboard and clean it">Paste from clipboard</button>
+      <button id="sample" type="button" aria-label="Try a sample" data-tip="Load an example with hidden characters to try it">Try a sample</button>
+      <button id="clear" disabled type="button" aria-label="Clear text" data-tip="Clear the box and start over" data-tip-off="Nothing to clear yet">Clear</button>
       <span class="spacer"></span>
       <span class="charcount" id="charcount"></span>
     </div>
@@ -163,7 +163,7 @@
     <div id="alerts"></div>
 
     <h2 class="section-title">🔎 Inspector</h2>
-    <p class="section-sub">Invisible characters appear as labeled tags. Underlines mark lookalike letters and typographic substitutions. Hover anything for details. Green check-marked tags are legitimate (emoji internals, non-Latin scripts) and always stay untouched.</p>
+    <p class="section-sub">Invisible characters appear as labeled tags. Underlines mark lookalike letters and typographic substitutions. Hover or focus a mark for details. Green check-marked tags are legitimate (emoji internals, non-Latin scripts) and always stay untouched.</p>
     <div class="inspector" id="inspector"></div>
 
     <h2 class="section-title">🧼 Cleaning settings</h2>
@@ -182,7 +182,7 @@
         <span><span class="t">Lookalike letters</span><br><span class="d">Cyrillic and Greek twins inside Latin words</span></span></label>
       <label class="opt"><input type="checkbox" data-opt="typography">
         <span><span class="t">Typography</span><br><span class="d">Straighten quotes, expand the ellipsis character</span>
-        <select id="emdash-style">
+        <select id="emdash-style" aria-label="Em dash replacement">
           <option value="comma">Em dash: replace with comma</option>
           <option value="hyphen">Em dash: replace with hyphen</option>
           <option value="keep">Em dash: keep</option>
@@ -191,7 +191,7 @@
 
     <h2 class="section-title">✨ Cleaned text</h2>
     <div class="output">
-      <div class="copy-wrap"><button id="copy" disabled class="primary" type="button" data-tip="Copy the cleaned text" data-tip-off="Nothing to copy yet">Copy cleaned text</button></div>
+      <div class="copy-wrap"><button id="copy" disabled class="primary" type="button" aria-label="Copy cleaned text" data-tip="Copy the cleaned text" data-tip-off="Nothing to copy yet">Copy cleaned text</button><span id="copy-status" class="sr-only" role="status" aria-live="polite"></span></div>
       <textarea id="output" readonly spellcheck="false" aria-label="Cleaned text"></textarea>
     </div>
   </div>

@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - Mongolian free variation selector four (`U+180F`) is now included in the published ruleset.
+- Static site checks now verify local assets, internal anchors, structured metadata, and explicit accessible names for interactive controls.
+
+### Changed
+
+- Inspector findings can be focused from the keyboard, buttons meet a 44-pixel minimum touch height, and reduced-motion preferences now cover scripted scrolling and the inline illustration.
 
 ### Fixed
 
@@ -15,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Emoji, CJK, and Mongolian variation selectors are preserved only when they directly follow a compatible base, so duplicate or misplaced selectors are removed.
 - Malformed tag runs after a black flag can no longer pass as subdivision flag data.
 - The browser UI reuses one analysis result and omits the unmarked remainder of oversized inspector previews, reducing duplicate work and preventing hidden direction controls beyond the preview cap from affecting the display.
+- Copy feedback now reports failure honestly and leaves the cleaned text selected for manual copying.
 
 ## [1.3.2] - 2026-07-10
 
