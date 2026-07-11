@@ -673,9 +673,21 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   .tt-sun, .tt-moon { transition: none; }
 }
 
-/* Tables scroll in place on narrow screens instead of widening the page */
+/* On narrow screens tables restack as cards: cells flow inline within their
+   row, the last cell (the explanation) takes the full width, and header rows
+   disappear since the pills and labels speak for themselves. Nothing scrolls
+   sideways. */
 @media (max-width: 700px) {
-  .prose table, .results-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .prose table, .results-table, .prose table tbody, .results-table tbody { display: block; }
+  .prose table thead, .results-table thead, .prose table tr:has(> th) { display: none; }
+  .prose table tr, .results-table tr { display: block; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .prose table td, .results-table td { display: inline-block; vertical-align: middle; border: none; padding: 2px 12px 2px 0; }
+  .prose table td:last-child, .results-table td:last-child { display: block; padding: 6px 0 0; }
+  .results-table td.bot, .results-table td.pkg { white-space: normal; }
+  .results-table td .detail { max-width: none; }
+  .table-scroll { overflow-x: visible; }
+  .table-scroll .results-table { min-width: 0; }
+  pre.snippet { white-space: pre-wrap; word-break: break-word; }
 }
 
 
