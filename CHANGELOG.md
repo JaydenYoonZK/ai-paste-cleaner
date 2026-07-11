@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.26] - 2026-07-11
+
+### Added
+
+- Custom scrollbars, on the page and inside any scrollable box such as the paste areas and code snippets. A slim rounded pill floats on a fully transparent track in each theme's surface tone, thickens and brightens under the pointer, and turns chartreuse while being dragged, the same accent the buttons use. WebKit browsers get the full treatment and Firefox gets the matching thin themed scrollbar through the standard properties.
+
 ## [1.4.25] - 2026-07-11
 
 ### Added
@@ -311,6 +317,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.26]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.26
 [1.4.25]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.25
 [1.4.24]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.24
 [1.4.23]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.23
