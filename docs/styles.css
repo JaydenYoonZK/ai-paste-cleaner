@@ -406,9 +406,9 @@ body::after {
      so the veil can stay lighter. */
   background-size: 64px 64px;
   image-rendering: pixelated; /* high-density screens rescale the tile; smoothing would blur the grain into mush */
-  opacity: 0.042;
+  opacity: 0.048;
 }
-html[data-theme="light"] body::after { opacity: 0.033; }
+html[data-theme="light"] body::after { opacity: 0.038; }
 @media print { body::after { display: none; } }
 .theme-toggle { view-transition-name: theme-toggle; }
 ::view-transition-old(theme-toggle) { animation: none; opacity: 0; }
