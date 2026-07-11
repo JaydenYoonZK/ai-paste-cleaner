@@ -306,6 +306,53 @@ html { -webkit-tap-highlight-color: transparent; }
 .skip-link:focus { transform: translateY(0); }
 main:focus { outline: none; }
 
+/* 404 page. The link back home is a chartreuse key with the same anchored
+   physics as the buttons: the press is declared after the hover lift so it
+   wins while hovered, and hover styling stays off touch screens. */
+.error-wrap { min-height: 76vh; display: grid; align-content: center; justify-items: start; gap: 6px; padding-top: 48px; padding-bottom: 48px; }
+.error-wrap h1 { margin: 6px 0 2px; }
+.error-wrap .lede { margin: 6px 0 14px; }
+.key-link {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+  padding: 12px 22px;
+  border-radius: 999px;
+  text-decoration: none;
+  margin: 4px 0 34px;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  box-shadow: 0 5px 0 var(--btn-edge-primary), 0 7px 5px var(--btn-ambient), inset 0 1.5px 0 rgba(255, 255, 255, 0.28);
+}
+@media (hover: hover) {
+  .key-link:hover { transform: translateY(-1px); box-shadow: 0 6px 0 var(--btn-edge-primary), 0 8px 6px var(--btn-ambient), inset 0 1.5px 0 rgba(255, 255, 255, 0.32); }
+}
+.key-link:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-edge-primary), 0 4px 4px var(--btn-ambient), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28); }
+/* In light mode --accent is the deep text green; the key wears the brand
+   chartreuse instead, exactly like the primary buttons. */
+html[data-theme="light"] .key-link { background: #abcf37; color: #101400; }
+@media (hover: hover) {
+  html[data-theme="light"] .key-link:hover { background: #bcdf4e; }
+}
+.error-tools { margin-top: 8px; width: 100%; }
+.error-tools p { color: var(--ink-mute); font-size: 0.9rem; margin: 0 0 10px; }
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; width: 100%; }
+.tool-grid a {
+  display: block;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+.tool-grid a small { display: block; color: var(--ink-mute); font-weight: 400; margin-top: 2px; }
+@media (hover: hover) {
+  .tool-grid a:hover { border-color: rgba(171, 207, 55, 0.45); background: var(--panel-2); }
+}
+
 /* Selected text wears the brand: the chartreuse-with-dark-ink pairing the
    primary buttons use, identical in both themes. The 0.99 alpha keeps
    Chrome from swapping an opaque selection color for its own translucent
