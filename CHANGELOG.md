@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.36] - 2026-07-11
+
+### Added
+
+- The site now publishes its own search and AI crawler metadata: a robots.txt with a deliberate allow policy, a sitemap.xml, and an llms.txt that maps the tool, documentation, and source for AI systems. The llms.txt follows the structure the format proposes, with the required name heading, a summary blockquote, and annotated link sections.
+
 ## [1.4.35] - 2026-07-11
 
 ### Added
@@ -371,6 +377,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.36]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.36
 [1.4.35]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.35
 [1.4.34]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.34
 [1.4.33]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.33
