@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Paste Cleaner: page not found</title>
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <script>
+    (function () {
+      var t = new URLSearchParams(location.search).get("theme") || localStorage.getItem("theme");
+      if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css?v=1.4.37">
+</head>
+<body>
+<main class="wrap error-wrap" id="main">
+  <p class="eyebrow">AI Paste Cleaner</p>
+  <h1>404, page not found.</h1>
+  <p class="lede">We checked this URL for hidden characters. The only thing missing is the page itself.</p>
+  <a class="key-link" href="./">Back to AI Paste Cleaner</a>
+  <section class="error-tools">
+    <p>Or try one of the other tools:</p>
+    <div class="tool-grid">
+      <a href="https://jaydenyoonzk.github.io/wp-serial-fix/">WP Serial Fix<small>safe search and replace for serialized data</small></a>
+      <a href="https://jaydenyoonzk.github.io/wp-config-doctor/">WP Config Doctor<small>audit and harden wp-config.php</small></a>
+      <a href="https://jaydenyoonzk.github.io/wp-plugin-checkup/">WP Plugin Checkup<small>find abandoned and removed plugins</small></a>
+      <a href="https://jaydenyoonzk.github.io/ai-crawler-audit/">AI Crawler Audit<small>what robots.txt tells AI bots</small></a>
+      <a href="https://jaydenyoonzk.github.io/whmcs-emoji-compatibility-guide/">WHMCS Emoji Compatibility Guide<small>emoji that survive client-facing content</small></a>
+      <a href="https://jaydenyoonzk.github.io/package-reality-check/">Package Reality Check<small>verify npm and PyPI dependencies</small></a>
+    </div>
+  </section>
+</main>
+</body>
+</html>
