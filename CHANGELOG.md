@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.31] - 2026-07-11
+
+### Changed
+
+- The film grain is a touch more present in both themes, still well below its original strength, keeping gradients dithered while the texture stays a quiet detail. README previews regenerated.
+
 ## [1.4.30] - 2026-07-11
 
 ### Changed
@@ -341,6 +347,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.31]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.31
 [1.4.30]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.30
 [1.4.29]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.29
 [1.4.28]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.28
