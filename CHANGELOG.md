@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.27] - 2026-07-11
+
+### Changed
+
+- The scrollbar now carries the brand. The thumb is a glowing chartreuse key-cap pill with the same top-lit gradient the buttons use, riding a faint chartreuse center rail. It brightens and thickens under the pointer and charges up with a hotter gradient and stronger glow while being dragged. Firefox shows a solid chartreuse thumb through the standard scrollbar properties.
+
 ## [1.4.26] - 2026-07-11
 
 ### Added
@@ -317,6 +323,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.27]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.27
 [1.4.26]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.26
 [1.4.25]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.25
 [1.4.24]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.24

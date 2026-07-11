@@ -1,4 +1,4 @@
-import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.26";
+import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.27";
 
 const $ = (id) => document.getElementById(id);
 const input = $("input");

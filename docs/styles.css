@@ -24,8 +24,7 @@
   --btn-edge-primary: #7e9c26;
   --btn-ambient: rgba(0, 0, 0, 0.45);
   --btn-glow: rgba(171, 207, 55, 0.22);
-  --sb-thumb: rgba(214, 207, 196, 0.22);
-  --sb-thumb-hover: rgba(214, 207, 196, 0.38);
+  --sb-rail: rgba(171, 207, 55, 0.16);
   --card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 10px 24px rgba(0, 0, 0, 0.32);
   --fab-shadow: 0 3px 8px rgba(0, 0, 0, 0.35), 0 10px 24px rgba(171, 207, 55, 0.2);
   --fab-shadow-hover: 0 5px 12px rgba(0, 0, 0, 0.3), 0 14px 30px rgba(171, 207, 55, 0.35);
@@ -291,33 +290,57 @@ html { -webkit-tap-highlight-color: transparent; }
    default. */
 ::selection { background: rgba(171, 207, 55, 0.99); color: #101400; }
 
-/* Scrollbars match the surface: a soft pill on a transparent track that
-   brightens on hover and grabs in chartreuse, on the page and inside any
-   scrollable box. WebKit browsers use the pseudo-elements; the standard
-   properties live behind the @supports guard for Firefox only, because
+/* Scrollbars carry the brand: a glowing chartreuse key-cap pill glides on a
+   faint center rail, brightens under the pointer, and charges up while
+   dragged. Every state re-declares background-clip because the background
+   shorthand resets it. WebKit browsers use the pseudo-elements; the standard
+   properties stay behind the @supports guard for Firefox only, because
    Chrome drops the styled pseudo-elements when scrollbar-color is set. */
-::-webkit-scrollbar { width: 12px; height: 12px; }
-::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar { width: 14px; height: 14px; }
 ::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-track {
+  background: linear-gradient(to right, transparent calc(50% - 1px), var(--sb-rail) calc(50% - 1px), var(--sb-rail) calc(50% + 1px), transparent calc(50% + 1px));
+}
+::-webkit-scrollbar-track:horizontal {
+  background: linear-gradient(to bottom, transparent calc(50% - 1px), var(--sb-rail) calc(50% - 1px), var(--sb-rail) calc(50% + 1px), transparent calc(50% + 1px));
+}
 ::-webkit-scrollbar-thumb {
-  background: var(--sb-thumb);
+  background: linear-gradient(180deg, #d7ef7a, #abcf37 45%, #7e9c26);
   background-clip: padding-box;
-  border: 3px solid transparent;
+  border: 4px solid transparent;
   border-radius: 999px;
-  min-height: 40px;
+  min-height: 44px;
+  box-shadow: 0 0 8px rgba(171, 207, 55, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--sb-thumb-hover);
+  background: linear-gradient(180deg, #e4f79a, #bcdf4e 45%, #8fb527);
   background-clip: padding-box;
-  border-width: 2px;
+  border-width: 3px;
+  box-shadow: 0 0 12px rgba(171, 207, 55, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 ::-webkit-scrollbar-thumb:active {
-  background: rgba(171, 207, 55, 0.95);
+  background: linear-gradient(180deg, #f1ffbe, #d7ef7a 45%, #abcf37);
   background-clip: padding-box;
-  border-width: 2px;
+  border-width: 3px;
+  box-shadow: 0 0 16px rgba(171, 207, 55, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #bcdf4e, #abcf37 45%, #85a428);
+  background-clip: padding-box;
+  box-shadow: 0 0 8px rgba(171, 207, 55, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #cdea62, #bcdf4e 45%, #8fb527);
+  background-clip: padding-box;
+  box-shadow: 0 0 12px rgba(171, 207, 55, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #e4f79a, #cdea62 45%, #abcf37);
+  background-clip: padding-box;
+  box-shadow: 0 0 16px rgba(171, 207, 55, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 @supports not selector(::-webkit-scrollbar) {
-  * { scrollbar-color: var(--sb-thumb-hover) transparent; scrollbar-width: thin; }
+  * { scrollbar-color: #abcf37 transparent; }
 }
 
 /* Film grain over the whole composition. Large soft gradients band on most
@@ -729,8 +752,7 @@ html[data-theme="light"] {
   --btn-edge-primary: #85a428;
   --btn-ambient: rgba(84, 71, 65, 0.28);
   --btn-glow: rgba(171, 207, 55, 0.45);
-  --sb-thumb: rgba(84, 71, 65, 0.3);
-  --sb-thumb-hover: rgba(84, 71, 65, 0.45);
+  --sb-rail: rgba(126, 156, 38, 0.2);
   --card-shadow: 0 1px 2px rgba(84, 71, 65, 0.08), 0 8px 20px rgba(84, 71, 65, 0.13);
   --fab-shadow: 0 2px 5px rgba(84, 71, 65, 0.22), 0 10px 22px rgba(171, 207, 55, 0.45);
   --fab-shadow-hover: 0 3px 7px rgba(84, 71, 65, 0.2), 0 14px 28px rgba(171, 207, 55, 0.6);
