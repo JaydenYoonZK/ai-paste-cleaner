@@ -286,6 +286,26 @@ html.vt-active * { animation-play-state: paused !important; }
    flash only reads as a glitch. Keyboard focus outlines are unaffected. */
 html { -webkit-tap-highlight-color: transparent; }
 
+/* Keyboard users can jump straight past the navigation. The link waits off
+   screen and drops in as a chartreuse key when it receives focus. */
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 2200;
+  transform: translateY(-250%);
+  background: #abcf37;
+  color: #101400;
+  font-weight: 700;
+  font-size: 0.92rem;
+  padding: 10px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 5px 0 #7e9c26, 0 7px 5px rgba(0, 0, 0, 0.26);
+}
+.skip-link:focus { transform: translateY(0); }
+main:focus { outline: none; }
+
 /* Selected text wears the brand: the chartreuse-with-dark-ink pairing the
    primary buttons use, identical in both themes. The 0.99 alpha keeps
    Chrome from swapping an opaque selection color for its own translucent
@@ -673,6 +693,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   button:active { box-shadow: 0 5px 0 var(--btn-edge), 0 7px 5px var(--btn-ambient), inset 0 2px 6px 1px rgba(0, 0, 0, 0.25), inset 0 1.5px 0 rgba(255, 255, 255, 0.06); }
   button.primary:active { box-shadow: 0 5px 0 var(--btn-edge-primary), 0 7px 5px var(--btn-ambient), 0 3px 10px var(--btn-glow), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28), inset 0 1.5px 0 rgba(255, 255, 255, 0.12); }
   .tt-sun, .tt-moon { transition: none; }
+  .skip-link { transition: none; }
 }
 
 /* External reference links inside result rows carry a small open-in-new

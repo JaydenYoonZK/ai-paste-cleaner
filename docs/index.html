@@ -28,7 +28,7 @@
       document.documentElement.dataset.theme = t;
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=1.4.34">
+  <link rel="stylesheet" href="styles.css?v=1.4.35">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -44,6 +44,7 @@
   </script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to main content</a>
 
 <div class="bg-scene" aria-hidden="true">
   <div class="orb orb-a"></div>
@@ -169,7 +170,7 @@
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap" id="main" tabindex="-1">
   <div class="card">
     <label for="input" class="sr-only">Text to inspect</label>
     <textarea id="input" placeholder="Paste text here to inspect it..." spellcheck="false"></textarea>
@@ -283,6 +284,6 @@
 </footer>
 
 <button id="to-top" class="to-top" type="button" aria-label="Back to top">&#8593;</button>
-<script type="module" src="app.js?v=1.4.34"></script>
+<script type="module" src="app.js?v=1.4.35"></script>
 </body>
 </html>

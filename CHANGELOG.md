@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.35] - 2026-07-11
+
+### Added
+
+- A skip to main content link for keyboard and screen reader users. It waits off screen as the page's first focusable element and drops in as a chartreuse key when focused, jumping past the navigation straight to the tool. The slide respects reduced motion preferences.
+
 ## [1.4.34] - 2026-07-11
 
 ### Fixed
@@ -365,6 +371,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.35]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.35
 [1.4.34]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.34
 [1.4.33]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.33
 [1.4.32]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.32
