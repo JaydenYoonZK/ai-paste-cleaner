@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.29] - 2026-07-11
+
+### Added
+
+- The resize corner of text boxes shows a hand-drawn affordance again: two diagonal grip lines in brand green floating on a transparent square, so people can tell the box expands while the rounded corner stays clean. Light mode uses the deeper green for contrast on cream.
+
 ## [1.4.28] - 2026-07-11
 
 ### Fixed
@@ -329,6 +335,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.29]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.29
 [1.4.28]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.28
 [1.4.27]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.27
 [1.4.26]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.26

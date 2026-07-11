@@ -302,7 +302,11 @@ html { -webkit-tap-highlight-color: transparent; }
 ::-webkit-scrollbar { width: 12px; height: 12px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-corner { background: transparent; }
-::-webkit-resizer { background: transparent; }
+/* The resize corner keeps its affordance: two diagonal grip lines in brand
+   green floating on a transparent square, so the rounded corner stays clean
+   while the handle stays discoverable. */
+::-webkit-resizer { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cg stroke='%23abcf37' stroke-opacity='0.8' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M3.2 10 10 3.2'/%3E%3Cpath d='M7 10 10 7'/%3E%3C/g%3E%3C/svg%3E") center / 10px 10px no-repeat; }
+html[data-theme="light"] ::-webkit-resizer { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cg stroke='%237e9c26' stroke-opacity='0.85' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M3.2 10 10 3.2'/%3E%3Cpath d='M7 10 10 7'/%3E%3C/g%3E%3C/svg%3E") center / 10px 10px no-repeat; }
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #d7ef7a, #abcf37 45%, #7e9c26);
   background-clip: padding-box;
