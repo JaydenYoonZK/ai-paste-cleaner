@@ -20,9 +20,9 @@
   --blue-soft: rgba(127, 184, 255, 0.13);
   --green: #a7e26a;
   --green-soft: rgba(167, 226, 106, 0.14);
-  --btn-edge: rgba(0, 0, 0, 0.5);
+  --btn-edge: rgba(0, 0, 0, 0.4);
   --btn-edge-primary: #7e9c26;
-  --btn-ambient: rgba(0, 0, 0, 0.45);
+  --btn-ambient: rgba(0, 0, 0, 0.26);
   --btn-glow: rgba(171, 207, 55, 0.22);
   --sb-rail: rgba(171, 207, 55, 0.16);
   --card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 10px 24px rgba(0, 0, 0, 0.32);
@@ -148,21 +148,21 @@ button {
   cursor: pointer;
   transition: transform 0.1s, box-shadow 0.1s, background 0.2s, border-color 0.2s;
   /* A physical key: hard edge below, soft ambient, hairline top bevel. */
-  box-shadow: 0 5px 0 var(--btn-edge), 0 7px 3px 1px var(--btn-ambient), inset 0 1.5px 0 rgba(255, 255, 255, 0.09);
+  box-shadow: 0 5px 0 var(--btn-edge), 0 7px 5px var(--btn-ambient), inset 0 1.5px 0 rgba(255, 255, 255, 0.09);
 }
 
 @media (hover: hover) {
 button:hover {
   border-color: rgba(171, 207, 55, 0.45);
   transform: translateY(-1px);
-  box-shadow: 0 6px 0 var(--btn-edge), 0 8px 4px 1px var(--btn-ambient), inset 0 1.5px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 0 var(--btn-edge), 0 8px 6px var(--btn-ambient), inset 0 1.5px 0 rgba(255, 255, 255, 0.12);
 }
 }
 /* The press: the cap sinks into its socket. The dark edge below stays put
    while the face travels down, and the socket shades the top of the cap. */
 button:active {
   transform: translateY(3px);
-  box-shadow: 0 2px 0 var(--btn-edge), 0 4px 3px 1px var(--btn-ambient), inset 0 2px 6px 1px rgba(0, 0, 0, 0.25), inset 0 1.5px 0 rgba(255, 255, 255, 0.06);
+  box-shadow: 0 2px 0 var(--btn-edge), 0 4px 4px var(--btn-ambient), inset 0 2px 6px 1px rgba(0, 0, 0, 0.25), inset 0 1.5px 0 rgba(255, 255, 255, 0.06);
 }
 
 /* Disabled: visibly inert. Muted, dashed edge, no pointer, no hover response. */
@@ -188,19 +188,19 @@ button.primary {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--accent-ink);
-  box-shadow: 0 5px 0 var(--btn-edge-primary), 0 7px 3px 1px var(--btn-ambient), 0 3px 10px var(--btn-glow), inset 0 1.5px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 5px 0 var(--btn-edge-primary), 0 7px 5px var(--btn-ambient), 0 3px 10px var(--btn-glow), inset 0 1.5px 0 rgba(255, 255, 255, 0.28);
 }
 
 @media (hover: hover) {
 button.primary:hover {
   background: #bcdf4e;
   transform: translateY(-1px);
-  box-shadow: 0 6px 0 var(--btn-edge-primary), 0 8px 4px 1px var(--btn-ambient), 0 4px 14px var(--btn-glow), inset 0 1.5px 0 rgba(255, 255, 255, 0.32);
+  box-shadow: 0 6px 0 var(--btn-edge-primary), 0 8px 6px var(--btn-ambient), 0 4px 14px var(--btn-glow), inset 0 1.5px 0 rgba(255, 255, 255, 0.32);
 }
 }
 button.primary:active {
   transform: translateY(3px);
-  box-shadow: 0 2px 0 var(--btn-edge-primary), 0 4px 3px 1px var(--btn-ambient), 0 2px 8px var(--btn-glow), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28), inset 0 1.5px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 0 var(--btn-edge-primary), 0 4px 4px var(--btn-ambient), 0 2px 8px var(--btn-glow), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28), inset 0 1.5px 0 rgba(255, 255, 255, 0.12);
 }
 
 .spacer { flex: 1; }
@@ -668,8 +668,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   .hero-art, main > .card:first-of-type, .chip { animation: none !important; }
   button, .to-top { transition: none; }
   button:hover, .to-top:hover, button:active, .to-top:active, button:not(:disabled):hover, button:not(:disabled):active { transform: none; }
-  button:active { box-shadow: 0 5px 0 var(--btn-edge), 0 7px 3px 1px var(--btn-ambient), inset 0 2px 6px 1px rgba(0, 0, 0, 0.25), inset 0 1.5px 0 rgba(255, 255, 255, 0.06); }
-  button.primary:active { box-shadow: 0 5px 0 var(--btn-edge-primary), 0 7px 3px 1px var(--btn-ambient), 0 3px 10px var(--btn-glow), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28), inset 0 1.5px 0 rgba(255, 255, 255, 0.12); }
+  button:active { box-shadow: 0 5px 0 var(--btn-edge), 0 7px 5px var(--btn-ambient), inset 0 2px 6px 1px rgba(0, 0, 0, 0.25), inset 0 1.5px 0 rgba(255, 255, 255, 0.06); }
+  button.primary:active { box-shadow: 0 5px 0 var(--btn-edge-primary), 0 7px 5px var(--btn-ambient), 0 3px 10px var(--btn-glow), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28), inset 0 1.5px 0 rgba(255, 255, 255, 0.12); }
   .tt-sun, .tt-moon { transition: none; }
 }
 
@@ -791,9 +791,9 @@ html[data-theme="light"] {
   --blue: #1d63c4; --blue-soft: rgba(10, 132, 255, 0.11);
   --nav-bg: rgba(246, 244, 238, 0.85);
   --subnav-bg: rgba(171, 207, 55, 0.12);
-  --btn-edge: rgba(84, 71, 65, 0.3);
+  --btn-edge: rgba(84, 71, 65, 0.24);
   --btn-edge-primary: #85a428;
-  --btn-ambient: rgba(84, 71, 65, 0.28);
+  --btn-ambient: rgba(84, 71, 65, 0.16);
   --btn-glow: rgba(171, 207, 55, 0.45);
   --sb-rail: rgba(126, 156, 38, 0.2);
   --card-shadow: 0 1px 2px rgba(84, 71, 65, 0.08), 0 8px 20px rgba(84, 71, 65, 0.13);
@@ -810,9 +810,9 @@ html[data-theme="light"] .to-top:hover { background: #bcdf4e; border-color: #bcd
 }
 html[data-theme="light"] button.primary { background: #abcf37; border-color: #abcf37; color: #101400; }
 @media (hover: hover) {
-html[data-theme="light"] button.primary:hover { background: #bcdf4e; box-shadow: 0 6px 0 var(--btn-edge-primary), 0 8px 4px 1px var(--btn-ambient), 0 4px 14px rgba(171, 207, 55, 0.45), inset 0 1.5px 0 rgba(255, 255, 255, 0.35); }
+html[data-theme="light"] button.primary:hover { background: #bcdf4e; box-shadow: 0 6px 0 var(--btn-edge-primary), 0 8px 6px var(--btn-ambient), 0 4px 14px rgba(171, 207, 55, 0.45), inset 0 1.5px 0 rgba(255, 255, 255, 0.35); }
 }
-html[data-theme="light"] button.primary:active { box-shadow: 0 2px 0 var(--btn-edge-primary), 0 4px 3px 1px var(--btn-ambient), 0 2px 8px rgba(171, 207, 55, 0.45), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28), inset 0 1.5px 0 rgba(255, 255, 255, 0.12); }
+html[data-theme="light"] button.primary:active { box-shadow: 0 2px 0 var(--btn-edge-primary), 0 4px 4px var(--btn-ambient), 0 2px 8px rgba(171, 207, 55, 0.45), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28), inset 0 1.5px 0 rgba(255, 255, 255, 0.12); }
 html[data-theme="light"] .privacy { border-color: rgba(171, 207, 55, 0.55); }
 
 /* Background scene: depth-of-field drift with scroll parallax */

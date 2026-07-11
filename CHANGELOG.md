@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.30] - 2026-07-11
+
+### Changed
+
+- Button shadows are lighter. The ground shadow under the 3D keys drops much of its opacity and trades its tight spread for a softer blur, so it reads as ambient light falloff instead of an ink block, and the hard edge tone eases slightly in both themes. The key geometry and travel are unchanged. README previews regenerated.
+
 ## [1.4.29] - 2026-07-11
 
 ### Added
@@ -335,6 +341,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.30]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.30
 [1.4.29]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.29
 [1.4.28]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.28
 [1.4.27]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.27
