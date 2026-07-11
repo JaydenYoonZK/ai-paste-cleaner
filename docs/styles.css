@@ -283,6 +283,12 @@ html.vt-active * { animation-play-state: paused !important; }
    flash only reads as a glitch. Keyboard focus outlines are unaffected. */
 html { -webkit-tap-highlight-color: transparent; }
 
+/* Selected text wears the brand: the chartreuse-with-dark-ink pairing the
+   primary buttons use, identical in both themes. The 0.99 alpha keeps
+   Chrome from swapping an opaque selection color for its own translucent
+   default. */
+::selection { background: rgba(171, 207, 55, 0.99); color: #101400; }
+
 /* Film grain over the whole composition. Large soft gradients band on most
    displays; a whisper of static monochrome noise dithers the steps away and
    gives the surface a print-like tooth. One tiled texture, no blend mode,
