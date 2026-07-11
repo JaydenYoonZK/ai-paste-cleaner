@@ -290,21 +290,60 @@ html { -webkit-tap-highlight-color: transparent; }
    default. */
 ::selection { background: rgba(171, 207, 55, 0.99); color: #101400; }
 
-/* Scrollbars carry the brand: a glowing chartreuse key-cap pill glides on a
-   faint center rail, brightens under the pointer, and charges up while
-   dragged. Every state re-declares background-clip because the background
-   shorthand resets it. WebKit browsers use the pseudo-elements; the standard
-   properties stay behind the @supports guard for Firefox only, because
-   Chrome drops the styled pseudo-elements when scrollbar-color is set. */
-::-webkit-scrollbar { width: 14px; height: 14px; }
+/* Scrollbars carry the brand. Inside rounded boxes such as text areas the
+   scrollbar strip stays rectangular, so a glow, rail, or resizer grip there
+   reads as a box poking through the corner radius; inner scrollables get a
+   quiet chartreuse pill instead, and the full glowing treatment lives only
+   on the page scrollbar, whose corners really are square. Every state
+   re-declares background-clip because the background shorthand resets it.
+   The standard properties stay behind the @supports guard for Firefox only,
+   because Chrome drops the styled pseudo-elements when scrollbar-color is
+   set. */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-corner { background: transparent; }
-::-webkit-scrollbar-track {
+::-webkit-resizer { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #d7ef7a, #abcf37 45%, #7e9c26);
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  min-height: 32px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #e4f79a, #bcdf4e 45%, #8fb527);
+  background-clip: padding-box;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #f1ffbe, #d7ef7a 45%, #abcf37);
+  background-clip: padding-box;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #bcdf4e, #abcf37 45%, #85a428);
+  background-clip: padding-box;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #cdea62, #bcdf4e 45%, #8fb527);
+  background-clip: padding-box;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #e4f79a, #cdea62 45%, #abcf37);
+  background-clip: padding-box;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+html::-webkit-scrollbar { width: 14px; height: 14px; }
+html::-webkit-scrollbar-track {
   background: linear-gradient(to right, transparent calc(50% - 1px), var(--sb-rail) calc(50% - 1px), var(--sb-rail) calc(50% + 1px), transparent calc(50% + 1px));
 }
-::-webkit-scrollbar-track:horizontal {
+html::-webkit-scrollbar-track:horizontal {
   background: linear-gradient(to bottom, transparent calc(50% - 1px), var(--sb-rail) calc(50% - 1px), var(--sb-rail) calc(50% + 1px), transparent calc(50% + 1px));
 }
-::-webkit-scrollbar-thumb {
+html::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #d7ef7a, #abcf37 45%, #7e9c26);
   background-clip: padding-box;
   border: 4px solid transparent;
@@ -312,29 +351,29 @@ html { -webkit-tap-highlight-color: transparent; }
   min-height: 44px;
   box-shadow: 0 0 8px rgba(171, 207, 55, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
-::-webkit-scrollbar-thumb:hover {
+html::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #e4f79a, #bcdf4e 45%, #8fb527);
   background-clip: padding-box;
   border-width: 3px;
   box-shadow: 0 0 12px rgba(171, 207, 55, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
-::-webkit-scrollbar-thumb:active {
+html::-webkit-scrollbar-thumb:active {
   background: linear-gradient(180deg, #f1ffbe, #d7ef7a 45%, #abcf37);
   background-clip: padding-box;
   border-width: 3px;
   box-shadow: 0 0 16px rgba(171, 207, 55, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-html[data-theme="light"] ::-webkit-scrollbar-thumb {
+html[data-theme="light"]::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #bcdf4e, #abcf37 45%, #85a428);
   background-clip: padding-box;
   box-shadow: 0 0 8px rgba(171, 207, 55, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+html[data-theme="light"]::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #cdea62, #bcdf4e 45%, #8fb527);
   background-clip: padding-box;
   box-shadow: 0 0 12px rgba(171, 207, 55, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
-html[data-theme="light"] ::-webkit-scrollbar-thumb:active {
+html[data-theme="light"]::-webkit-scrollbar-thumb:active {
   background: linear-gradient(180deg, #e4f79a, #cdea62 45%, #abcf37);
   background-clip: padding-box;
   box-shadow: 0 0 16px rgba(171, 207, 55, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.6);
