@@ -334,6 +334,8 @@ html[data-theme="light"] .key-link { background: #abcf37; color: #101400; }
 @media (hover: hover) {
   html[data-theme="light"] .key-link:hover { background: #bcdf4e; }
 }
+.error-hero { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 44px; align-items: center; width: 100%; }
+@media (max-width: 760px) { .error-hero { grid-template-columns: 1fr; } }
 .error-tools { margin-top: 8px; width: 100%; }
 .error-tools p { color: var(--ink-mute); font-size: 0.9rem; margin: 0 0 10px; }
 .tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; width: 100%; }

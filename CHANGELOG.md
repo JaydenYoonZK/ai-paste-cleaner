@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.38] - 2026-07-11
+
+### Changed
+
+- The 404 page is now a full member of the site. It carries the brand navigation bar with the working theme toggle and crossfade, the ambient three dimensional background scene with its parallax, the cursor dust, and a new animated illustration of a browser window missing its page, complete with a searching magnifying glass. Navigation links from the 404 lead back into the tool's sections.
+
 ## [1.4.37] - 2026-07-11
 
 ### Added
@@ -383,6 +389,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.38]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.38
 [1.4.37]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.37
 [1.4.36]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.36
 [1.4.35]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.35
