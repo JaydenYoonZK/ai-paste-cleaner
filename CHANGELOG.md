@@ -3,6 +3,13 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.40] - 2026-07-12
+
+### Fixed
+
+- The 404 page now carries the same Built by Jayden Yoon ZK footer as every other page.
+- Short pages no longer show a hard-edged second copy of the page glow near the bottom. The body background propagates to the canvas, which tiles the glow image below a short page; the glow is now painted exactly once.
+
 ## [1.4.39] - 2026-07-12
 
 ### Added
@@ -395,6 +402,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.40]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.40
 [1.4.39]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.39
 [1.4.38]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.38
 [1.4.37]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.37

@@ -43,6 +43,9 @@ body {
   margin: 0;
   background: var(--bg);
   background-image: radial-gradient(1100px 500px at 15% -5%, rgba(171, 207, 55, 0.07), transparent 60%);
+  /* One glow only: on a short page like the 404, the canvas would tile
+     the body background below it and paint a hard-edged second glow. */
+  background-repeat: no-repeat;
   color: var(--ink);
   font-family: var(--font);
   line-height: 1.65;
