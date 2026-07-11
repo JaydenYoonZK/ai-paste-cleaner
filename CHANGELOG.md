@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.25] - 2026-07-11
+
+### Added
+
+- Selected text now wears the brand. Highlighting any text shows the same chartreuse-with-dark-ink pairing the primary buttons use, identical in both themes, replacing the browser's default blue.
+
 ## [1.4.24] - 2026-07-11
 
 ### Fixed
@@ -305,6 +311,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.25]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.25
 [1.4.24]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.24
 [1.4.23]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.23
 [1.4.22]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.22
