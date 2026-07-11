@@ -167,7 +167,9 @@ button:active {
 
 /* Disabled: visibly inert. Muted, dashed edge, no pointer, no hover response. */
 button:disabled,
-button:disabled:hover {
+button:disabled:hover,
+button.primary:disabled,
+button.primary:disabled:hover {
   /* Dim with muted tokens, not opacity: opacity would also fade the tooltip,
      which must stay fully readable (it explains WHY the button is disabled). */
   cursor: not-allowed;
@@ -673,6 +675,21 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   .tt-sun, .tt-moon { transition: none; }
 }
 
+/* External reference links inside result rows carry a small open-in-new
+   icon, so "docs" reads as something that opens. Drawn as a mask so it
+   inherits the link color in both themes. */
+.doclink::after {
+  content: "";
+  display: inline-block;
+  width: 0.75em;
+  height: 0.75em;
+  margin-left: 4px;
+  vertical-align: -0.02em;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14.5 4H20v5.5'/%3E%3Cpath d='M20 4 10.5 13.5'/%3E%3Cpath d='M17.5 13.5V19a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 19V8a1.6 1.6 0 0 1 1.6-1.6h5.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14.5 4H20v5.5'/%3E%3Cpath d='M20 4 10.5 13.5'/%3E%3Cpath d='M17.5 13.5V19a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 19V8a1.6 1.6 0 0 1 1.6-1.6h5.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
 /* On narrow screens tables restack as cards: cells flow inline within their
    row, the last cell (the explanation) takes the full width, and header rows
    disappear since the pills and labels speak for themselves. Nothing scrolls
@@ -825,6 +842,11 @@ html[data-theme="light"] button.primary { background: #abcf37; border-color: #ab
 html[data-theme="light"] button.primary:hover { background: #bcdf4e; box-shadow: 0 6px 0 var(--btn-edge-primary), 0 8px 6px var(--btn-ambient), 0 4px 14px rgba(171, 207, 55, 0.45), inset 0 1.5px 0 rgba(255, 255, 255, 0.35); }
 }
 html[data-theme="light"] button.primary:active { box-shadow: 0 2px 0 var(--btn-edge-primary), 0 4px 4px var(--btn-ambient), 0 2px 8px rgba(171, 207, 55, 0.45), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28), inset 0 1.5px 0 rgba(255, 255, 255, 0.12); }
+/* A disabled primary stays a flat ghost in light mode too; the light
+   primary rule would otherwise outrank the disabled state and paint the
+   chartreuse key under the dashed border. */
+html[data-theme="light"] button.primary:disabled,
+html[data-theme="light"] button.primary:disabled:hover { background: transparent; border-color: var(--line); color: var(--ink-mute); box-shadow: none; }
 html[data-theme="light"] .privacy { border-color: rgba(171, 207, 55, 0.55); }
 
 /* Background scene: depth-of-field drift with scroll parallax */

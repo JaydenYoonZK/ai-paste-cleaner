@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.34] - 2026-07-11
+
+### Fixed
+
+- A disabled primary button no longer blends the pressed-key look with the dashed disabled outline. The primary styling outranked the disabled state, so buttons such as a not-yet-usable submit looked clickable and not clickable at once, with light mode even painting the full chartreuse key under the dashes. Disabled primaries now render as a flat ghost in both themes.
+
 ## [1.4.33] - 2026-07-11
 
 ### Fixed
@@ -359,6 +365,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.34]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.34
 [1.4.33]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.33
 [1.4.32]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.32
 [1.4.31]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.31
