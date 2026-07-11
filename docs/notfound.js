@@ -193,3 +193,12 @@ if (siteNav) {
     if (sparks.length && !raf) raf = requestAnimationFrame(tick);
   }, { passive: true });
 })();
+
+
+// Offline support: a small service worker caches the page shell so the
+// tool opens without a connection after the first visit.
+if ("serviceWorker" in navigator) {
+  addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => { /* offline support is optional */ });
+  });
+}

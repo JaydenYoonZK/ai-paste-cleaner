@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.39] - 2026-07-12
+
+### Added
+
+- The tool now works offline. A small service worker caches the page shell on the first visit, answers repeat visits from cache while refreshing in the background, and drops old caches on every release. Since the tool runs entirely in the browser, everything keeps working with no connection at all, and the privacy note now says so.
+
 ## [1.4.38] - 2026-07-11
 
 ### Changed
@@ -389,6 +395,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.39]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.39
 [1.4.38]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.38
 [1.4.37]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.37
 [1.4.36]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.36
