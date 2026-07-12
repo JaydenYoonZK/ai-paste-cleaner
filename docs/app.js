@@ -1,5 +1,5 @@
 /*! AI Paste Cleaner | Copyright (c) 2026 Jayden Yoon ZK | MIT License | https://github.com/JaydenYoonZK/ai-paste-cleaner */
-import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.55";
+import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.56";
 
 const $ = (id) => document.getElementById(id);
 const input = $("input");
@@ -511,3 +511,11 @@ document.querySelectorAll(".faq-q button").forEach((btn) => {
     btn.setAttribute("aria-expanded", String(open));
   });
 });
+
+// The nav lifts with a soft shadow once the page scrolls beneath it.
+const navBar = document.querySelector(".site-nav");
+if (navBar) {
+  const syncNavShadow = () => navBar.classList.toggle("scrolled", scrollY > 8);
+  addEventListener("scroll", syncNavShadow, { passive: true });
+  syncNavShadow();
+}
