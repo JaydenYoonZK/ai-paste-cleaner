@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.58] - 2026-07-12
+
+### Added
+
+- A purpose-built 1280x640 social preview card, and the page's link-sharing metadata now points at it with honest dimensions.
+
 ## [1.4.57] - 2026-07-12
 
 ### Changed
@@ -512,6 +518,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.58]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.58
 [1.4.57]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.57
 [1.4.56]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.56
 [1.4.55]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.55
