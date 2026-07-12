@@ -30,7 +30,7 @@
       document.documentElement.dataset.theme = t;
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=1.4.47">
+  <link rel="stylesheet" href="styles.css?v=1.4.48">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -293,8 +293,8 @@
     </div>
 
     <h2 id="whats-kept">🛡️ What gets left alone</h2>
-    <p>Most cleanup scripts strip every invisible character they can match. That destroys real content, because several of these characters do essential work:</p>
-    <ul>
+    <p class="full-measure">Most cleanup scripts strip every invisible character they can match. That destroys real content, because several of these characters do essential work:</p>
+    <ul class="kept-columns">
       <li>Zero-width joiners hold emoji families together. Remove them and 👨‍👩‍👧 becomes three separate people.</li>
       <li>The zero-width non-joiner is required spelling in Persian and appears throughout Hindi, Tamil, and other scripts. Stripping it mangles words.</li>
       <li>Variation selectors decide whether ❤ renders as text or as the red emoji heart, and select glyph variants in Japanese names.</li>
@@ -302,7 +302,7 @@
       <li>The flags of Scotland, Wales, and England are built from tag characters. A naive tag stripper deletes the flag.</li>
       <li>An en dash between digits, as in 2019–2024, is correct typography and stays put.</li>
     </ul>
-    <p>This cleaner checks context before it touches anything, and the inspector shows kept characters with a dashed outline so you can see the decision instead of trusting it blindly.</p>
+    <p class="full-measure">This cleaner checks context before it touches anything, and the inspector shows kept characters with a dashed outline so you can see the decision instead of trusting it blindly.</p>
 
     <h2 id="faq">💬 Questions people ask</h2>
     <h3>Is this an AI detector?</h3>
@@ -317,7 +317,35 @@
     <p>No. Unicode defines specialized variation sequences and a much larger confusables dataset than this focused cleaner includes. Review mathematical, historical, and scholarly text carefully, and report false positives or missed characters through the project issue templates.</p>
 
     <h2 id="why-built">🌱 Why I built this</h2>
-    <p>While checking copied text across my public repositories, I kept finding punctuation and spacing that looked ordinary but behaved differently in code and search. The invisible characters were harder to reason about because I could not see what a cleaner planned to remove. This is the review-first tool I wanted that afternoon.</p>
+    <div class="why-split">
+      <div>
+        <p>While checking copied text across my public repositories, I kept finding punctuation and spacing that looked ordinary but behaved differently in code and search. The invisible characters were harder to reason about because I could not see what a cleaner planned to remove. This is the review-first tool I wanted that afternoon.</p>
+      </div>
+      <svg class="why-art" viewBox="0 0 340 260" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <animateTransform attributeName="transform" type="rotate" values="-1.6 170 196; 1.6 170 196; -1.6 170 196" dur="6s" repeatCount="indefinite"/>
+          <path d="M170 190 C169 168 172 150 170 128" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+          <path d="M170 158 C150 154 138 140 136 122 C156 124 168 138 170 158 Z" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M170 138 C190 132 200 118 202 100 C182 102 172 116 170 138 Z" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>
+        </g>
+        <path d="M128 190 L212 190 L202 244 C201 250 196 254 190 254 L150 254 C144 254 139 250 138 244 Z" fill="var(--panel)" stroke="var(--line-strong)" stroke-width="2"/>
+        <rect x="122" y="184" width="96" height="14" rx="7" fill="var(--panel-2)" stroke="var(--line-strong)" stroke-width="2"/>
+        <g fill="var(--accent)">
+          <path d="M96 96 L99 104 L107 107 L99 110 L96 118 L93 110 L85 107 L93 104 Z">
+            <animate attributeName="opacity" values="0.2;1;0.2" dur="3.6s" repeatCount="indefinite"/>
+          </path>
+          <path d="M244 70 L246.4 76.4 L252.8 79 L246.4 81.6 L244 88 L241.6 81.6 L235.2 79 L241.6 76.4 Z">
+            <animate attributeName="opacity" values="1;0.15;1" dur="4.4s" repeatCount="indefinite"/>
+          </path>
+          <circle cx="222" cy="150" r="3">
+            <animate attributeName="opacity" values="0.25;0.9;0.25" dur="2.9s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="118" cy="146" r="3">
+            <animate attributeName="opacity" values="0.9;0.2;0.9" dur="3.7s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+      </svg>
+    </div>
   </div>
 </main>
 
@@ -335,6 +363,6 @@
 </footer>
 
 <button id="to-top" class="to-top" type="button" aria-label="Back to top">&#8593;</button>
-<script type="module" src="app.js?v=1.4.47"></script>
+<script type="module" src="app.js?v=1.4.48"></script>
 </body>
 </html>

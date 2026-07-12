@@ -633,6 +633,16 @@ html.theme-fading :where(*:not(.theme-toggle):not(.theme-toggle *))::after {
   padding: 1px 7px;
   border-radius: 6px;
 }
+/* Blocks tagged full-measure run the whole section width, matching the
+   tables and grids around them. */
+.prose .full-measure { max-width: none; }
+
+/* The kept list flows in two balanced columns from tablet width up,
+   closing the section to full width. */
+.kept-columns { columns: 2; column-gap: 48px; }
+.kept-columns li { break-inside: avoid; }
+@media (max-width: 700px) { .kept-columns { columns: 1; } }
+
 /* The two deep-dive notes share a row, closing the section to the same
    full width as the table above them. */
 .finds-grid {
