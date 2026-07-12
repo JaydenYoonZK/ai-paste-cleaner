@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.49] - 2026-07-12
+
+### Added
+
+- The FAQ is a set of full-width accordions now. Each question carries a plus that turns into a close mark as the answer unfolds, with the whole row clickable and the state exposed to keyboards and screen readers.
+
 ## [1.4.48] - 2026-07-12
 
 ### Changed
@@ -453,6 +459,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.49]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.49
 [1.4.48]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.48
 [1.4.47]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.47
 [1.4.46]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.46
