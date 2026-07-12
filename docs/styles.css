@@ -633,6 +633,21 @@ html.theme-fading :where(*:not(.theme-toggle):not(.theme-toggle *))::after {
   padding: 1px 7px;
   border-radius: 6px;
 }
+/* The two deep-dive notes share a row, closing the section to the same
+   full width as the table above them. */
+.finds-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 48px;
+  align-items: start;
+}
+/* Long links and code spans must wrap inside their column instead of
+   dragging the second column off the screen edge. */
+.finds-grid > div { min-width: 0; }
+@media (max-width: 700px) {
+  .finds-grid { grid-template-columns: 1fr; }
+}
+
 /* The opening explainer pairs its text with a small scene, so the right
    side of the column carries weight instead of trailing off empty. */
 .why-split {
