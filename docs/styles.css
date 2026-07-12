@@ -1323,3 +1323,19 @@ html[data-theme="light"] .chip.ok { border-color: rgba(171, 207, 55, 0.5); }
   outline-offset: -2px;
   border-radius: 14px;
 }
+
+
+/* The nav's last stop leaves the page: a quiet outlined pill pointing at
+   the full projects directory. */
+.nav-links .nav-external {
+  border: 1px solid rgba(171, 207, 55, 0.5);
+  border-radius: 999px;
+  padding: 5px 14px;
+}
+.nav-links .nav-external::after { content: " \2192"; }
+@media (hover: hover) {
+  .nav-links .nav-external:hover {
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+}
