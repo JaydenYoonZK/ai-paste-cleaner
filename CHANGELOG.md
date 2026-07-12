@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.51] - 2026-07-12
+
+### Fixed
+
+- The two explainer scenes now sit properly centered against their text. Each SVG's frame hugs its drawing, so the potted sprout no longer sags below the paragraph it accompanies.
+
 ## [1.4.50] - 2026-07-12
 
 ### Fixed
@@ -465,6 +471,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.51]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.51
 [1.4.50]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.50
 [1.4.49]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.49
 [1.4.48]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.48

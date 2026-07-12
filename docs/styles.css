@@ -745,6 +745,10 @@ html.theme-fading :where(*:not(.theme-toggle):not(.theme-toggle *))::after {
   align-items: center;
 }
 .why-split .why-art { width: 100%; height: auto; }
+/* Scene boxes hug their drawing (trimmed viewBox), so centering the box
+   against the text centers the drawing's visual mass too. The sprout is
+   portrait, so it takes a narrower width to keep its size in proportion. */
+.why-split .art-sprout { width: min(100%, 212px); justify-self: center; }
 @media (max-width: 900px) {
   .why-split { grid-template-columns: 1fr; }
   .why-split .why-art { display: none; }
