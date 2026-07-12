@@ -1,5 +1,5 @@
 /*! AI Paste Cleaner | Copyright (c) 2026 Jayden Yoon ZK | MIT License | https://github.com/JaydenYoonZK/ai-paste-cleaner */
-import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.48";
+import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.4.49";
 
 const $ = (id) => document.getElementById(id);
 const input = $("input");
@@ -501,3 +501,13 @@ console.info(
 // The footer's copyright year keeps itself current.
 const yearEl = document.getElementById("copyright-year");
 if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+// FAQ accordions: the button carries the disclosure state, so keyboard
+// and screen reader users get the expand and collapse for free.
+document.querySelectorAll(".faq-q button").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const item = btn.closest(".faq-item");
+    const open = item.classList.toggle("open");
+    btn.setAttribute("aria-expanded", String(open));
+  });
+});

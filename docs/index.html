@@ -30,7 +30,7 @@
       document.documentElement.dataset.theme = t;
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=1.4.48">
+  <link rel="stylesheet" href="styles.css?v=1.4.49">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -305,16 +305,38 @@
     <p class="full-measure">This cleaner checks context before it touches anything, and the inspector shows kept characters with a dashed outline so you can see the decision instead of trusting it blindly.</p>
 
     <h2 id="faq">💬 Questions people ask</h2>
-    <h3>Is this an AI detector?</h3>
-    <p>No. It finds characters, not authorship. Clean text is not proof a person wrote something, and hidden characters are not proof a machine did. What the tool removes are the mechanical artifacts that cause practical problems and false assumptions.</p>
-    <h3>Will cleaning make AI text read as human?</h3>
-    <p>Only at the character level. Wording, rhythm, and structure are still yours to edit. If you rewrite the words but keep the invisible characters, you keep the problems too, which is the part most people miss.</p>
-    <h3>Is my text uploaded anywhere?</h3>
-    <p>No. The page is static, the analysis runs in your browser, and there are no network requests after the page loads. You can disconnect from the internet and it keeps working, or run it locally from the <a href="https://github.com/JaydenYoonZK/ai-paste-cleaner" rel="noopener">source</a>.</p>
-    <h3>Can I use the detection rules in my own project?</h3>
-    <p>Yes. The ruleset ships as <a href="data/rules.json">machine-readable JSON</a> and the engine is a dependency-free ES module under the MIT license.</p>
-    <h3>Can this catch every unusual Unicode sequence?</h3>
-    <p>No. Unicode defines specialized variation sequences and a much larger confusables dataset than this focused cleaner includes. Review mathematical, historical, and scholarly text carefully, and report false positives or missed characters through the project issue templates.</p>
+<div class="faq">
+      <div class="faq-item">
+        <h3 class="faq-q"><button type="button" id="faq-b1" aria-expanded="false" aria-controls="faq-a1"><span>Is this an AI detector?</span><span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a1" role="region" aria-labelledby="faq-b1">
+          <div class="faq-a-inner"><p>No. It finds characters, not authorship. Clean text is not proof a person wrote something, and hidden characters are not proof a machine did. What the tool removes are the mechanical artifacts that cause practical problems and false assumptions.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-q"><button type="button" id="faq-b2" aria-expanded="false" aria-controls="faq-a2"><span>Will cleaning make AI text read as human?</span><span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-b2">
+          <div class="faq-a-inner"><p>Only at the character level. Wording, rhythm, and structure are still yours to edit. If you rewrite the words but keep the invisible characters, you keep the problems too, which is the part most people miss.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-q"><button type="button" id="faq-b3" aria-expanded="false" aria-controls="faq-a3"><span>Is my text uploaded anywhere?</span><span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-b3">
+          <div class="faq-a-inner"><p>No. The page is static, the analysis runs in your browser, and there are no network requests after the page loads. You can disconnect from the internet and it keeps working, or run it locally from the <a href="https://github.com/JaydenYoonZK/ai-paste-cleaner" rel="noopener">source</a>.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-q"><button type="button" id="faq-b4" aria-expanded="false" aria-controls="faq-a4"><span>Can I use the detection rules in my own project?</span><span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-b4">
+          <div class="faq-a-inner"><p>Yes. The ruleset ships as <a href="data/rules.json">machine-readable JSON</a> and the engine is a dependency-free ES module under the MIT license.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-q"><button type="button" id="faq-b5" aria-expanded="false" aria-controls="faq-a5"><span>Can this catch every unusual Unicode sequence?</span><span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a5" role="region" aria-labelledby="faq-b5">
+          <div class="faq-a-inner"><p>No. Unicode defines specialized variation sequences and a much larger confusables dataset than this focused cleaner includes. Review mathematical, historical, and scholarly text carefully, and report false positives or missed characters through the project issue templates.</p></div>
+        </div>
+      </div>
+    </div>
 
     <h2 id="why-built">🌱 Why I built this</h2>
     <div class="why-split">
@@ -363,6 +385,6 @@
 </footer>
 
 <button id="to-top" class="to-top" type="button" aria-label="Back to top">&#8593;</button>
-<script type="module" src="app.js?v=1.4.48"></script>
+<script type="module" src="app.js?v=1.4.49"></script>
 </body>
 </html>
