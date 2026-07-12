@@ -30,7 +30,7 @@
       document.documentElement.dataset.theme = t;
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=1.4.45">
+  <link rel="stylesheet" href="styles.css?v=1.4.46">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -225,8 +225,49 @@
 
   <div class="prose">
     <h2 id="why-matters">🫥 Why pasted text is not what it looks like</h2>
-    <p>Unicode contains dozens of characters with zero width. They render as nothing, yet they count as real characters everywhere it hurts: string comparisons, database keys, URLs, YAML indentation, git diffs. A product name with a zero-width space in it will never match a search for the same name without one. A config value with a trailing word joiner fails validation with an error message that looks impossible.</p>
-    <p>Pasted text moves between systems with different typography and encoding behavior. Curly quotes, em dashes, single-character ellipses, unusual spaces, and invisible controls can travel from a rich editor into code, CMS fields, terminals, and billing systems. Some invisible characters are also used deliberately to carry hidden data.</p>
+    <div class="why-split">
+      <div>
+        <p>Unicode contains dozens of characters with zero width. They render as nothing, yet they count as real characters everywhere it hurts: string comparisons, database keys, URLs, YAML indentation, git diffs. A product name with a zero-width space in it will never match a search for the same name without one. A config value with a trailing word joiner fails validation with an error message that looks impossible.</p>
+        <p>Pasted text moves between systems with different typography and encoding behavior. Curly quotes, em dashes, single-character ellipses, unusual spaces, and invisible controls can travel from a rich editor into code, CMS fields, terminals, and billing systems. Some invisible characters are also used deliberately to carry hidden data.</p>
+      </div>
+      <svg class="why-art" viewBox="0 0 340 280" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="var(--line-strong)" fill="var(--panel)" stroke-width="2">
+          <rect x="36" y="150" width="44" height="52" rx="10"/>
+          <rect x="92" y="150" width="44" height="52" rx="10"/>
+          <rect x="148" y="150" width="44" height="52" rx="10"/>
+          <rect x="260" y="150" width="44" height="52" rx="10"/>
+        </g>
+        <g fill="var(--ink)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="26" font-weight="600" text-anchor="middle">
+          <text x="58" y="185">T</text>
+          <text x="114" y="185">e</text>
+          <text x="170" y="185">x</text>
+          <text x="282" y="185">t</text>
+        </g>
+        <rect x="204" y="150" width="44" height="52" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6 6">
+          <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="1.6s" repeatCount="indefinite"/>
+        </rect>
+        <text x="226" y="181" fill="var(--accent)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" font-weight="700" text-anchor="middle">U+200B</text>
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="0 0; 0 -7; 0 0" dur="5s" repeatCount="indefinite"/>
+          <line x1="245" y1="111" x2="264" y2="130" stroke="var(--ink-soft)" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="226" cy="92" r="27" fill="var(--accent-soft)" fill-opacity="0.45" stroke="var(--ink-soft)" stroke-width="5"/>
+        </g>
+        <g fill="var(--accent)">
+          <path d="M64 66 L67 74 L75 77 L67 80 L64 88 L61 80 L53 77 L61 74 Z">
+            <animate attributeName="opacity" values="0.2;1;0.2" dur="3.4s" repeatCount="indefinite"/>
+          </path>
+          <path d="M300 52 L302.4 58.4 L308.8 61 L302.4 63.6 L300 70 L297.6 63.6 L291.2 61 L297.6 58.4 Z">
+            <animate attributeName="opacity" values="1;0.15;1" dur="4.2s" repeatCount="indefinite"/>
+          </path>
+          <circle cx="126" cy="60" r="3">
+            <animate attributeName="opacity" values="0.25;0.9;0.25" dur="2.8s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="316" cy="216" r="3">
+            <animate attributeName="opacity" values="0.9;0.2;0.9" dur="3.8s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+      </svg>
+    </div>
 
     <h2 id="what-it-finds">🕵️ What this tool finds</h2>
     <table>
@@ -289,6 +330,6 @@
 </footer>
 
 <button id="to-top" class="to-top" type="button" aria-label="Back to top">&#8593;</button>
-<script type="module" src="app.js?v=1.4.45"></script>
+<script type="module" src="app.js?v=1.4.46"></script>
 </body>
 </html>
