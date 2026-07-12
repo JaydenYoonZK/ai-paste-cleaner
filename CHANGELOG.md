@@ -3,6 +3,13 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.48] - 2026-07-12
+
+### Changed
+
+- The "What gets left alone" list flows in two balanced columns and its paragraphs run the full section width, so the section closes cleanly at both edges.
+- The "Why I built this" story pairs its text with a small sprout scene instead of trailing off into empty space.
+
 ## [1.4.47] - 2026-07-12
 
 ### Changed
@@ -446,6 +453,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.48]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.48
 [1.4.47]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.47
 [1.4.46]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.46
 [1.4.45]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.45
