@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.50] - 2026-07-12
+
+### Fixed
+
+- Hovering or pressing an FAQ row no longer paints the square key-cap background over the card's rounded corners. The accordion rows now fully opt out of the tactile key states.
+
 ## [1.4.49] - 2026-07-12
 
 ### Added
@@ -459,6 +465,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.50]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.50
 [1.4.49]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.49
 [1.4.48]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.48
 [1.4.47]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.47
