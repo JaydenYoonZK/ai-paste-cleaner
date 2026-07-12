@@ -300,7 +300,9 @@ html { -webkit-tap-highlight-color: transparent; }
   position: fixed;
   top: 10px;
   left: 10px;
-  z-index: 2200;
+  /* Resting, the link sits under the nav's overscroll bleed; focus lifts
+     it above everything. */
+  z-index: 1;
   transform: translateY(-250%);
   background: #abcf37;
   color: #101400;
@@ -311,7 +313,8 @@ html { -webkit-tap-highlight-color: transparent; }
   text-decoration: none;
   box-shadow: 0 5px 0 #7e9c26, 0 7px 5px rgba(0, 0, 0, 0.26);
 }
-.skip-link:focus { transform: translateY(0); }
+.skip-link:focus {
+  z-index: 2200; transform: translateY(0); }
 main:focus { outline: none; }
 
 /* 404 page. The link back home is a chartreuse key with the same anchored
@@ -949,6 +952,22 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
+}
+/* iOS elastic scrolling and the collapsing Safari chrome can expose a
+   strip above the bar mid-gesture, and desktop rubber-banding shows bare
+   page there. The bar bleeds its own skin a full screen upward, so
+   whatever peeks above stays dressed as the bar in either theme. */
+.site-nav::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 1200px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  pointer-events: none;
 }
 .site-nav > .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 58px; }
 .brand {
