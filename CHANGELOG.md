@@ -3,6 +3,14 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.46] - 2026-07-12
+
+### Changed
+
+- The result chips grow to close each row, so the summary strip meets both edges instead of ending ragged.
+- The space between the tool and the first explainer section is tighter.
+- The opening explainer pairs its text with a small animated scene of a hidden character being caught, so the right side of the section no longer sits empty.
+
 ## [1.4.45] - 2026-07-12
 
 ### Fixed
@@ -432,6 +440,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.46]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.46
 [1.4.45]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.45
 [1.4.44]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.44
 [1.4.43]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.43

@@ -223,6 +223,10 @@ button.primary:active {
 
 .chip {
   display: inline-flex;
+  /* Each chip grows to close its row, so the strip meets both edges
+     instead of ending ragged before the wrap. */
+  flex: 1 1 auto;
+  justify-content: center;
   align-items: baseline;
   gap: 8px;
   padding: 9px 16px;
@@ -611,7 +615,8 @@ html.theme-fading :where(*:not(.theme-toggle):not(.theme-toggle *))::after {
 .copy-wrap { position: absolute; top: 14px; right: 14px; }
 
 /* Prose sections */
-.prose { padding: 64px 0 20px; }
+.prose { padding: 40px 0 20px; }
+.prose > h2:first-child { margin-top: 0; }
 .prose h2 {
   margin: 52px 0 14px;
   font-size: 1.5rem;
@@ -628,6 +633,20 @@ html.theme-fading :where(*:not(.theme-toggle):not(.theme-toggle *))::after {
   padding: 1px 7px;
   border-radius: 6px;
 }
+/* The opening explainer pairs its text with a small scene, so the right
+   side of the column carries weight instead of trailing off empty. */
+.why-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 24px 48px;
+  align-items: center;
+}
+.why-split .why-art { width: 100%; height: auto; }
+@media (max-width: 900px) {
+  .why-split { grid-template-columns: 1fr; }
+  .why-split .why-art { display: none; }
+}
+
 .prose table {
   border-collapse: collapse;
   width: 100%;
