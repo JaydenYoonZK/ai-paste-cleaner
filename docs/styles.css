@@ -749,9 +749,16 @@ html.theme-fading :where(*:not(.theme-toggle):not(.theme-toggle *))::after {
    against the text centers the drawing's visual mass too. The sprout is
    portrait, so it takes a narrower width to keep its size in proportion. */
 .why-split .art-sprout { width: min(100%, 212px); justify-self: center; }
+/* The story's sprout rides high, anchored toward the heading rather than
+   hanging at the paragraph's midline. */
+.story-split { align-items: start; }
+.story-split .art-sprout { margin-top: -30px; }
 @media (max-width: 900px) {
   .why-split { grid-template-columns: 1fr; }
   .why-split .why-art { display: none; }
+  /* With the scene gone, the text takes the full width like the
+     sections around it. */
+  .why-split p { max-width: none; }
 }
 
 .prose table {

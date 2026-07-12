@@ -3,6 +3,13 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.52] - 2026-07-12
+
+### Changed
+
+- The story's sprout sits higher now, anchored toward the section heading instead of hanging at the paragraph's midline.
+- When the scenes hide on narrow screens, the explainer text expands to the full section width like its neighbors.
+
 ## [1.4.51] - 2026-07-12
 
 ### Fixed
@@ -471,6 +478,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.52]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.52
 [1.4.51]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.51
 [1.4.50]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.50
 [1.4.49]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.49
