@@ -1283,3 +1283,24 @@ html[data-theme="light"] input[type="search"]:focus { border-color: rgba(171, 20
 html[data-theme="light"] button:not(.primary):not(:disabled):hover { border-color: rgba(13, 106, 47, 0.45); }
 }
 html[data-theme="light"] .chip.ok { border-color: rgba(171, 207, 55, 0.5); }
+
+/* The FAQ disclosure opts out of the tactile key states. The key rules
+   outrank the accordion's class reset (:not() inflates their specificity
+   and they sit later in the file), so hovering the row painted a square
+   panel-colored key cap over the card's rounded corners. Each leaking
+   state is pinned back here, at the end of the file so ties resolve to
+   these rules. */
+@media (hover: hover) {
+  .faq .faq-q button:not(:disabled):hover { background: transparent; transform: none; box-shadow: none; }
+}
+.faq .faq-q button:not(:disabled):active,
+.faq .faq-q button:active {
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+.faq .faq-q button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  border-radius: 14px;
+}
