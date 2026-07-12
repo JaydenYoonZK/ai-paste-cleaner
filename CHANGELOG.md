@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.60] - 2026-07-12
+
+### Fixed
+
+- The strip above the navigation bar is solid now. iOS skips the frosted blur in the overscroll zone, so the translucent skin let content ghost through it; the bleed wears the opaque page background, which reads identically to the bar over an empty page in both themes.
+
 ## [1.4.59] - 2026-07-12
 
 ### Fixed
@@ -524,6 +530,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.60]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.60
 [1.4.59]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.59
 [1.4.58]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.58
 [1.4.57]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.57

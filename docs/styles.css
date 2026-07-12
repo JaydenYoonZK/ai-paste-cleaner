@@ -964,9 +964,11 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   right: 0;
   bottom: 100%;
   height: 1200px;
-  background: var(--nav-bg);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  /* Solid, not the nav's translucent glass: iOS skips backdrop blur in
+     the overscroll zone, so a tinted strip would ghost the content
+     beneath it. Both themes' nav tints share the page background's own
+     color, so opaque --bg reads as exactly the bar over empty page. */
+  background: var(--bg);
   pointer-events: none;
 }
 .site-nav > .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 58px; }
