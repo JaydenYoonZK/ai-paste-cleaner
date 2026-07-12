@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.47] - 2026-07-12
+
+### Changed
+
+- The two deep-dive notes under the findings table now share a row on wide screens, closing the section to the table's full width. They keep two columns down to tablet width and stack on phones, where side-by-side text would leave only a few words per line.
+
 ## [1.4.46] - 2026-07-12
 
 ### Changed
@@ -440,6 +446,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.47]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.47
 [1.4.46]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.46
 [1.4.45]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.45
 [1.4.44]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.44

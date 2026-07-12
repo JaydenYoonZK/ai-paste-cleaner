@@ -30,7 +30,7 @@
       document.documentElement.dataset.theme = t;
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=1.4.46">
+  <link rel="stylesheet" href="styles.css?v=1.4.47">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -281,11 +281,16 @@
       <tr><td>Smart punctuation</td><td><code>U+2018..U+2026</code></td><td>Fine in prose. Breaks shell commands, JSON, and code snippets.</td></tr>
     </table>
 
-    <h3>The narrow no-break space</h3>
+    <div class="finds-grid">
+      <div>
+        <h3>The narrow no-break space</h3>
     <p><code>U+202F</code> may appear between numbers and units or around times in rich-text and chat interfaces. In a support macro, a WHMCS email template, or a spreadsheet formula, it can arrive unnoticed through copy and paste. It is one reason two visible strings such as "9:30 AM" may fail an exact comparison.</p>
-
-    <h3>Hidden payloads</h3>
+      </div>
+      <div>
+        <h3>Hidden payloads</h3>
     <p>Unicode tag characters encode ASCII-based strings without ordinary visible glyphs. Their old language-tagging use is deprecated; the current conformant use is in emoji tag sequences. Outside recognized subdivision flags, this tool decodes tag runs and shows their content for review. See <a href="https://www.unicode.org/versions/latest/core-spec/chapter-23/" rel="noopener">Section 23.9 of the Unicode Standard</a>. Bidirectional overrides are a separate display-reordering risk documented by <a href="https://trojansource.codes/" rel="noopener">Trojan Source (CVE-2021-42574)</a>.</p>
+      </div>
+    </div>
 
     <h2 id="whats-kept">🛡️ What gets left alone</h2>
     <p>Most cleanup scripts strip every invisible character they can match. That destroys real content, because several of these characters do essential work:</p>
@@ -330,6 +335,6 @@
 </footer>
 
 <button id="to-top" class="to-top" type="button" aria-label="Back to top">&#8593;</button>
-<script type="module" src="app.js?v=1.4.46"></script>
+<script type="module" src="app.js?v=1.4.47"></script>
 </body>
 </html>
