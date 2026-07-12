@@ -1,3 +1,4 @@
+/*! AI Paste Cleaner | Copyright (c) 2026 Jayden Yoon ZK | MIT License | https://github.com/JaydenYoonZK/ai-paste-cleaner */
 /**
  * ai-paste-cleaner engine
  *

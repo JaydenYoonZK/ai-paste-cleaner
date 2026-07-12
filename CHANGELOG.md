@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.42] - 2026-07-12
+
+### Added
+
+- Source attribution in the shipped files. Every stylesheet and script now opens with a license banner naming Jayden Yoon ZK, each page carries an author meta tag and an HTML notice, and the browser console prints a small signature with a link back to the source.
+
 ## [1.4.41] - 2026-07-12
 
 ### Fixed
@@ -408,6 +414,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.42]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.42
 [1.4.41]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.41
 [1.4.40]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.40
 [1.4.39]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.39
