@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.43] - 2026-07-12
+
+### Added
+
+- Every page, including the 404, now closes with a quiet copyright line in the footer: Copyright © Jayden Yoon ZK with the current year, All Rights Reserved. The year keeps itself current.
+
 ## [1.4.42] - 2026-07-12
 
 ### Added
@@ -414,6 +420,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.43]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.43
 [1.4.42]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.42
 [1.4.41]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.41
 [1.4.40]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.40

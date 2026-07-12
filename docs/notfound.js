@@ -209,3 +209,7 @@ console.info(
   "background:#abcf37;color:#101400;font-weight:700;padding:2px 8px;border-radius:999px",
   "color:inherit"
 );
+
+// The footer's copyright year keeps itself current.
+const yearEl = document.getElementById("copyright-year");
+if (yearEl) yearEl.textContent = String(new Date().getFullYear());
