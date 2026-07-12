@@ -333,6 +333,10 @@ main:focus { outline: none; }
 .key-link:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-edge-primary), 0 4px 4px var(--btn-ambient), inset 0 2px 6px 1px rgba(0, 0, 0, 0.28); }
 /* In light mode --accent is the deep text green; the key wears the brand
    chartreuse instead, exactly like the primary buttons. */
+/* Keys and tool cards are buttons, not prose links: the global a:hover
+   underline stays off them in every state. */
+.key-link:hover, .key-link:focus, .key-link:active,
+.tool-grid a:hover, .tool-grid a:focus, .tool-grid a:active { text-decoration: none; }
 html[data-theme="light"] .key-link { background: #abcf37; color: #101400; }
 @media (hover: hover) {
   html[data-theme="light"] .key-link:hover { background: #bcdf4e; }
