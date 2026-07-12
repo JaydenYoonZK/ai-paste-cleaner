@@ -653,7 +653,7 @@ footer {
   font-size: 0.9rem;
 }
 
-footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 26px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: center; text-align: center; }
 
 /* The legal line closes the page quietly: its own hairline, a size down
    and a shade fainter than the footer links, so it reads as a colophon
