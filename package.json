@@ -1,6 +1,6 @@
 {
   "name": "ai-paste-cleaner",
-  "version": "1.4.52",
+  "version": "1.4.53",
   "description": "Inspect and clean invisible Unicode, hidden tag payloads, and optional typographic substitutions in pasted text.",
   "type": "module",
   "private": true,

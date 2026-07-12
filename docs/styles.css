@@ -749,10 +749,18 @@ html.theme-fading :where(*:not(.theme-toggle):not(.theme-toggle *))::after {
    against the text centers the drawing's visual mass too. The sprout is
    portrait, so it takes a narrower width to keep its size in proportion. */
 .why-split .art-sprout { width: min(100%, 212px); justify-self: center; }
-/* The story's sprout rides high, anchored toward the heading rather than
-   hanging at the paragraph's midline. */
-.story-split { align-items: start; }
-.story-split .art-sprout { margin-top: -30px; }
+/* The story's sprout takes its height from the text: it reaches from just
+   above the paragraph down to exactly its last line, so no empty band opens
+   under the text however long or short it runs. Absolute positioning keeps
+   the drawing out of the row-height math; the grid column stays reserved. */
+.story-split { position: relative; align-items: start; }
+.story-split .art-sprout {
+  position: absolute;
+  top: -34px;
+  right: 40px;
+  height: calc(100% + 34px);
+  width: auto;
+}
 @media (max-width: 900px) {
   .why-split { grid-template-columns: 1fr; }
   .why-split .why-art { display: none; }

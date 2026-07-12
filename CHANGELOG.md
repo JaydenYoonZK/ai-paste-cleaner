@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.53] - 2026-07-12
+
+### Fixed
+
+- The story's sprout now takes its height from the text beside it, reaching from just above the paragraph to exactly its last line. The empty band that used to open under short text is gone.
+
 ## [1.4.52] - 2026-07-12
 
 ### Changed
@@ -478,6 +484,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.53]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.53
 [1.4.52]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.52
 [1.4.51]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.51
 [1.4.50]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.50
