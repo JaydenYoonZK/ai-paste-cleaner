@@ -3,6 +3,16 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.55] - 2026-07-12
+
+### Added
+
+- An "All projects" pill at the end of the navigation and a footer link, both pointing at the new projects directory, one page that lists every tool.
+
+### Fixed
+
+- The structured metadata's softwareVersion had drifted from the package version and is back in sync.
+
 ## [1.4.54] - 2026-07-12
 
 ### Changed
@@ -490,6 +500,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.4.55]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.55
 [1.4.54]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.54
 [1.4.53]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.53
 [1.4.52]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.52
