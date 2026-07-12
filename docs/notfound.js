@@ -213,3 +213,11 @@ console.info(
 // The footer's copyright year keeps itself current.
 const yearEl = document.getElementById("copyright-year");
 if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+// The nav lifts with a soft shadow once the page scrolls beneath it.
+const navBar = document.querySelector(".site-nav");
+if (navBar) {
+  const syncNavShadow = () => navBar.classList.toggle("scrolled", scrollY > 8);
+  addEventListener("scroll", syncNavShadow, { passive: true });
+  syncNavShadow();
+}
