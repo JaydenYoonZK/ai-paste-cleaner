@@ -36,7 +36,10 @@ jobs:
         run: npm test
 
       - name: Check JavaScript syntax
-        run: node --check docs/cleaner.js && node --check docs/app.js && node --check scripts/export-rules.mjs
+        run: node --check docs/cleaner.js && node --check docs/app.js && node --check scripts/export-rules.mjs && node --check bin/cli.mjs
+
+      - name: The CLI scans this repository's own documentation
+        run: node bin/cli.mjs README.md CHANGELOG.md CONTRIBUTING.md
 
       - name: Regenerate ruleset
         run: npm run export-rules
