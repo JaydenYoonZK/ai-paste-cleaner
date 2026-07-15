@@ -1,9 +1,15 @@
 {
   "name": "ai-paste-cleaner",
-  "version": "1.4.60",
-  "description": "Inspect and clean invisible Unicode, hidden tag payloads, and optional typographic substitutions in pasted text.",
+  "version": "1.5.0",
+  "description": "Inspect and clean invisible Unicode, hidden tag payloads, and optional typographic substitutions in text, files, and pipes.",
   "type": "module",
-  "private": true,
+  "bin": { "ai-paste-cleaner": "bin/cli.mjs" },
+  "exports": { ".": "./docs/cleaner.js" },
+  "files": [
+    "bin/",
+    "docs/cleaner.js",
+    "CHANGELOG.md"
+  ],
   "engines": {
     "node": ">=22"
   },
@@ -12,10 +18,27 @@
     "export-rules": "node scripts/export-rules.mjs",
     "serve": "python3 -m http.server 8321 -d docs"
   },
+  "keywords": [
+    "unicode",
+    "invisible-characters",
+    "zero-width-space",
+    "hidden-characters",
+    "watermark",
+    "trojan-source",
+    "homoglyph",
+    "confusables",
+    "sanitizer",
+    "cli",
+    "lint"
+  ],
   "license": "MIT",
   "author": "Jayden Yoon ZK",
+  "homepage": "https://jaydenyoonzk.github.io/ai-paste-cleaner/",
   "repository": {
     "type": "git",
     "url": "https://github.com/JaydenYoonZK/ai-paste-cleaner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JaydenYoonZK/ai-paste-cleaner/issues"
   }
 }

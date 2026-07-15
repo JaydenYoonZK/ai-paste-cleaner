@@ -3,6 +3,23 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.5.0] - 2026-07-15
+
+The web tool becomes a developer tool: the same engine now runs on files, folders, pipes, and CI.
+
+### Added
+
+- Command line tool: `npx ai-paste-cleaner <files, folders, or ->` scans for every category the browser tool knows, reports each finding with line and column, character code, name, and the planned fix, and decodes hidden tag payloads.
+- `--write` fixes files in place with the browser tool's exact preservation rules; recognized emoji internals, script shaping, flag tags, and the other exempt contexts are never touched.
+- Stdin pipe mode: `pbpaste | ai-paste-cleaner - | pbcopy` cleans the clipboard in one line, with the summary on stderr so pipes stay clean.
+- CI gating: the scan exits 1 when it finds something to fix, 0 when clean, 2 on usage errors, and `--json` emits a machine-readable report.
+- Options: `--typography`, `--em-dash comma|hyphen|keep`, `--only`, `--skip`, `--list`, `--quiet`, and `--no-color` with NO_COLOR respected.
+- Directory scanning skips node_modules, .git, build output, hidden folders, and binary files automatically.
+- npm package: the CLI installs as `ai-paste-cleaner`, and the engine imports as `import { analyze, clean } from "ai-paste-cleaner"`.
+- Fifteen end-to-end CLI tests covering exit codes, write round-trips, preservation guarantees, stdin piping, JSON shape, and directory walking.
+- The CI workflow now syntax-checks the CLI and scans this repository's own documentation with it as a release gate.
+- A FAQ entry on the site covering file scanning and CI use.
+
 ## [1.4.60] - 2026-07-12
 
 ### Fixed
@@ -530,6 +547,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.5.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.0
 [1.4.60]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.60
 [1.4.59]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.59
 [1.4.58]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.58
