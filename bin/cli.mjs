@@ -5,7 +5,7 @@
 // Usage: npx ai-paste-cleaner <files, folders, or ->
 
 import { readFileSync, writeFileSync, statSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { join, basename } from "node:path";
 import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "../docs/cleaner.js";
 
 const VERSION = JSON.parse(
@@ -124,7 +124,7 @@ function collect(p, out, depth = 0) {
   let st;
   try { st = statSync(p); } catch { fail(`Cannot read ${p}`); }
   if (st.isDirectory()) {
-    if (depth > 0 && SKIP_DIRS.has(p.split("/").pop())) return;
+    if (depth > 0 && SKIP_DIRS.has(basename(p))) return;
     for (const entry of readdirSync(p)) {
       if (depth === 0 || !entry.startsWith(".")) collect(join(p, entry), out, depth + 1);
     }
