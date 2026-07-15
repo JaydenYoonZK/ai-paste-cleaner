@@ -30,14 +30,14 @@
       document.documentElement.dataset.theme = t;
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=1.4.60">
+  <link rel="stylesheet" href="styles.css?v=1.5.0">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "AI Paste Cleaner",
     "applicationCategory": "UtilitiesApplication",
-    "softwareVersion": "1.4.60",
+    "softwareVersion": "1.5.0",
     "operatingSystem": "Any (browser-based)",
     "url": "https://jaydenyoonzk.github.io/ai-paste-cleaner/",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
@@ -337,6 +337,12 @@
           <div class="faq-a-inner"><p>No. Unicode defines specialized variation sequences and a much larger confusables dataset than this focused cleaner includes. Review mathematical, historical, and scholarly text carefully, and report false positives or missed characters through the project issue templates.</p></div>
         </div>
       </div>
+      <div class="faq-item">
+        <h3 class="faq-q"><button type="button" id="faq-b6" aria-expanded="false" aria-controls="faq-a6"><span>Can I scan whole files, or run this in CI?</span><span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a6" role="region" aria-labelledby="faq-b6">
+          <div class="faq-a-inner"><p>Yes. The same engine ships as a command line tool: <code>npx ai-paste-cleaner README.md src/</code> scans files and folders with line and column positions, <code>pbpaste | npx ai-paste-cleaner - | pbcopy</code> cleans your clipboard in place, and the scan exits nonzero when it finds something, so it drops straight into CI. The <a href="https://github.com/JaydenYoonZK/ai-paste-cleaner#use-it-from-the-command-line" rel="noopener">README</a> covers every flag.</p></div>
+        </div>
+      </div>
     </div>
 
     <h2 id="why-built">🌱 Why I built this</h2>
@@ -387,6 +393,6 @@
 </footer>
 
 <button id="to-top" class="to-top" type="button" aria-label="Back to top">&#8593;</button>
-<script type="module" src="app.js?v=1.4.60"></script>
+<script type="module" src="app.js?v=1.5.0"></script>
 </body>
 </html>
