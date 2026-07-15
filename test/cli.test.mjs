@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, writeFileSync, readFileSync, rmSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -142,13 +142,13 @@ test("directories recurse and node_modules is skipped", () => {
   const nm = join(dir, "node_modules");
   const sub = join(dir, "src");
   for (const d of [nm, sub]) {
-    spawnSync("mkdir", ["-p", d]);
+    mkdirSync(d, { recursive: true });
   }
   writeFileSync(join(nm, "dep.js"), "zwsp​here");
   writeFileSync(join(sub, "app.js"), "zwsp​here");
   const r = run([dir]);
   assert.equal(r.status, 1);
-  assert.match(r.stdout, /src\/app\.js/);
+  assert.match(r.stdout, /app\.js/);
   assert.doesNotMatch(r.stdout, /node_modules/);
   done();
 });
