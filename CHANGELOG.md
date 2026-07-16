@@ -3,6 +3,23 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.6.1] - 2026-07-16
+
+Follow-up fixes from an adversarial review of the 1.6.0 changes.
+
+### Fixed
+
+- The 1.6.0 em dash rewrite could delete an exempt no-break space (French spacing around guillemets and punctuation) when it sat next to a converted dash. Absorption now skips exempt spaces, so legitimate text is preserved exactly as promised.
+- A run of em dashes ending a line or the text (`a\u2014\u2014`) no longer leaves a trailing space.
+- Cleaning now reaches a true fixed point. Removing an invisible character can fuse two tokens into a word that only a rescan recognizes as a lookalike spoof, so cleaning repeats until stable; `clean(clean(x))` always equals `clean(x)`.
+- A line-opening em dash is kept no matter which kind of space indents it, including the exotic spaces this tool itself normalizes.
+
+### Changed
+
+- The "see --typography" hint in a clean summary no longer appears when typography was turned off by `--only` or `--skip`, where the flag would have no effect.
+- When every file named on the command line is skipped, the tool reports what it skipped rather than a bare "No files to scan".
+- Tests grew to 90, adding French-spacing preservation, dash-run line ends, fixed-point idempotency, indent-agnostic line starts, `--no-color`, and oversize-file messaging.
+
 ## [1.6.0] - 2026-07-16
 
 A deep quality pass over the whole tool: engine, command line, page, and docs. Several of these were found by stress-testing ahead of a wider launch.
@@ -17,8 +34,8 @@ A deep quality pass over the whole tool: engine, command line, page, and docs. S
 - `--em-dash keep` now truly keeps: kept dashes no longer count as fixable, no longer fail CI with exit 1, no longer appear as rows promising a replacement, and `--write` no longer claims to have fixed them.
 - `--write` on a file it cannot write reports one clean line and exit code 2 instead of a raw stack trace.
 - One unreadable entry (a broken symlink, a permission-denied file) no longer aborts a whole directory scan. It is skipped with a note, counted in the summary, and everything else is still scanned.
-- `- --json` (stdin JSON) now emits the same envelope as file mode, reports `fixed: false` honestly, and exits 1 when there are findings, so one schema and one exit contract cover every mode.
-- A file over 10 MB named on the command line now explains that it was skipped instead of failing with "No files to scan"; the limit is documented in `--help` and skipped files are counted in the summary.
+- `- --json` (stdin JSON) now emits the same envelope as file mode, reports `fixed: false` honestly, and exits 1 when anything needs fixing, so one schema and one exit contract cover every mode.
+- A file over 10 MB named on the command line now names the limit and skips the file with a clear message; the limit is documented in `--help` and skipped files are counted in the summary.
 - `--no-color` now also strips the banner's colors, matching its promise of plain output.
 - The 404 page works at any depth. Its stylesheet, script, icons, and links were relative, so a missing URL two segments deep rendered an unstyled page whose home button looped to itself. Everything on it is now project-absolute.
 - The back-to-top button can no longer be tab-focused while invisible.
@@ -33,14 +50,14 @@ A deep quality pass over the whole tool: engine, command line, page, and docs. S
 - Report labels are truthful about why a category is off: "skipped by --skip", "excluded by --only", or "off by default".
 - A clean scan now mentions optional findings it was told not to act on, such as "all clean (3 optional, see --typography)".
 - Using `--em-dash` without `--typography` warns that it has no effect instead of silently ignoring the choice.
-- The kept-characters table on the page lists the typography codes accurately.
+- The "what this tool finds" table on the page describes the typography category honestly instead of a code range that was wrong in both directions.
 
 ### Added
 
 - PNG favicon fallback and an Apple touch icon, so Safari tabs and home-screen pins show the paragraph mark; the 404 page now has icons too.
 - A `theme-color` meta that follows the active theme, so mobile browser chrome blends with the page.
 - `funding` field in package.json, so `npm fund` points at GitHub Sponsors.
-- Regression tests for everything above: 83 tests now cover the engine rule table end to end, every CLI flag, both banner color paths, and the new dash, joiner, flag, and idempotency behavior.
+- Regression tests for everything above: the suite grew to cover the engine rule table end to end, every documented CLI flag, both banner color paths, and the new dash, joiner, flag, and idempotency behavior.
 
 ## [1.5.3] - 2026-07-16
 
@@ -604,6 +621,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.6.1]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.6.1
 [1.6.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.6.0
 [1.5.3]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.3
 [1.5.2]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.2

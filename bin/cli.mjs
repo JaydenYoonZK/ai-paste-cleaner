@@ -243,7 +243,14 @@ if (opts.stdin) {
 
 const files = [];
 for (const p of paths) collect(p, files);
-if (!files.length) fail("No files to scan");
+if (!files.length) {
+  // If everything named was skipped, say why rather than a bare failure.
+  const why = [];
+  if (skipped.large) why.push(`${skipped.large} over 10 MB`);
+  if (skipped.binary) why.push(`${skipped.binary} binary`);
+  if (skipped.unreadable) why.push(`${skipped.unreadable} unreadable`);
+  fail(why.length ? `Nothing to scan: ${why.join(", ")}` : "No files to scan");
+}
 
 const report = [];
 
@@ -340,8 +347,11 @@ if (skipped.binary) skippedParts.push(`${skipped.binary} binary skipped`);
 if (skipped.large) skippedParts.push(`${skipped.large} large skipped`);
 if (skipped.unreadable) skippedParts.push(`${skipped.unreadable} unreadable skipped`);
 
+// Only suggest --typography when it would actually change this run: if the
+// user turned typography off with --only or --skip, the flag will not help.
+const typographyReachable = disabledLabel("typography") === "off by default";
 const optionalHint = totalOpt
-  ? `${totalOpt} optional${report.some(r => r.scan.optional.some(f => f.category === "typography")) ? ", see --typography" : ""}`
+  ? `${totalOpt} optional${typographyReachable && report.some(r => r.scan.optional.some(f => f.category === "typography")) ? ", see --typography" : ""}`
   : "";
 
 const summary = `${report.length} file${report.length === 1 ? "" : "s"} scanned` +

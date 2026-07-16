@@ -302,3 +302,42 @@ test("a clean summary mentions optional findings", () => {
   assert.match(r.stdout, /all clean \(1 optional, see --typography\)/);
   done();
 });
+
+test("the optional hint is suppressed when typography was turned off by the user", () => {
+  const { dir, done } = tempDir();
+  const f = join(dir, "q.md");
+  writeFileSync(f, "say \u201Chi\u201D");
+  const shown = run([f]);
+  assert.match(shown.stdout, /all clean \(2 optional, see --typography\)/);
+  const only = run(["--only", "invisible", f]);
+  assert.match(only.stdout, /all clean \(2 optional\)/);
+  assert.doesNotMatch(only.stdout, /see --typography/);
+  done();
+});
+
+test("a lone oversize file explains itself instead of a bare failure", () => {
+  const { dir, done } = tempDir();
+  const f = join(dir, "big.txt");
+  writeFileSync(f, Buffer.alloc(10 * 1024 * 1024 + 1, 0x61));
+  const r = run([f]);
+  assert.equal(r.status, 2);
+  assert.match(r.stderr, /larger than 10 MB, skipped/);
+  assert.match(r.stderr, /Nothing to scan: 1 over 10 MB/);
+  done();
+});
+
+test("--no-color produces output with no ANSI escape sequences", () => {
+  const { dir, done } = tempDir();
+  const f = join(dir, "a.md");
+  writeFileSync(f, "a\u200Bb");
+  // run() sets NO_COLOR, which would strip color anyway; drop it so the flag
+  // is what is under test.
+  const r = spawnSync(process.execPath, [CLI, "--no-color", f], {
+    encoding: "utf8",
+    env: Object.fromEntries(Object.entries(process.env).filter(([k]) => k !== "NO_COLOR"))
+  });
+  assert.equal(r.status, 1);
+  assert.doesNotMatch(r.stdout, /\u001b\[/);
+  assert.doesNotMatch(r.stderr, /\u001b\[/);
+  done();
+});

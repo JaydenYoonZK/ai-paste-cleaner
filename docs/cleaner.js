@@ -154,6 +154,10 @@ const CANCEL_TAG = 0xE007F;
 // Scotland, Wales. Any other tag body behind a black flag is treated as a
 // hidden payload, not a flag.
 const RGI_SUBDIVISION_FLAGS = new Set(["gbeng", "gbsct", "gbwls"]);
+// Whitespace that can indent a line, including the exotic spaces this tool
+// normalizes, so a dash opening a line is recognized however it was indented.
+const SPACE_LIKE = /[ \t\u00A0\u202F\u2000-\u200A\u1680\u205F\u3000]/;
+const isSpaceLike = (c) => c !== "" && SPACE_LIKE.test(c);
 
 function ruleFor(cp) {
   const single = CHAR_RULES.get(cp);
@@ -343,8 +347,10 @@ export function analyze(text) {
       } else {
         // A dash opening a line is deliberate typography (dialogue, lists,
         // attributions), not the mid-sentence pattern this category targets.
+        // Any whitespace can indent it, including the exotic spaces this tool
+        // itself normalizes, so the walk-back skips all of them.
         let k = i - 1;
-        while (k >= 0 && (cps[k] === " " || cps[k] === "\t" || cps[k] === "\u00A0" || cps[k] === "\u202F")) k--;
+        while (k >= 0 && isSpaceLike(cps[k])) k--;
         if (k < 0 || cps[k] === "\n" || cps[k] === "\r") {
           exempt = true;
           note = "Em dash opening a line reads as a list or dialogue marker. Left alone.";
@@ -426,29 +432,66 @@ export const DEFAULT_OPTIONS = {
  * Clean text. Returns { text, removed, replaced } where removed/replaced
  * count the characters acted on. Exempt findings are always preserved.
  * A completed analysis may be supplied to avoid scanning the same text twice.
+ *
+ * Removing an invisible character can fuse two single-script tokens into one
+ * word that only a rescan recognizes as a lookalike spoof, so clean() runs to
+ * a fixed point (bounded): clean(clean(x)) === clean(x).
  */
 export function clean(text, options = {}, analysis = null) {
   const opts = { ...DEFAULT_OPTIONS, ...options };
+  let current = cleanOnce(text, opts, analysis);
+  let removed = current.removed;
+  let replaced = current.replaced;
+  let guard = 0;
+  while (current.changed && guard++ < 4) {
+    const next = cleanOnce(current.text, opts, null);
+    if (!next.changed) break;
+    removed += next.removed;
+    replaced += next.replaced;
+    current = next;
+  }
+  return { text: current.text, removed, replaced };
+}
+
+// One cleaning pass. Output is accumulated as chunks and joined once, so the
+// em dash branch can trim backwards without rescanning the whole result;
+// cleanOnce stays linear even on inputs with tens of thousands of findings.
+function cleanOnce(text, opts, analysis) {
   const { findings } = analysis ?? analyze(text);
-  // Output is accumulated as chunks and joined once, so the em dash branch
-  // can trim backwards without rescanning the whole result. clean() stays
-  // linear even on inputs with tens of thousands of findings.
   const parts = [];
   let cursor = 0;
   let removed = 0;
   let replaced = 0;
 
-  const isAbsorbable = (c) => c === " " || c === "\t" || c === "\u00A0" || c === "\u202F";
-  const trimTrailingSpace = () => {
+  // An exempt no-break space (French spacing, for example) must survive even
+  // when it sits next to a converted em dash, so absorption skips it. Any
+  // non-exempt no-break space has already become a plain space through its own
+  // finding, so trimming only plain spaces below leaves exempt ones intact.
+  const exemptSpaceAt = new Set();
+  for (const f of findings) {
+    if (f.exempt && (f.cp === 0x00A0 || f.cp === 0x202F)) exemptSpaceAt.add(f.index);
+  }
+  const canAbsorb = (idx) => {
+    const c = text[idx];
+    if (c === " " || c === "\t") return true;
+    if ((c === "\u00A0" || c === "\u202F") && !exemptSpaceAt.has(idx)) return true;
+    return false;
+  };
+  const trimTrailingPlainSpace = () => {
     while (parts.length) {
       const last = parts[parts.length - 1];
       let end = last.length;
-      while (end > 0 && isAbsorbable(last[end - 1])) end--;
+      while (end > 0 && (last[end - 1] === " " || last[end - 1] === "\t")) end--;
       if (end === 0) { parts.pop(); continue; }
       if (end < last.length) parts[parts.length - 1] = last.slice(0, end);
       return;
     }
   };
+  const dropTrailingSpaceOnce = () => {
+    const last = parts.length - 1;
+    if (last >= 0 && parts[last].endsWith(" ")) parts[last] = parts[last].slice(0, -1);
+  };
+
   // Text index just past the last converted em dash, for collapsing runs.
   let lastDashEnd = -1;
 
@@ -461,24 +504,28 @@ export function clean(text, options = {}, analysis = null) {
       if (opts.emDash === "keep") continue; // stays in the pending slice
 
       let after = f.index + f.length;
-      while (after < text.length && isAbsorbable(text[after])) after++;
+      while (after < text.length && canAbsorb(after)) after++;
+      const atBreak = after >= text.length || text[after] === "\n" || text[after] === "\r";
 
-      // A second dash separated from the first by nothing but spaces joins
-      // the same pause: "a — — b" and "a——b" both become "a, b".
-      const pending = text.slice(cursor, f.index);
-      if (lastDashEnd === cursor && /^[ \t\u00A0\u202F]*$/.test(pending)) {
+      // A second dash separated from the first by nothing but absorbable
+      // spaces joins the same pause: "a — — b" and "a——b" both become "a, b".
+      let collapsible = lastDashEnd === cursor;
+      for (let p = cursor; collapsible && p < f.index; p++) collapsible = canAbsorb(p);
+      if (collapsible) {
         removed++;
         cursor = after;
         lastDashEnd = after;
+        // The first dash added a trailing space assuming more text followed;
+        // if the run actually ends the line, take that space back.
+        if (atBreak) dropTrailingSpaceOnce();
         continue;
       }
 
-      parts.push(pending);
-      trimTrailingSpace();
-      // The comma binds to the word before it; at the end of a line or of
-      // the text, the pause mark stands alone with no trailing space.
+      parts.push(text.slice(cursor, f.index));
+      trimTrailingPlainSpace();
+      // The comma binds to the word before it; at the end of a line or of the
+      // text, the pause mark stands alone with no trailing space.
       const core = opts.emDash === "hyphen" ? " -" : ",";
-      const atBreak = after >= text.length || text[after] === "\n" || text[after] === "\r";
       parts.push(atBreak ? core : core + " ");
       replaced++;
       cursor = after;
@@ -493,7 +540,8 @@ export function clean(text, options = {}, analysis = null) {
   }
   parts.push(text.slice(cursor));
 
-  return { text: parts.join(""), removed, replaced };
+  const out = parts.join("");
+  return { text: out, removed, replaced, changed: out !== text };
 }
 
 /** Machine-readable ruleset, used by scripts/export-rules.mjs. */

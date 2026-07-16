@@ -321,3 +321,36 @@ test("clean(clean(x)) === clean(x) across mixed samples", () => {
     assert.equal(clean(once, { typography: true }).text, once);
   }
 });
+
+test("exempt no-break spaces survive next to a converted em dash", () => {
+  const t = { typography: true };
+  // French spacing (NBSP after a guillemet, NNBSP before "!") is exempt and
+  // must not be eaten by em dash absorption.
+  assert.equal(clean("« — mot", t).text, "« , mot");
+  const attends = clean("Attends — !", t).text;
+  assert.ok(attends.includes(" "), "exempt NNBSP before ! is preserved");
+  // A non-exempt no-break space around a dash is still absorbed, no doubling.
+  assert.equal(clean("word — word", t).text, "word, word");
+});
+
+test("em dash runs ending at a line break or end of text leave no trailing space", () => {
+  const t = { typography: true };
+  assert.equal(clean("a——", t).text, "a,");
+  assert.equal(clean("a — —\nb", t).text, "a,\nb");
+  assert.equal(clean("word—", t).text, "word,");
+});
+
+test("a line-opening em dash is kept however the line is indented", () => {
+  const t = { typography: true };
+  for (const space of [" ", "\t", " ", " ", "　", " "]) {
+    const out = clean("line\n" + space + "— x", t).text;
+    assert.ok(out.includes("—"), `dash after ${space.codePointAt(0).toString(16)} indent should be kept`);
+  }
+});
+
+test("clean reaches a fixed point when a removal fuses an all-lookalike word", () => {
+  // Cyrillic а + ZWSP + "pple": the split hides the spoof from a single pass.
+  const once = clean("а​pple").text;
+  assert.equal(clean(once).text, once, "second pass must not change the first pass output");
+  assert.equal(clean(once).removed + clean(once).replaced, 0);
+});
