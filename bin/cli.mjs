@@ -7,6 +7,7 @@
 import { readFileSync, writeFileSync, statSync, readdirSync } from "node:fs";
 import { join, basename } from "node:path";
 import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "../docs/cleaner.js";
+import { printBanner } from "./banner.mjs";
 
 const VERSION = JSON.parse(
   readFileSync(new URL("../package.json", import.meta.url), "utf8")
@@ -53,7 +54,7 @@ const paths = [];
 
 for (let i = 0; i < args.length; i++) {
   const a = args[i];
-  if (a === "-h" || a === "--help") { console.log(HELP); process.exit(0); }
+  if (a === "-h" || a === "--help") { printBanner(`ai-paste-cleaner v${VERSION}`); console.log(HELP); process.exit(0); }
   else if (a === "-V" || a === "--version") { console.log(VERSION); process.exit(0); }
   else if (a === "--write") opts.write = true;
   else if (a === "--json") opts.json = true;
@@ -79,6 +80,7 @@ for (let i = 0; i < args.length; i++) {
 
 if (process.env.NO_COLOR || !process.stdout.isTTY) opts.color = false;
 if (opts.stdin && paths.length) fail("Use either file paths or -, not both");
+if (!opts.json && !opts.quiet) printBanner(`ai-paste-cleaner v${VERSION}`);
 if (!opts.stdin && !paths.length) { console.log(HELP); process.exit(2); }
 
 function fail(msg) {

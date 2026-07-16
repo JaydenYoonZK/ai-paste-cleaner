@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.5.3] - 2026-07-16
+
+### Added
+
+- A Jayden Yoon ZK brand banner in the terminal: the name in ASCII art prints when the tool runs in an interactive terminal, and stays out of pipes, JSON, and CI logs so automated runs see only their data.
+
 ## [1.5.2] - 2026-07-15
 
 ### Added
