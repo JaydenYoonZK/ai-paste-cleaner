@@ -1,5 +1,5 @@
 /*! AI Paste Cleaner | Copyright (c) 2026 Jayden Yoon ZK | MIT License | https://github.com/JaydenYoonZK/ai-paste-cleaner */
-import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.5.3";
+import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.6.0";
 
 const $ = (id) => document.getElementById(id);
 const input = $("input");
@@ -96,9 +96,9 @@ function renderInspector(text, findings) {
     const color = CAT_COLOR[f.category];
     const tip = esc(`${f.code} ${f.name}${f.note ? " · " + f.note : ""}${f.exempt ? " · kept" : ""}`);
     if (f.category === "typography" || f.category === "confusables") {
-      html += `<span class="hl ${color}" title="${tip}" aria-label="${tip}" tabindex="0">${esc(f.char)}</span>`;
+      html += `<span class="hl ${color}" role="img" title="${tip}" aria-label="${tip}" tabindex="0">${esc(f.char)}</span>`;
     } else {
-      html += `<span class="badge ${f.exempt ? "exempt" : color}" title="${tip}" aria-label="${tip}" tabindex="0">${f.exempt ? "\u2713 " : ""}${shortLabel(f)}</span>`;
+      html += `<span class="badge ${f.exempt ? "exempt" : color}" role="img" title="${tip}" aria-label="${tip}" tabindex="0">${f.exempt ? "\u2713 " : ""}${shortLabel(f)}</span>`;
     }
     cursor = f.index + f.length;
   }
@@ -270,7 +270,8 @@ themeToggle.addEventListener("click", () => {
     const vt = document.startViewTransition(() => {
       const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
       document.documentElement.dataset.theme = next;
-      localStorage.setItem("theme", next);
+      document.querySelector('meta[name="theme-color"]')?.setAttribute("content", next === "light" ? "#f6f4ee" : "#0d0c0a");
+      try { localStorage.setItem("theme", next); } catch { /* storage may be blocked */ }
       syncThemeIcon();
     });
     vt.finished.finally(() => document.documentElement.classList.remove("vt-active"));
@@ -281,12 +282,13 @@ themeToggle.addEventListener("click", () => {
   themeFadeTimer = setTimeout(() => document.documentElement.classList.remove("theme-fading"), 500);
   const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
   document.documentElement.dataset.theme = next;
-  localStorage.setItem("theme", next);
+      document.querySelector('meta[name="theme-color"]')?.setAttribute("content", next === "light" ? "#f6f4ee" : "#0d0c0a");
+  try { localStorage.setItem("theme", next); } catch { /* storage may be blocked */ }
   syncThemeIcon();
 });
 syncThemeIcon();
 
-if (reducedMotion.matches) document.querySelector(".hero-art svg")?.pauseAnimations?.();
+if (reducedMotion.matches) document.querySelectorAll("svg").forEach((el) => el.pauseAnimations?.());
 
 // Use a reading line below the sticky header so menu jumps and scrolling
 // resolve the active section consistently.

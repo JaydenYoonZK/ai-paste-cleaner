@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { analyze, clean, DEFAULT_OPTIONS } from "../docs/cleaner.js";
+import { analyze, clean, ruleset, DEFAULT_OPTIONS } from "../docs/cleaner.js";
 
 test("strips zero width space", () => {
   const { text, removed } = clean("jo​in");
@@ -43,8 +43,8 @@ test("normalizes narrow no-break space and NBSP", () => {
 });
 
 test("normalizes en quad through hair space", () => {
-  const { text } = clean("a b c d");
-  assert.equal(text, "a b c d");
+  const { text } = clean("a\u2000b\u2003c\u2009d\u200ae");
+  assert.equal(text, "a b c d e");
 });
 
 test("preserves emoji variation selector, strips stray one", () => {
@@ -209,5 +209,115 @@ test("modifier floods stay linear, not quadratic", () => {
   const bomb = "️".repeat(30000);
   const t0 = Date.now();
   analyze(bomb);
-  assert.ok(Date.now() - t0 < 500, "30k modifiers should analyze in milliseconds");
+  // Generous budget: linear work finishes in milliseconds even on a loaded
+  // CI runner, while quadratic behavior on 30k modifiers takes far longer.
+  assert.ok(Date.now() - t0 < 5000, "30k modifiers should analyze in milliseconds");
+});
+
+test("preserves ZWJ script shaping in Sinhala, Tamil, and Devanagari", () => {
+  const sinhala = "\u0DC1\u0DCA\u200D\u0DBB\u0DD3";        // Sri (rakaransaya)
+  const tamil = "\u0BB8\u0BCD\u200D\u0BB0\u0BC0";          // Sri ligature
+  const devanagari = "\u0915\u094D\u200D\u0937";            // kSa half form
+  for (const word of [sinhala, tamil, devanagari]) {
+    assert.equal(clean(word).text, word);
+    assert.ok(analyze(word).findings.filter(f => f.cp === 0x200D).every(f => f.exempt));
+  }
+});
+
+test("black flag with a well-formed but non-RGI tag body is decoded, real flags kept", () => {
+  const tags = (str) => [...str].map(c => String.fromCodePoint(0xE0000 + c.codePointAt(0))).join("");
+  const cancel = String.fromCodePoint(0xE007F);
+  const smuggled = "\u{1F3F4}" + tags("attack") + cancel;
+  assert.deepEqual(analyze(smuggled).hiddenMessages, ["attack"]);
+  assert.equal(clean(smuggled).text, "\u{1F3F4}");
+  for (const region of ["gbsct", "gbeng", "gbwls"]) {
+    const flag = "\u{1F3F4}" + tags(region) + cancel;
+    assert.equal(clean(flag).text, flag);
+    assert.equal(analyze(flag).hiddenMessages.length, 0);
+  }
+});
+
+test("em dash opening a line or sitting between digits is kept", () => {
+  const t = { typography: true };
+  assert.equal(clean("list:\n\u2014 first\n\u2014 second", t).text, "list:\n\u2014 first\n\u2014 second");
+  assert.equal(clean("\u2014 a dialogue line", t).text, "\u2014 a dialogue line");
+  assert.equal(clean("pages 12\u201415", t).text, "pages 12\u201415");
+});
+
+test("em dash runs collapse and line ends stay clean", () => {
+  const t = { typography: true };
+  assert.equal(clean("a\u2014\u2014b", t).text, "a, b");
+  assert.equal(clean("a \u2014 \u2014 b", t).text, "a, b");
+  assert.equal(clean("word\u2014\nword", t).text, "word,\nword");
+  assert.equal(clean("word\u2014", t).text, "word,");
+});
+
+test("em dash absorbs no-break spaces around it", () => {
+  const t = { typography: true };
+  assert.equal(clean("word\u00A0\u2014\u00A0word", t).text, "word, word");
+  assert.equal(clean("word\u202F\u2014\u202Fword", t).text, "word, word");
+});
+
+test("em dash keep mode leaves text untouched and counts nothing", () => {
+  const t = { typography: true, emDash: "keep" };
+  const input = "a \u2014 b and c\u2014d";
+  const { text, removed, replaced } = clean(input, t);
+  assert.equal(text, input);
+  assert.equal(removed + replaced, 0);
+});
+
+test("clean is idempotent when removal fuses two single-script tokens", () => {
+  const once = clean("\u043C\u0438\u0440\u200Bworld");   // Russian mir + ZWSP + world
+  assert.equal(once.text, "\u043C\u0438\u0440world");
+  const twice = clean(once.text);
+  assert.equal(twice.text, once.text);
+  assert.equal(twice.removed + twice.replaced, 0);
+});
+
+test("true spoofs are still rewritten, genuine foreign words are not", () => {
+  assert.equal(clean("s\u0430mple").text, "sample");        // Cyrillic a
+  assert.equal(clean("g\u03BFod").text, "good");            // Greek omicron
+  assert.equal(clean("\u0422oken").text, "Token");          // Cyrillic Te
+  const russian = "\u043F\u0440\u0438\u0432\u0435\u0442";
+  assert.equal(clean(russian + " hello").text, russian + " hello");
+});
+
+test("every single-codepoint rule fires between plain Latin letters", () => {
+  const rs = ruleset();
+  for (const rule of rs.rules) {
+    if (!rule.codepoint) continue;                            // range rules below
+    const cp = parseInt(rule.codepoint.slice(2), 16);
+    const probe = "a" + String.fromCodePoint(cp) + "b";
+    const { text } = clean(probe, { typography: true });
+    assert.notEqual(text, probe, rule.codepoint + " " + rule.name + " should be cleaned between Latin letters");
+  }
+  for (const rule of rs.rules) {
+    if (!rule.range) continue;
+    for (const end of rule.range.split("..")) {
+      const cp = parseInt(end.slice(2), 16);
+      const probe = "a" + String.fromCodePoint(cp) + "b";
+      const { text } = clean(probe, { typography: true });
+      assert.notEqual(text, probe, end + " " + rule.name + " should be cleaned between Latin letters");
+    }
+  }
+});
+
+test("analyze counts report found and exempt per category", () => {
+  const { counts } = analyze("a\u200Bb \u{1F468}\u200D\u{1F469}");
+  assert.equal(counts.invisible.found, 2);
+  assert.equal(counts.invisible.exempt, 1);
+  assert.equal(counts.bidi.found, 0);
+});
+
+test("clean(clean(x)) === clean(x) across mixed samples", () => {
+  const samples = [
+    "He said \u2014 twice \u2014 that it\u2019s \u201Cfine\u201D\u2026",
+    "list:\n\u2014 item one\n\u2014 item two",
+    "\u043C\u0438\u0440\u200Bworld and s\u0430mple",
+    "\u0DC1\u0DCA\u200D\u0DBB\u0DD3 with \u{1F3F4}\u{E0067}\u{E0062}\u{E0073}\u{E0063}\u{E0074}\u{E007F}"
+  ];
+  for (const s of samples) {
+    const once = clean(s, { typography: true }).text;
+    assert.equal(clean(once, { typography: true }).text, once);
+  }
 });

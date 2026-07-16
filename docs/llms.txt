@@ -1,10 +1,12 @@
 # AI Paste Cleaner
 
-> Reveal and safely remove invisible Unicode, hidden watermarks, and AI typography from pasted text. Runs entirely in the browser.
+> Reveal and safely remove invisible Unicode, hidden watermarks, and AI typography from pasted text. Runs in the browser and as a zero-dependency command line tool on npm.
 
 ## Tool
 
-- [AI Paste Cleaner](https://jaydenyoonzk.github.io/ai-paste-cleaner/): the tool itself, a static page that runs entirely in the browser with no accounts and no data collection
+- [AI Paste Cleaner](https://jaydenyoonzk.github.io/ai-paste-cleaner/): the browser tool, a static page that runs entirely on the visitor's device with no accounts and no data collection
+- [npm package](https://www.npmjs.com/package/ai-paste-cleaner): the same engine as a CLI (`npx ai-paste-cleaner`) for files, folders, pipes, and CI gates, plus an importable ES module
+- [Machine-readable ruleset](https://jaydenyoonzk.github.io/ai-paste-cleaner/data/rules.json): every detection rule and confusable mapping as JSON
 
 ## Documentation
 

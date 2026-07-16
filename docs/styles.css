@@ -251,6 +251,7 @@ button.primary:active {
 
 /* Hidden message alert */
 .alert {
+  overflow-wrap: anywhere;
   margin-top: 18px;
   padding: 16px 20px;
   background: var(--red-soft);
@@ -890,13 +891,16 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   font-size: 1.15rem;
   z-index: 50;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transform: translateY(10px);
-  transition: opacity 0.25s, transform 0.25s, box-shadow 0.2s;
+  transition: opacity 0.25s, transform 0.25s, box-shadow 0.2s, visibility 0s 0.25s;
   box-shadow: var(--fab-shadow);
   padding: 0;
 }
-.to-top.show { opacity: 1; pointer-events: auto; transform: none; }
+.to-top.show {
+  visibility: visible;
+  transition-delay: 0s; opacity: 1; pointer-events: auto; transform: none; }
 @media (hover: hover) {
 .to-top:hover { transform: translateY(-3px); background: #bcdf4e; border-color: #bcdf4e; box-shadow: var(--fab-shadow-hover); }
 }
@@ -1379,7 +1383,7 @@ button:disabled { pointer-events: auto; }
 /* Note shown when the inspector preview is truncated for very large pastes */
 .inspector-truncated { color: var(--ink-mute); font-style: italic; }
 
-/* Light mode focus and border accents follow the coral accent instead of the
+/* Light mode focus and border accents follow the light theme's deep green instead of the
    dark theme's chartreuse constants. */
 html[data-theme="light"] textarea:focus,
 html[data-theme="light"] input[type="text"]:focus,

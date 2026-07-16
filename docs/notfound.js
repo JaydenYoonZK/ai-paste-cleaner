@@ -21,7 +21,8 @@ themeToggle.addEventListener("click", () => {
     const vt = document.startViewTransition(() => {
       const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
       document.documentElement.dataset.theme = next;
-      localStorage.setItem("theme", next);
+      document.querySelector('meta[name="theme-color"]')?.setAttribute("content", next === "light" ? "#f6f4ee" : "#0d0c0a");
+      try { localStorage.setItem("theme", next); } catch { /* storage may be blocked */ }
       syncThemeIcon();
     });
     vt.finished.finally(() => document.documentElement.classList.remove("vt-active"));
@@ -32,7 +33,8 @@ themeToggle.addEventListener("click", () => {
   themeFadeTimer = setTimeout(() => document.documentElement.classList.remove("theme-fading"), 500);
   const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
   document.documentElement.dataset.theme = next;
-  localStorage.setItem("theme", next);
+      document.querySelector('meta[name="theme-color"]')?.setAttribute("content", next === "light" ? "#f6f4ee" : "#0d0c0a");
+  try { localStorage.setItem("theme", next); } catch { /* storage may be blocked */ }
   syncThemeIcon();
 });
 syncThemeIcon();
@@ -200,7 +202,7 @@ if (siteNav) {
 // tool opens without a connection after the first visit.
 if ("serviceWorker" in navigator) {
   addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(() => { /* offline support is optional */ });
+    navigator.serviceWorker.register("/ai-paste-cleaner/sw.js").catch(() => { /* offline support is optional */ });
   });
 }
 
@@ -213,3 +215,8 @@ console.info(
 // The footer's copyright year keeps itself current.
 const yearEl = document.getElementById("copyright-year");
 if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+// Reduced motion: SMIL loops are not covered by CSS rules, pause them directly.
+if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  document.querySelectorAll("svg").forEach((el) => el.pauseAnimations?.());
+}

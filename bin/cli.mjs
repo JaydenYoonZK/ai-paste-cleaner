@@ -28,7 +28,7 @@ Modes
 Options
   --json           machine-readable report on stdout
   --typography     also fix smart quotes, em dashes, and ellipses
-  --em-dash <s>    replacement for an em dash: comma, hyphen, keep
+  --em-dash <s>    with --typography: comma, hyphen, or keep
   --only <cats>    limit to these categories (comma separated)
   --skip <cats>    exclude these categories
   --list           print every finding instead of the first 20 per file
@@ -39,6 +39,8 @@ Options
 
 Categories
   ${Object.keys(CATEGORIES).join(", ")}
+
+Binary files and files over 10 MB are skipped and counted in the summary.
 
 Exit codes
   0 clean or fixed, 1 findings in report mode, 2 usage or read error`;
@@ -51,10 +53,15 @@ const opts = {
   only: null, skip: null, list: false, quiet: false, color: true, stdin: false
 };
 const paths = [];
+let emDashSet = false;
 
 for (let i = 0; i < args.length; i++) {
   const a = args[i];
-  if (a === "-h" || a === "--help") { printBanner(`ai-paste-cleaner v${VERSION}`); console.log(HELP); process.exit(0); }
+  if (a === "-h" || a === "--help") {
+    printBanner(`ai-paste-cleaner v${VERSION}`, { color: !process.env.NO_COLOR && !args.includes("--no-color") });
+    console.log(HELP);
+    process.exit(0);
+  }
   else if (a === "-V" || a === "--version") { console.log(VERSION); process.exit(0); }
   else if (a === "--write") opts.write = true;
   else if (a === "--json") opts.json = true;
@@ -63,6 +70,7 @@ for (let i = 0; i < args.length; i++) {
     const v = args[++i];
     if (!["comma", "hyphen", "keep"].includes(v)) fail(`--em-dash takes comma, hyphen, or keep (got "${v ?? ""}")`);
     opts.emDash = v;
+    emDashSet = true;
   }
   else if (a === "--only" || a === "--skip") {
     const v = (args[++i] ?? "").split(",").map(s => s.trim()).filter(Boolean);
@@ -80,12 +88,16 @@ for (let i = 0; i < args.length; i++) {
 
 if (process.env.NO_COLOR || !process.stdout.isTTY) opts.color = false;
 if (opts.stdin && paths.length) fail("Use either file paths or -, not both");
-if (!opts.json && !opts.quiet) printBanner(`ai-paste-cleaner v${VERSION}`);
+if (!opts.json && !opts.quiet) printBanner(`ai-paste-cleaner v${VERSION}`, { color: opts.color });
 if (!opts.stdin && !paths.length) { console.log(HELP); process.exit(2); }
 
 function fail(msg) {
   console.error(`ai-paste-cleaner: ${msg}`);
   process.exit(2);
+}
+
+function warn(msg) {
+  console.error(`ai-paste-cleaner: ${msg}`);
 }
 
 // Which categories count as actionable in this run.
@@ -100,6 +112,26 @@ function enabledCategories() {
 }
 const ENABLED = enabledCategories();
 const cleanOptions = { ...ENABLED, emDash: opts.emDash };
+
+if (emDashSet && !ENABLED.typography) {
+  warn("--em-dash has no effect without --typography");
+}
+
+// Why a category is off, for truthful report labels.
+function disabledLabel(cat) {
+  if (opts.only && !opts.only.includes(cat)) return "excluded by --only";
+  if (opts.skip && opts.skip.includes(cat)) return "skipped by --skip";
+  return "off by default";
+}
+
+// The replacement a finding will actually get under the current options.
+function effectiveReplacement(f) {
+  if (f.cp === 0x2014) {
+    if (opts.emDash === "keep") return "";
+    return opts.emDash === "hyphen" ? " - " : ", ";
+  }
+  return f.replacement;
+}
 
 // ----- output helpers -------------------------------------------------------
 
@@ -121,17 +153,27 @@ function lineCol(text, index) {
 
 const SKIP_DIRS = new Set(["node_modules", ".git", "dist", "build", "vendor", ".next", ".cache"]);
 const MAX_BYTES = 10 * 1024 * 1024;
+const skipped = { binary: 0, large: 0, unreadable: 0 };
 
 function collect(p, out, depth = 0) {
   let st;
-  try { st = statSync(p); } catch { fail(`Cannot read ${p}`); }
+  try { st = statSync(p); } catch {
+    if (depth === 0) fail(`Cannot read ${p}`);
+    warn(`skipped ${p} (unreadable)`);
+    skipped.unreadable++;
+    return;
+  }
   if (st.isDirectory()) {
     if (depth > 0 && SKIP_DIRS.has(basename(p))) return;
     for (const entry of readdirSync(p)) {
       if (depth === 0 || !entry.startsWith(".")) collect(join(p, entry), out, depth + 1);
     }
   } else if (st.isFile()) {
-    if (st.size > MAX_BYTES) return;
+    if (st.size > MAX_BYTES) {
+      if (depth === 0) warn(`${p} is larger than 10 MB, skipped`);
+      skipped.large++;
+      return;
+    }
     out.push(p);
   }
 }
@@ -142,9 +184,13 @@ function isBinary(buf) {
   return false;
 }
 
+// An em dash the user chose to keep is not actionable: report, write, JSON,
+// and exit codes all agree with what clean() will actually do.
+const keptByChoice = (f) => f.cp === 0x2014 && opts.emDash === "keep";
+
 function scanText(text) {
   const { findings, hiddenMessages, counts } = analyze(text);
-  const actionable = findings.filter(f => !f.exempt && ENABLED[f.category]);
+  const actionable = findings.filter(f => !f.exempt && ENABLED[f.category] && !keptByChoice(f));
   const kept = findings.filter(f => f.exempt);
   const optional = findings.filter(f => !f.exempt && !ENABLED[f.category]);
   return { findings, hiddenMessages, counts, actionable, kept, optional };
@@ -159,17 +205,36 @@ if (opts.stdin) {
   const scan = scanText(input);
 
   if (opts.json) {
-    const { text } = clean(input, cleanOptions);
-    process.stdout.write(JSON.stringify(jsonEntry("stdin", scan, input !== text), null, 2) + "\n");
-  } else {
-    const { text } = clean(input, cleanOptions);
-    process.stdout.write(text);
-    if (!opts.quiet) {
-      const n = scan.actionable.length;
-      process.stderr.write(n
-        ? `ai-paste-cleaner: fixed ${n} character${n === 1 ? "" : "s"}${scan.kept.length ? `, kept ${scan.kept.length} legitimate` : ""}\n`
-        : "ai-paste-cleaner: already clean\n");
-    }
+    // Same envelope as file mode, so pipeline consumers read one schema.
+    const out = {
+      tool: "ai-paste-cleaner",
+      version: VERSION,
+      scanned: 1,
+      skippedBinary: 0,
+      skippedLarge: 0,
+      skippedUnreadable: 0,
+      files: scan.findings.length || scan.hiddenMessages.length
+        ? [jsonEntry("stdin", scan, false)]
+        : [],
+      totals: {
+        fixable: scan.actionable.length,
+        kept: scan.kept.length,
+        optional: scan.optional.length,
+        hiddenMessages: scan.hiddenMessages.length
+      },
+      clean: scan.actionable.length === 0
+    };
+    console.log(JSON.stringify(out, null, 2));
+    process.exit(scan.actionable.length ? 1 : 0);
+  }
+
+  const { text } = clean(input, cleanOptions);
+  process.stdout.write(text);
+  if (!opts.quiet) {
+    const n = scan.actionable.length;
+    process.stderr.write(n
+      ? `ai-paste-cleaner: fixed ${n} character${n === 1 ? "" : "s"}${scan.kept.length ? `, kept ${scan.kept.length} legitimate` : ""}\n`
+      : "ai-paste-cleaner: already clean\n");
   }
   process.exit(0);
 }
@@ -181,19 +246,25 @@ for (const p of paths) collect(p, files);
 if (!files.length) fail("No files to scan");
 
 const report = [];
-let skippedBinary = 0;
 
 for (const file of files) {
   let buf;
-  try { buf = readFileSync(file); } catch { fail(`Cannot read ${file}`); }
-  if (isBinary(buf)) { skippedBinary++; continue; }
+  try { buf = readFileSync(file); } catch {
+    warn(`skipped ${file} (unreadable)`);
+    skipped.unreadable++;
+    continue;
+  }
+  if (isBinary(buf)) { skipped.binary++; continue; }
   const text = buf.toString("utf8");
   const scan = scanText(text);
 
   let wrote = false;
   if (opts.write && scan.actionable.length) {
     const { text: cleaned } = clean(text, cleanOptions);
-    if (cleaned !== text) { writeFileSync(file, cleaned); wrote = true; }
+    if (cleaned !== text) {
+      try { writeFileSync(file, cleaned); } catch { fail(`Cannot write ${file}`); }
+      wrote = true;
+    }
   }
   report.push({ file, text, scan, wrote });
 }
@@ -209,7 +280,9 @@ if (opts.json) {
     tool: "ai-paste-cleaner",
     version: VERSION,
     scanned: report.length,
-    skippedBinary,
+    skippedBinary: skipped.binary,
+    skippedLarge: skipped.large,
+    skippedUnreadable: skipped.unreadable,
     files: report.filter(r => r.scan.findings.length || r.scan.hiddenMessages.length)
       .map(r => jsonEntry(r.file, r.scan, r.wrote)),
     totals: { fixable: totalFix, kept: totalKept, optional: totalOpt, hiddenMessages: totalHidden },
@@ -227,7 +300,7 @@ function jsonEntry(path, scan, wrote) {
     findings: scan.findings.map(f => ({
       index: f.index, code: f.code, name: f.name, category: f.category,
       exempt: f.exempt, note: f.note || undefined,
-      replacement: f.replacement || undefined
+      replacement: effectiveReplacement(f) || undefined
     }))
   };
 }
@@ -235,7 +308,8 @@ function jsonEntry(path, scan, wrote) {
 // Human report: any file with something to fix, a hidden payload, or
 // (under --list) legitimate kept characters worth explaining.
 const printable = opts.quiet ? [] : report.filter(r =>
-  r.scan.actionable.length || r.scan.hiddenMessages.length || (opts.list && r.scan.kept.length)
+  r.scan.actionable.length || r.scan.hiddenMessages.length ||
+  (opts.list && (r.scan.kept.length || r.scan.optional.length))
 );
 for (const r of printable) {
   const { file, text, scan, wrote } = r;
@@ -243,14 +317,15 @@ for (const r of printable) {
 
   const shown = opts.list ? scan.actionable : scan.actionable.slice(0, 20);
   for (const f of shown) {
-    const action = wrote ? "" : f.replacement ? dim(`  ->  "${f.replacement}"`) : dim("  ->  remove");
+    const rep = effectiveReplacement(f);
+    const action = wrote ? "" : rep ? dim(`  ->  "${rep}"`) : dim("  ->  remove");
     console.log(`  ${dim(lineCol(text, f.index).padEnd(8))}${f.code.padEnd(9)}${f.name.padEnd(34)}${catColor(f.category, f.category)}${action}`);
   }
   if (scan.actionable.length > shown.length) {
     console.log(dim(`  ... and ${scan.actionable.length - shown.length} more (use --list to see all)`));
   }
   for (const f of scan.optional.slice(0, opts.list ? Infinity : 3)) {
-    console.log(dim(`  ${lineCol(text, f.index).padEnd(8)}${f.code.padEnd(9)}${f.name.padEnd(34)}${f.category}  off by default`));
+    console.log(dim(`  ${lineCol(text, f.index).padEnd(8)}${f.code.padEnd(9)}${f.name.padEnd(34)}${f.category}  ${disabledLabel(f.category)}`));
   }
   if (scan.kept.length) {
     console.log(dim(`  kept ${scan.kept.length} legitimate character${scan.kept.length === 1 ? "" : "s"} (emoji joiners, script shaping, flag tags)`));
@@ -260,12 +335,24 @@ for (const r of printable) {
   }
 }
 
+const skippedParts = [];
+if (skipped.binary) skippedParts.push(`${skipped.binary} binary skipped`);
+if (skipped.large) skippedParts.push(`${skipped.large} large skipped`);
+if (skipped.unreadable) skippedParts.push(`${skipped.unreadable} unreadable skipped`);
+
+const optionalHint = totalOpt
+  ? `${totalOpt} optional${report.some(r => r.scan.optional.some(f => f.category === "typography")) ? ", see --typography" : ""}`
+  : "";
+
 const summary = `${report.length} file${report.length === 1 ? "" : "s"} scanned` +
-  (skippedBinary ? ` (${skippedBinary} binary skipped)` : "") + ": " +
+  (skippedParts.length ? ` (${skippedParts.join(", ")})` : "") + ": " +
   (dirty.length
     ? `${dirty.length} with findings, ${totalFix} character${totalFix === 1 ? "" : "s"} ${opts.write ? "fixed" : "to fix"}` +
-      (totalOpt ? `, ${totalOpt} optional` : "") + (totalKept ? `, ${totalKept} kept` : "")
-    : paint(32, "all clean") + (totalKept ? ` (${totalKept} legitimate kept)` : ""));
+      (optionalHint ? `, ${optionalHint}` : "") + (totalKept ? `, ${totalKept} kept` : "")
+    : paint(32, "all clean") +
+      (totalKept || optionalHint
+        ? ` (${[totalKept ? `${totalKept} legitimate kept` : "", optionalHint].filter(Boolean).join(", ")})`
+        : ""));
 console.log("\n" + summary);
 if (totalHidden) console.log(paint(31, `${totalHidden} hidden payload${totalHidden === 1 ? "" : "s"} decoded, review above`));
 

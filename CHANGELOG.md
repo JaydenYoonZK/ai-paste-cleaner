@@ -3,6 +3,45 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.6.0] - 2026-07-16
+
+A deep quality pass over the whole tool: engine, command line, page, and docs. Several of these were found by stress-testing ahead of a wider launch.
+
+### Fixed
+
+- Cleaning a large text full of em dashes no longer freezes the page. The conversion step re-trimmed the entire output once per dash, which is quadratic: 20,000 dashes took 9 seconds. The cleaner now builds its output in chunks and the same input takes under 20 milliseconds.
+- Sinhala, Tamil, Devanagari, and other joining-script words no longer lose their zero-width joiners. ZWJ between letters of a joining script is required orthography (the Sinhala in "Sri Lanka" changes shape without it), so those joiners are now kept and explained, exactly like the ZWNJ rule beside them. ZWJ hidden between Latin letters is still removed.
+- A black flag followed by a made-up region code no longer smuggles a hidden tag payload past detection. Only the three real subdivision flags (England, Scotland, Wales) are exempt; every other tag body behind a black flag is decoded and reported.
+- Em dash conversion now handles real-world contexts: a dash opening a line (dialogue, lists, attributions) is kept, a dash between digits reads as a range and is kept, runs like "a——b" collapse to a single pause instead of ",,", no-break spaces around a dash are absorbed instead of doubling, and a dash at the end of a line no longer leaves a trailing space.
+- Cleaning is idempotent. Removing an invisible character between a Russian word and an English word used to create a "mixed-script" token that a second pass would then rewrite, corrupting the genuine Cyrillic. The lookalike check now only fires when every non-Latin letter in the word passes as Latin, which is what an actual spoof looks like.
+- `--em-dash keep` now truly keeps: kept dashes no longer count as fixable, no longer fail CI with exit 1, no longer appear as rows promising a replacement, and `--write` no longer claims to have fixed them.
+- `--write` on a file it cannot write reports one clean line and exit code 2 instead of a raw stack trace.
+- One unreadable entry (a broken symlink, a permission-denied file) no longer aborts a whole directory scan. It is skipped with a note, counted in the summary, and everything else is still scanned.
+- `- --json` (stdin JSON) now emits the same envelope as file mode, reports `fixed: false` honestly, and exits 1 when there are findings, so one schema and one exit contract cover every mode.
+- A file over 10 MB named on the command line now explains that it was skipped instead of failing with "No files to scan"; the limit is documented in `--help` and skipped files are counted in the summary.
+- `--no-color` now also strips the banner's colors, matching its promise of plain output.
+- The 404 page works at any depth. Its stylesheet, script, icons, and links were relative, so a missing URL two segments deep rendered an unstyled page whose home button looped to itself. Everything on it is now project-absolute.
+- The back-to-top button can no longer be tab-focused while invisible.
+- Reduced-motion users no longer get looping SVG scenes: every decorative animation is paused on both pages, not just the hero.
+- The theme boot and toggle survive blocked storage (private modes, strict cookie settings) instead of throwing, and the toggle's label can no longer desync from the theme.
+- A very long decoded payload wraps inside its alert card instead of forcing the page to scroll sideways on phones.
+- The ruleset JSON linked in the footer is precached, so it opens offline like everything else on the page.
+
+### Changed
+
+- The hero's privacy line now says exactly what is true: your text is never sent or stored; the theme choice and the offline copy of the page itself do use browser storage.
+- Report labels are truthful about why a category is off: "skipped by --skip", "excluded by --only", or "off by default".
+- A clean scan now mentions optional findings it was told not to act on, such as "all clean (3 optional, see --typography)".
+- Using `--em-dash` without `--typography` warns that it has no effect instead of silently ignoring the choice.
+- The kept-characters table on the page lists the typography codes accurately.
+
+### Added
+
+- PNG favicon fallback and an Apple touch icon, so Safari tabs and home-screen pins show the paragraph mark; the 404 page now has icons too.
+- A `theme-color` meta that follows the active theme, so mobile browser chrome blends with the page.
+- `funding` field in package.json, so `npm fund` points at GitHub Sponsors.
+- Regression tests for everything above: 83 tests now cover the engine rule table end to end, every CLI flag, both banner color paths, and the new dash, joiner, flag, and idempotency behavior.
+
 ## [1.5.3] - 2026-07-16
 
 ### Added
@@ -300,7 +339,7 @@ The web tool becomes a developer tool: the same engine now runs on files, folder
 - The key press finally travels. During a click the pointer is still hovering, and the hover lift rule outranked the press rule, so the cap held its raised position while the shadows switched to pressed geometry, which read as the base jumping up instead of the cap going down. The press is now declared after the hover lift at matching specificity and wins the cascade, so the cap visibly sinks 3px into its anchored base on every click.
 - Dark mode's primary button no longer loses its 3D edge on hover. A leftover rule from before the key redesign replaced the whole hover shadow with a flat glow.
 - In light mode the pressed shadow now outranks the hover shadow mid click, so the primary button's base geometry stays correct through the press.
-- Tapping controls on phones no longer flashes the system's default grey tap rectangle over the design's own pressed states. Keyboard focus outlines are unaffected.
+- Tapping controls on phones no longer flashes the system's default gray tap rectangle over the design's own pressed states. Keyboard focus outlines are unaffected.
 
 ## [1.4.18] - 2026-07-11
 
@@ -350,7 +389,7 @@ The web tool becomes a developer tool: the same engine now runs on files, folder
 
 ### Fixed
 
-- The inline code chip inside alerts no longer renders as a dead grey block in light mode. Its 35% black wash was tuned for dark backgrounds; over the light pink alert it read as mud. In light mode the chip is now a crisp near-white card with a hairline red keyline, so the decoded payload stands out cleanly.
+- The inline code chip inside alerts no longer renders as a dead gray block in light mode. Its 35% black wash was tuned for dark backgrounds; over the light pink alert it read as mud. In light mode the chip is now a crisp near-white card with a hairline red keyline, so the decoded payload stands out cleanly.
 
 ### Changed
 
@@ -393,7 +432,7 @@ The web tool becomes a developer tool: the same engine now runs on files, folder
 
 ### Fixed
 
-- The menu's hover state no longer turns grey, and no longer sticks. Hovering used a grey panel tone that clashed with the brand language, and on phones a tap glued that grey pill to the last-tapped item because touch browsers keep a sticky hover. Hover styling now only applies on devices with a real pointer and uses a faint chartreuse brand tint, while the active item keeps the stronger chartreuse wash and always wins when it is both hovered and active.
+- The menu's hover state no longer turns gray, and no longer sticks. Hovering used a gray panel tone that clashed with the brand language, and on phones a tap glued that gray pill to the last-tapped item because touch browsers keep a sticky hover. Hover styling now only applies on devices with a real pointer and uses a faint chartreuse brand tint, while the active item keeps the stronger chartreuse wash and always wins when it is both hovered and active.
 - The active menu item now also carries `aria-current`, so screen readers hear which section you are in, kept in sync with the highlight by the same scroll logic.
 
 ## [1.4.4] - 2026-07-10
@@ -565,6 +604,8 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.6.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.6.0
+[1.5.3]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.3
 [1.5.2]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.2
 [1.5.1]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.1
 [1.5.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.0

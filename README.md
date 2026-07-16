@@ -6,7 +6,6 @@ Inspect and clean the characters you cannot see: invisible Unicode, hidden tag p
   <a href="https://jaydenyoonzk.github.io/ai-paste-cleaner/"><img src="https://img.shields.io/badge/Live%20tool-open-abcf37?style=for-the-badge&logo=githubpages&logoColor=black" alt="Open the live tool"></a>
   <a href="https://www.npmjs.com/package/ai-paste-cleaner"><img src="https://img.shields.io/npm/v/ai-paste-cleaner?style=for-the-badge&logo=npm&logoColor=white&color=abcf37" alt="npm version"></a>
   <a href="https://github.com/JaydenYoonZK/ai-paste-cleaner/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/JaydenYoonZK/ai-paste-cleaner/ci.yml?branch=main&style=for-the-badge&label=tests" alt="Automated test status"></a>
-  <a href="https://github.com/JaydenYoonZK/ai-paste-cleaner"><img src="https://img.shields.io/github/stars/JaydenYoonZK/ai-paste-cleaner?style=for-the-badge&logo=github" alt="GitHub stars"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/JaydenYoonZK/ai-paste-cleaner?style=for-the-badge" alt="MIT License"></a>
 </p>
 
@@ -45,7 +44,7 @@ The inspector shows each recognized character it keeps with a dashed outline and
 
 ## Use it in the browser
 
-No install. Open [the tool](https://jaydenyoonzk.github.io/ai-paste-cleaner/), paste, review, copy. After the page assets load, the current tab continues to work without a network connection; an offline reload depends on your browser cache.
+No install. Open [the tool](https://jaydenyoonzk.github.io/ai-paste-cleaner/), paste, review, copy. A service worker caches the page on your first visit, so it loads and keeps working offline afterwards (in browsers with service workers disabled, the current tab still works without a network connection).
 
 To run the page locally:
 
@@ -65,12 +64,13 @@ npx ai-paste-cleaner README.md src/
 
 ```
 src/launch-post.md
-  3:14   U+200B  ZERO WIDTH SPACE       invisible  ->  remove
-  3:29   U+202F  NARROW NO-BREAK SPACE  spaces     ->  " "
-  hidden message decoded: "TRACKED-BY-VENDOR-42"
+  3:8     U+200B   ZERO WIDTH SPACE                  invisible  ->  remove
+  3:27    U+202F   NARROW NO-BREAK SPACE             spaces  ->  " "
 
-2 files scanned: 1 with findings, 3 characters to fix, 1 kept
+2 files scanned: 1 with findings, 2 characters to fix
 ```
+
+When a hidden tag payload is present, the report decodes it on the spot (`hidden message decoded: "..."`) and a final line flags it for review.
 
 Nothing changes on disk until you add `--write`, and the preservation rules match the browser tool exactly: emoji joiners, script shaping, flag tags, and the other recognized contexts are never touched.
 
@@ -88,7 +88,7 @@ On Linux, `xclip -o -selection clipboard | npx ai-paste-cleaner - | xclip -selec
 - run: npx ai-paste-cleaner docs/ README.md
 ```
 
-This repository runs that exact step [on itself](.github/workflows/ci.yml). `--json` emits a machine-readable report for pipelines, `--typography` also fixes smart quotes, em dashes, and ellipses, `--only` and `--skip` narrow the categories, and `--help` lists everything.
+This repository gates its own documentation with the same scan [in CI](.github/workflows/ci.yml). `--json` emits a machine-readable report for pipelines, `--typography` also fixes smart quotes, em dashes, and ellipses, `--only` and `--skip` narrow the categories, and `--help` lists everything.
 
 ## Use the engine in your own project
 
@@ -123,7 +123,7 @@ Automated checks run on Node.js 22, 24, and 26 across Linux, macOS, and Windows.
 
 - This is a character inspector, not an authorship detector. A finding does not prove where text came from.
 - Unicode defines standardized variation sequences beyond the emoji, CJK, and Mongolian contexts recognized here. Review specialized mathematical, historical, or scholarly text before cleaning it. See the [Unicode variation-sequence FAQ](https://www.unicode.org/faq/vs.html).
-- The mixed-script lookalike map is deliberately small and does not implement the full Unicode confusables dataset. Expansion is tracked in [issue #2](https://github.com/JaydenYoonZK/ai-paste-cleaner/issues/2).
+- The mixed-script lookalike map is deliberately small and does not implement the full Unicode confusables dataset. Expansion is tracked in [issue #3](https://github.com/JaydenYoonZK/ai-paste-cleaner/issues/3).
 - The inspector preview caps rendered marks at 20,000 to keep the page usable. Counts and cleaned output still cover the complete input.
 - Clipboard buttons depend on browser permissions; manual paste and copy remain available when permission is denied.
 

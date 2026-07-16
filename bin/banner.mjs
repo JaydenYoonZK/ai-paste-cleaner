@@ -15,9 +15,9 @@ const CHARTREUSE = "\x1b[38;5;149m";
 const DIM = "\x1b[2m";
 const RESET = "\x1b[0m";
 
-export function printBanner(toolLine, { stream = process.stderr, force = false } = {}) {
+export function printBanner(toolLine, { stream = process.stderr, force = false, color } = {}) {
   if (!force && !stream.isTTY) return false;
-  const paint = !process.env.NO_COLOR;
+  const paint = color ?? !process.env.NO_COLOR;
   const art = BRAND_ART.map((row) => (paint ? CHARTREUSE + row + RESET : row)).join("\n");
   const line = toolLine ? "\n" + (paint ? DIM + toolLine + RESET : toolLine) : "";
   stream.write("\n" + art + line + "\n\n");

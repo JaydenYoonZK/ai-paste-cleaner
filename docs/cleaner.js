@@ -150,6 +150,10 @@ const CYR_GREEK = /[\p{Script=Cyrillic}\p{Script=Greek}]/u;
 const WORD = /[\p{L}\p{M}][\p{L}\p{M}'’-]*/gu;
 const BLACK_FLAG = 0x1F3F4;
 const CANCEL_TAG = 0xE007F;
+// The emoji subdivision flags with RGI status (Unicode CLDR): England,
+// Scotland, Wales. Any other tag body behind a black flag is treated as a
+// hidden payload, not a flag.
+const RGI_SUBDIVISION_FLAGS = new Set(["gbeng", "gbsct", "gbwls"]);
 
 function ruleFor(cp) {
   const single = CHAR_RULES.get(cp);
@@ -245,6 +249,17 @@ export function analyze(text) {
       if (EMOJI_CORE.test(prev) && EMOJI_CORE.test(next)) {
         exempt = true;
         note = "Part of an emoji sequence. Removing it would split the emoji.";
+      } else {
+        // ZWJ is required orthography in several scripts: Sinhala rakaransaya,
+        // Tamil sri ligatures, Devanagari eyelash ra and half forms, and more.
+        // Both real neighbors must belong to a joining script, so a ZWJ hidden
+        // between Latin letters is still cleaned.
+        const p = i > 0 ? cps[i - 1] : "";
+        const n = i + 1 < cps.length ? cps[i + 1] : "";
+        if (ZWNJ_SCRIPTS.test(p) && ZWNJ_SCRIPTS.test(n)) {
+          exempt = true;
+          note = "Required for correct shaping in this script (Sinhala, Tamil, Devanagari, and others).";
+        }
       }
     } else if (cp === 0x200C) {
       const around = prevOf(i) + nextOf(i);
@@ -283,17 +298,15 @@ export function analyze(text) {
         }
         tagRunEnd = j - 1;
         // A real subdivision flag (Scotland, Wales, England) is a black flag
-        // followed by a short lowercase region code and a cancel tag. A black
+        // followed by one of the RGI region codes and a cancel tag. A black
         // flag in front of anything else does not launder the payload: a run
-        // that fails this shape is decoded and cleaned like any other.
+        // whose body is not an RGI code is decoded and cleaned like any other.
         const before = i > 0 ? cps[i - 1].codePointAt(0) : 0;
         const run = cps.slice(i, j).map(c => c.codePointAt(0));
         const endsWithCancel = run[run.length - 1] === CANCEL_TAG;
         const body = endsWithCancel ? run.slice(0, -1) : run;
-        const validFlagBody = body.length >= 1 && body.length <= 6 && body.every(c =>
-          (c >= 0xE0030 && c <= 0xE0039) || (c >= 0xE0061 && c <= 0xE007A)
-        );
-        tagRunExempt = before === BLACK_FLAG && endsWithCancel && validFlagBody;
+        const bodyText = body.map(c => String.fromCodePoint(c - 0xE0000)).join("");
+        tagRunExempt = before === BLACK_FLAG && endsWithCancel && RGI_SUBDIVISION_FLAGS.has(bodyText);
         if (!tagRunExempt && msg.trim()) hiddenMessages.push(msg);
       }
       if (tagRunExempt) {
@@ -321,6 +334,22 @@ export function analyze(text) {
         exempt = true;
         note = "En dash between digits reads as a range. Left alone.";
       }
+    } else if (cp === 0x2014) {
+      const prev = i > 0 ? cps[i - 1] : "";
+      const next = i + 1 < cps.length ? cps[i + 1] : "";
+      if (/\d/.test(prev) && /\d/.test(next)) {
+        exempt = true;
+        note = "Em dash between digits reads as a range. Left alone.";
+      } else {
+        // A dash opening a line is deliberate typography (dialogue, lists,
+        // attributions), not the mid-sentence pattern this category targets.
+        let k = i - 1;
+        while (k >= 0 && (cps[k] === " " || cps[k] === "\t" || cps[k] === "\u00A0" || cps[k] === "\u202F")) k--;
+        if (k < 0 || cps[k] === "\n" || cps[k] === "\r") {
+          exempt = true;
+          note = "Em dash opening a line reads as a list or dialogue marker. Left alone.";
+        }
+      }
     }
 
     findings.push({
@@ -342,6 +371,13 @@ export function analyze(text) {
     const word = m[0];
     if (!(LATIN.test(word) && CYR_GREEK.test(word))) continue;
     const wcps = Array.from(word);
+    // A spoof only works if every non-Latin letter passes as Latin. A word
+    // that also contains plainly foreign letters (like the whole of a fused
+    // Russian token) is genuine mixed-language text, so it is left alone.
+    // This also keeps clean() idempotent when removing an invisible character
+    // fuses two single-script tokens into one word.
+    const foreign = wcps.filter((c) => CYR_GREEK.test(c));
+    if (!foreign.every((c) => CONFUSABLES.has(c))) continue;
     let off = 0;
     for (const wch of wcps) {
       if (CONFUSABLES.has(wch)) {
@@ -394,39 +430,70 @@ export const DEFAULT_OPTIONS = {
 export function clean(text, options = {}, analysis = null) {
   const opts = { ...DEFAULT_OPTIONS, ...options };
   const { findings } = analysis ?? analyze(text);
-  let out = "";
+  // Output is accumulated as chunks and joined once, so the em dash branch
+  // can trim backwards without rescanning the whole result. clean() stays
+  // linear even on inputs with tens of thousands of findings.
+  const parts = [];
   let cursor = 0;
   let removed = 0;
   let replaced = 0;
 
+  const isAbsorbable = (c) => c === " " || c === "\t" || c === "\u00A0" || c === "\u202F";
+  const trimTrailingSpace = () => {
+    while (parts.length) {
+      const last = parts[parts.length - 1];
+      let end = last.length;
+      while (end > 0 && isAbsorbable(last[end - 1])) end--;
+      if (end === 0) { parts.pop(); continue; }
+      if (end < last.length) parts[parts.length - 1] = last.slice(0, end);
+      return;
+    }
+  };
+  // Text index just past the last converted em dash, for collapsing runs.
+  let lastDashEnd = -1;
+
   for (const f of findings) {
+    if (f.index < cursor) continue; // consumed by an earlier dash absorption
     if (f.exempt) continue;
     if (!opts[f.category]) continue;
-    if (f.category === "typography" && !opts.typography) continue;
 
-    out += text.slice(cursor, f.index);
-
-    let rep = f.replacement;
     if (f.cp === 0x2014) {
-      if (opts.emDash === "keep") { cursor = f.index; continue; }
-      // Absorb surrounding spaces so "word — word" becomes "word, word".
-      out = out.replace(/[ \t]+$/, "");
-      rep = opts.emDash === "hyphen" ? " - " : ", ";
+      if (opts.emDash === "keep") continue; // stays in the pending slice
+
       let after = f.index + f.length;
-      while (after < text.length && (text[after] === " " || text[after] === "\t")) after++;
-      cursor = after;
-      out += rep;
+      while (after < text.length && isAbsorbable(text[after])) after++;
+
+      // A second dash separated from the first by nothing but spaces joins
+      // the same pause: "a — — b" and "a——b" both become "a, b".
+      const pending = text.slice(cursor, f.index);
+      if (lastDashEnd === cursor && /^[ \t\u00A0\u202F]*$/.test(pending)) {
+        removed++;
+        cursor = after;
+        lastDashEnd = after;
+        continue;
+      }
+
+      parts.push(pending);
+      trimTrailingSpace();
+      // The comma binds to the word before it; at the end of a line or of
+      // the text, the pause mark stands alone with no trailing space.
+      const core = opts.emDash === "hyphen" ? " -" : ",";
+      const atBreak = after >= text.length || text[after] === "\n" || text[after] === "\r";
+      parts.push(atBreak ? core : core + " ");
       replaced++;
+      cursor = after;
+      lastDashEnd = after;
       continue;
     }
 
-    if (rep) replaced++; else removed++;
-    out += rep;
+    parts.push(text.slice(cursor, f.index));
+    if (f.replacement) replaced++; else removed++;
+    parts.push(f.replacement);
     cursor = f.index + f.length;
   }
-  out += text.slice(cursor);
+  parts.push(text.slice(cursor));
 
-  return { text: out, removed, replaced };
+  return { text: parts.join(""), removed, replaced };
 }
 
 /** Machine-readable ruleset, used by scripts/export-rules.mjs. */

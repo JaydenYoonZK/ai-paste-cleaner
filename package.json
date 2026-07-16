@@ -1,6 +1,6 @@
 {
   "name": "ai-paste-cleaner",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "description": "Inspect and clean invisible Unicode, hidden tag payloads, and optional typographic substitutions in text, files, and pipes.",
   "type": "module",
   "bin": { "ai-paste-cleaner": "bin/cli.mjs" },
@@ -32,6 +32,7 @@
     "lint"
   ],
   "license": "MIT",
+  "funding": "https://github.com/sponsors/JaydenYoonZK",
   "author": "Jayden Yoon ZK",
   "homepage": "https://jaydenyoonzk.github.io/ai-paste-cleaner/",
   "repository": {

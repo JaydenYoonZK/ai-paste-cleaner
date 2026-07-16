@@ -4,7 +4,7 @@
    requests pass through untouched so live lookups stay live. The cache name
    carries the release version and old caches are dropped on activate. */
 
-const VERSION = "?v=1.5.3";
+const VERSION = "?v=1.6.0";
 const CACHE = "ai-paste-cleaner-" + VERSION;
 const SHELL = [
   "./",
@@ -13,6 +13,9 @@ const SHELL = [
   "styles.css" + VERSION,
   "app.js" + VERSION,
   "cleaner.js" + VERSION,
+  // The footer links this without a query string, so it is cached the same
+  // way; the versioned cache name already refreshes it on every release.
+  "data/rules.json",
 ];
 
 addEventListener("install", (event) => {

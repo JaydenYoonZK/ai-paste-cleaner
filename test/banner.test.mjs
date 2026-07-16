@@ -20,3 +20,25 @@ test("the art carries no em or en dashes", () => {
   const joined = BRAND_ART.join("");
   assert.ok(!joined.includes("—") && !joined.includes("–"));
 });
+
+test("banner color control: NO_COLOR env and the color option strip ANSI", () => {
+  const capture = () => { let buf = ""; return { isTTY: true, write: (x) => { buf += x; }, text: () => buf }; };
+
+  let st = capture();
+  printBanner("tool v1", { stream: st, force: true, color: false });
+  assert.ok(!st.text().includes("\u001b"), "color:false must emit no escape codes");
+
+  st = capture();
+  printBanner("tool v1", { stream: st, force: true, color: true });
+  assert.ok(st.text().includes("\u001b[38;5;149m"), "color:true must paint chartreuse");
+
+  const saved = process.env.NO_COLOR;
+  try {
+    process.env.NO_COLOR = "1";
+    st = capture();
+    printBanner("tool v1", { stream: st, force: true });
+    assert.ok(!st.text().includes("\u001b"), "NO_COLOR must strip escapes by default");
+  } finally {
+    if (saved === undefined) delete process.env.NO_COLOR; else process.env.NO_COLOR = saved;
+  }
+});
