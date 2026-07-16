@@ -1,5 +1,5 @@
 /*! AI Paste Cleaner | Copyright (c) 2026 Jayden Yoon ZK | MIT License | https://github.com/JaydenYoonZK/ai-paste-cleaner */
-import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.5.1";
+import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.5.2";
 
 const $ = (id) => document.getElementById(id);
 const input = $("input");
@@ -509,5 +509,17 @@ document.querySelectorAll(".faq-q button").forEach((btn) => {
     const item = btn.closest(".faq-item");
     const open = item.classList.toggle("open");
     btn.setAttribute("aria-expanded", String(open));
+  });
+});
+
+// Terminal section: copy a command with one press.
+document.querySelectorAll(".cli-copy").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    const code = btn.closest(".cli-card")?.querySelector("code");
+    if (!code) return;
+    try { await navigator.clipboard.writeText(code.textContent.trim()); } catch { return; }
+    const label = btn.textContent;
+    btn.textContent = "Copied \u2713";
+    setTimeout(() => { btn.textContent = label; }, 1400);
   });
 });

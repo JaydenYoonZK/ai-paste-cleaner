@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.5.2] - 2026-07-15
+
+### Added
+
+- A Terminal section on the page: three copyable command cards for scanning files, cleaning the clipboard through a pipe, and gating CI, plus the engine import, all linked from the navigation.
+
 ## [1.5.1] - 2026-07-15
 
 ### Added
@@ -553,6 +559,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.5.2]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.2
 [1.5.1]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.1
 [1.5.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.0
 [1.4.60]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.60
