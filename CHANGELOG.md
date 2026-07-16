@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.5.1] - 2026-07-15
+
+### Added
+
+- A sponsor heart in the navigation, beside the theme toggle: quiet at rest, GitHub sponsor pink on hover, with the toggle's own downward tooltip and arrow, linking to the GitHub Sponsors profile. On the 404 page too.
+
 ## [1.5.0] - 2026-07-15
 
 The web tool becomes a developer tool: the same engine now runs on files, folders, pipes, and CI.
@@ -547,6 +553,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.5.1]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.1
 [1.5.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.0
 [1.4.60]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.60
 [1.4.59]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.4.59

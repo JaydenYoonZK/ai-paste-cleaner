@@ -12,6 +12,10 @@
   --ink-mute: #8f887c;
   --accent: #abcf37;
   --accent-soft: rgba(171, 207, 55, 0.14);
+  --sponsor: #ec6cb9;
+  --sponsor-soft: rgba(236, 108, 185, 0.12);
+  --sponsor-glow: rgba(236, 108, 185, 0.18);
+  --sponsor-line: rgba(236, 108, 185, 0.5);
   --accent-ink: #101400;
   --red: #ff7a6e;
   --red-soft: rgba(255, 122, 110, 0.14);
@@ -1050,6 +1054,63 @@ html[data-theme="dark"] .tt-moon { opacity: 1; transform: rotate(0deg) scale(1);
 .theme-toggle[data-tip]::before { bottom: auto; top: calc(100% - 1px); border-top-color: transparent; border-bottom-color: var(--ink); transform: translate(-50%, -6px); }
 .theme-toggle[data-tip]:hover::after, .theme-toggle[data-tip]:focus-visible::after { transform: translateY(0); }
 .theme-toggle[data-tip]:hover::before, .theme-toggle[data-tip]:focus-visible::before { transform: translate(-50%, 0); }
+
+/* Sponsor: a quiet heart beside the theme toggle that warms to the GitHub
+   sponsor pink on hover, linking out to the sponsors page. */
+.nav-actions { display: inline-flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+.sponsor-btn {
+  position: relative;
+  width: 40px; height: 40px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--ink-soft);
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1), background 0.25s, border-color 0.25s, box-shadow 0.25s, color 0.25s;
+}
+.sponsor-btn svg { display: block; }
+@media (hover: hover) {
+  .sponsor-btn:hover {
+    color: var(--sponsor);
+    border-color: var(--sponsor-line);
+    background: var(--sponsor-soft);
+    transform: scale(1.09);
+    box-shadow: 0 0 0 4px var(--sponsor-glow);
+    text-decoration: none;
+  }
+}
+.sponsor-btn:focus-visible { outline: 2px solid var(--sponsor); outline-offset: 3px; }
+.sponsor-btn:active { transform: scale(0.9); }
+/* Its own tooltip, matching the theme toggle's exactly: the bubble opens
+   downward hugging the button's right edge, while the arrow wedge stays
+   centered under the heart, so the pair reads as one consistent family. */
+.sponsor-btn[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute; top: calc(100% + 10px); right: 0;
+  width: max-content; max-width: 230px;
+  padding: 8px 11px; border-radius: 10px;
+  background: var(--ink); color: var(--bg); border: 1px solid var(--line-strong);
+  font-size: 0.76rem; font-weight: 600; line-height: 1.35;
+  opacity: 0; transform: translateY(-6px); pointer-events: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 60;
+}
+.sponsor-btn[data-tip]::before {
+  content: "";
+  position: absolute; left: 50%; top: calc(100% - 1px);
+  border: 6px solid transparent;
+  border-bottom-color: var(--ink);
+  opacity: 0; transform: translate(-50%, -6px); pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 61; /* paints over the bubble edge so wedge and bubble read as one shape */
+}
+.sponsor-btn[data-tip]:hover::after, .sponsor-btn[data-tip]:focus-visible::after { opacity: 1; transform: translateY(0); }
+.sponsor-btn[data-tip]:hover::before, .sponsor-btn[data-tip]:focus-visible::before { opacity: 1; transform: translate(-50%, 0); }
+@media (hover: none) { .sponsor-btn[data-tip]::after, .sponsor-btn[data-tip]::before { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .sponsor-btn { transition: color 0.2s, background 0.2s, border-color 0.2s; }
+  .sponsor-btn[data-tip]::after, .sponsor-btn[data-tip]::before { transition: opacity 0.12s ease; }
+}
 [id] { scroll-margin-top: calc(var(--nav-h, 104px) + 16px); }
 
 /* Light theme */
@@ -1066,6 +1127,10 @@ html[data-theme="light"] {
   --ink-mute: #6e6556;
   --accent: #0d6a2f;
   --accent-soft: rgba(171, 207, 55, 0.22);
+  --sponsor: #bf3989;
+  --sponsor-soft: rgba(191, 57, 137, 0.10);
+  --sponsor-glow: rgba(191, 57, 137, 0.15);
+  --sponsor-line: rgba(191, 57, 137, 0.45);
   --green: #03765a; --green-soft: rgba(52, 199, 89, 0.14);
   --amber: #b83c08; --amber-soft: rgba(255, 159, 10, 0.14);
   --red: #c02418; --red-soft: rgba(255, 69, 58, 0.1);
