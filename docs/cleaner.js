@@ -15,7 +15,7 @@ export const CATEGORIES = {
   invisible: {
     label: "Invisible characters",
     color: "green",
-    why: "Zero-width and filler characters survive copy-paste, break string comparisons, corrupt YAML and JSON, and show up as phantom diffs in git."
+    why: "Zero-width and filler characters survive copy-paste and quietly break string comparisons. They also corrupt YAML and JSON and leave phantom diffs in git."
   },
   bidi: {
     label: "Direction controls",

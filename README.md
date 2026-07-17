@@ -114,7 +114,7 @@ The engine source is [`docs/cleaner.js`](docs/cleaner.js), and the full ruleset 
 npm test
 ```
 
-The test suite covers risky cases including emoji preservation, Mongolian and Persian shaping controls, malformed tag payloads, Japanese and French spacing, Unicode-only line breaks, idempotency, generated metadata, internal links, and bounded scanning of modifier-heavy text, plus the command line tool end to end: exit codes, write round-trips, preservation guarantees, stdin piping, JSON output, and directory walking.
+The suite leans on the cases that are easy to get wrong: preserving emoji and Persian or Mongolian shaping, decoding malformed tag payloads, French and Japanese spacing, and staying idempotent on modifier-heavy text. It also drives the command line tool end to end, from exit codes to directory walking.
 
 Automated checks run on Node.js 22, 24, and 26 across Linux, macOS, and Windows. The browser interface is smoke-tested by hand in Chromium. Other browsers and assistive technology are untested.
 
