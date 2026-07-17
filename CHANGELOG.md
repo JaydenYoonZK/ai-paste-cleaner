@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.8.2] - 2026-07-18
+
+### Changed
+
+- The section headings carry their emoji again. They are part of how this project is written.
+
 ## [1.8.1] - 2026-07-18
 
 ### Changed
@@ -661,6 +667,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.8.2]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.8.2
 [1.8.1]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.8.1
 [1.8.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.8.0
 [1.7.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.7.0
