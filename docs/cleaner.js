@@ -331,16 +331,13 @@ export function analyze(text) {
         exempt = true;
         note = "Standard French spacing around punctuation.";
       }
-    } else if (cp === 0x2013) {
-      const prev = i > 0 ? cps[i - 1] : "";
-      const next = i + 1 < cps.length ? cps[i + 1] : "";
-      if (/\d/.test(prev) && /\d/.test(next)) {
-        exempt = true;
-        note = "En dash between digits reads as a range. Left alone.";
-      }
     } else if (cp === 0x2014) {
       const prev = i > 0 ? cps[i - 1] : "";
       const next = i + 1 < cps.length ? cps[i + 1] : "";
+      // An em dash between digits is left alone because its replacement is a
+      // comma, and "3, 4" corrupts a range. An en dash in the same spot has a
+      // clean ASCII equivalent (a hyphen: "3-4"), so it is converted like any
+      // other typography rather than kept.
       if (/\d/.test(prev) && /\d/.test(next)) {
         exempt = true;
         note = "Em dash between digits reads as a range. Left alone.";

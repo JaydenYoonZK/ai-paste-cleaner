@@ -36,7 +36,6 @@ Many strippers delete every invisible character and damage real content in the p
 | ZWNJ in Persian and Hindi words | Required spelling, not noise |
 | Variation selector after ❤ | Chooses emoji vs text presentation |
 | Tag characters in 🏴󠁧󠁢󠁳󠁣󠁴󠁿 | Subdivision flags are built from them |
-| En dash in `2019–2024` | Correct typography for ranges |
 | Ideographic space in Japanese text | Standard CJK typography |
 | Narrow spaces in `Bonjour !` and `« mot »` | Standard French punctuation spacing |
 

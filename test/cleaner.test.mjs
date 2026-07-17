@@ -106,9 +106,11 @@ test("em dash hyphen mode", () => {
   assert.equal(text, "fast - reliable");
 });
 
-test("en dash kept between digits, replaced between words", () => {
+test("en dash is replaced everywhere, including number ranges", () => {
+  // A hyphen is a clean ASCII stand-in for an en dash range, so it converts
+  // like any other typography rather than being left in the cleaned text.
   const { text } = clean("2019–2024 was up – a lot", { typography: true });
-  assert.equal(text, "2019–2024 was up - a lot");
+  assert.equal(text, "2019-2024 was up - a lot");
 });
 
 test("fixes Cyrillic lookalikes inside Latin words", () => {

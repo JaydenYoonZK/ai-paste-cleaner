@@ -3,6 +3,17 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.8.0] - 2026-07-18
+
+### Changed
+
+- An en dash between digits is now cleaned like any other typography. It used to be kept as a "range", so cleaning "3–4x" left the en dash in place while "$1,200–$1,500" became a hyphen: the same character, two different outcomes, and a special dash surviving in text you asked to clean. A hyphen is a clean ASCII stand-in for a range, so "3–4x" now becomes "3-4x" and "2019–2024" becomes "2019-2024". An em dash between digits is still left alone, because its replacement is a comma and "3, 4" would corrupt the range.
+- The two sample buttons read like a person now. "Try a sample" is an everyday message with the smart punctuation a chat, a doc, or autocorrect adds. "Hard case" is the spammy "paste this into your AI" message that hidden tag payloads actually ride in, so the constructed example teaches the real threat.
+
+### Fixed
+
+- The summary no longer calls a kept character an "invisible character... part of emoji or non-Latin words". That was wrong for a kept en dash, a French spacing character, or a line-opening em dash. It now reads "left in place: legitimate characters this tool does not touch", and each one still explains itself on hover.
+
 ## [1.7.0] - 2026-07-17
 
 ### Changed
@@ -642,6 +653,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.8.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.8.0
 [1.7.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.7.0
 [1.6.1]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.6.1
 [1.6.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.6.0

@@ -37,14 +37,14 @@
       document.head.appendChild(m);
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=1.7.0">
+  <link rel="stylesheet" href="styles.css?v=1.8.0">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "AI Paste Cleaner",
     "applicationCategory": "UtilitiesApplication",
-    "softwareVersion": "1.7.0",
+    "softwareVersion": "1.8.0",
     "operatingSystem": "Any (browser-based)",
     "url": "https://jaydenyoonzk.github.io/ai-paste-cleaner/",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
@@ -192,8 +192,8 @@
     <textarea id="input" placeholder="Paste text here to inspect it..." spellcheck="false"></textarea>
     <div class="toolbar">
       <button id="paste" class="primary" type="button" aria-label="Paste from clipboard" data-tip="Paste from your clipboard and clean it">Paste from clipboard</button>
-      <button id="sample" type="button" aria-label="Load a typical AI chat paste" data-tip="What an AI chat actually gives you: typography, no invisible characters">AI chat sample</button>
-      <button id="sample-hard" type="button" aria-label="Load a crafted example containing every kind of finding" data-tip="A constructed example carrying every kind of finding at once">Hard case</button>
+      <button id="sample" type="button" aria-label="Load an everyday sample" data-tip="Everyday text with smart punctuation, the kind a chat, a doc, or autocorrect gives you">Try a sample</button>
+      <button id="sample-hard" type="button" aria-label="Load a crafted example containing every kind of finding" data-tip="A constructed example carrying every kind of hidden character at once">Hard case</button>
       <button id="clear" disabled type="button" aria-label="Clear text" data-tip="Clear the box and start over" data-tip-off="Nothing to clear yet">Clear</button>
       <span class="spacer"></span>
       <span class="charcount" id="charcount"></span>
@@ -316,7 +316,6 @@
       <li>Variation selectors decide whether ❤ renders as text or as the red emoji heart, and select glyph variants in Japanese names.</li>
       <li>Mongolian free variation selectors choose defined letter forms and remain attached to Mongolian text.</li>
       <li>The flags of Scotland, Wales, and England are built from tag characters. A naive tag stripper deletes the flag.</li>
-      <li>An en dash between digits, as in 2019–2024, is correct typography and stays put.</li>
     </ul>
     <p class="full-measure">This cleaner checks context before it touches anything, and the inspector shows kept characters with a dashed outline so you can see the decision instead of trusting it blindly.</p>
 
@@ -432,6 +431,6 @@
 </footer>
 
 <button id="to-top" class="to-top" type="button" aria-label="Back to top">&#8593;</button>
-<script type="module" src="app.js?v=1.7.0"></script>
+<script type="module" src="app.js?v=1.8.0"></script>
 </body>
 </html>
