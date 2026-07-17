@@ -36,7 +36,7 @@
   "homepage": "https://jaydenyoonzk.github.io/ai-paste-cleaner/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JaydenYoonZK/ai-paste-cleaner.git"
+    "url": "git+https://github.com/JaydenYoonZK/ai-paste-cleaner.git"
   },
   "bugs": {
     "url": "https://github.com/JaydenYoonZK/ai-paste-cleaner/issues"
