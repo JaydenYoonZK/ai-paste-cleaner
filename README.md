@@ -21,7 +21,7 @@ Text copied from chat tools, web pages, and word processors can carry characters
 
 - A zero-width space inside a product name prevents an exact match with the visible spelling.
 - A narrow no-break space (`U+202F`) looks ordinary but can make `9:30 AM` fail to equal `9:30 AM`.
-- Bidirectional overrides can display `exe.txt` as `txt.exe` (the Trojan Source technique, CVE-2021-42574).
+- Bidirectional overrides reorder how text displays. In a filename, `exe.txt` can appear as `txt.exe` ([right-to-left override spoofing](https://attack.mitre.org/techniques/T1036/002/)). In source code, the logic a reviewer reads can differ from the logic the compiler ingests ([Trojan Source, CVE-2021-42574](https://trojansource.codes/)).
 - Unicode tag characters encode ASCII-based strings without ordinary visible glyphs. Outside recognized emoji tag sequences, this tool decodes and reports them for review.
 - Unicode line and paragraph separators (`U+2028`, `U+2029`) can create unexpected line boundaries and break older JavaScript source handling.
 - A Cyrillic `о` inside a Latin word can bypass exact-match filters and visual review.

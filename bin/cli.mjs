@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Scan files for invisible Unicode, hidden watermarks, direction overrides,
-// lookalike letters, and AI typography. Report exactly what is there and why,
+// Scan files for invisible Unicode, hidden tag payloads, direction overrides,
+// lookalike letters, and smart typography. Report exactly what is there and why,
 // fix it only when asked, and never damage legitimate text.
 // Usage: npx ai-paste-cleaner <files, folders, or ->
 
@@ -141,12 +141,17 @@ const bold = (s) => paint(1, s);
 const dim = (s) => paint(2, s);
 const catColor = (cat, s) => paint(ANSI[CATEGORIES[cat]?.color] ?? 0, s);
 
-function lineCol(text, index) {
+function lineColPair(text, index) {
   let line = 1, last = -1;
   for (let i = 0; i < index; i++) {
     if (text.charCodeAt(i) === 10) { line++; last = i; }
   }
-  return `${line}:${index - last}`;
+  return { line, column: index - last };
+}
+
+function lineCol(text, index) {
+  const { line, column } = lineColPair(text, index);
+  return `${line}:${column}`;
 }
 
 // ----- scanning -------------------------------------------------------------
@@ -214,7 +219,7 @@ if (opts.stdin) {
       skippedLarge: 0,
       skippedUnreadable: 0,
       files: scan.findings.length || scan.hiddenMessages.length
-        ? [jsonEntry("stdin", scan, false)]
+        ? [jsonEntry("stdin", input, scan, false)]
         : [],
       totals: {
         fixable: scan.actionable.length,
@@ -291,7 +296,7 @@ if (opts.json) {
     skippedLarge: skipped.large,
     skippedUnreadable: skipped.unreadable,
     files: report.filter(r => r.scan.findings.length || r.scan.hiddenMessages.length)
-      .map(r => jsonEntry(r.file, r.scan, r.wrote)),
+      .map(r => jsonEntry(r.file, r.text, r.scan, r.wrote)),
     totals: { fixable: totalFix, kept: totalKept, optional: totalOpt, hiddenMessages: totalHidden },
     clean: dirty.length === 0
   };
@@ -299,16 +304,22 @@ if (opts.json) {
   process.exit(opts.write || !dirty.length ? 0 : 1);
 }
 
-function jsonEntry(path, scan, wrote) {
+function jsonEntry(path, text, scan, wrote) {
   return {
     path,
     fixed: !!wrote,
     hiddenMessages: scan.hiddenMessages,
-    findings: scan.findings.map(f => ({
-      index: f.index, code: f.code, name: f.name, category: f.category,
-      exempt: f.exempt, note: f.note || undefined,
-      replacement: effectiveReplacement(f) || undefined
-    }))
+    findings: scan.findings.map(f => {
+      // line and column, so a pipeline can annotate a diff without re-reading
+      // the file to work out where index landed
+      const { line, column } = lineColPair(text, f.index);
+      return {
+        index: f.index, line, column,
+        code: f.code, name: f.name, category: f.category,
+        exempt: f.exempt, note: f.note || undefined,
+        replacement: effectiveReplacement(f) || undefined
+      };
+    })
   };
 }
 

@@ -3,6 +3,27 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.7.0] - 2026-07-17
+
+### Changed
+
+- The page now describes what the tool actually finds. An AI chat hands you typography: em dashes, curly quotes, single-character ellipses. Web pages, PDFs, and word processors are where genuinely invisible characters come from. Pasting a chat reply and seeing no invisible characters is the normal, correct result, and the page now says so instead of implying the tool missed something.
+- "Try a sample" is now two samples. "AI chat sample" loads what a real chat reply looks like, so the first click matches what you will see with your own text. "Hard case" loads the constructed example carrying every category at once, labelled as constructed.
+- The hidden payload alert explains the real risk. Text carrying a tag payload is usually text someone prepared for an AI to read, so it tells you to check the source before pasting it into an assistant. The sample payload now reads like a real one instead of a pretend watermark.
+- The narrow no-break space section records the one invisible character AI chats are known to produce, including OpenAI's description of it as a quirk of training rather than a watermark.
+
+### Fixed
+
+- Removed the claim that invisible characters "quietly mark text as machine-made". They do not, it contradicted the FAQ four screens below it, and it set up anyone pasting a chat reply to think a clean result meant a broken tool.
+- Removed "hidden watermarks" from the package summary and the npm keywords. No shipping model marks text with characters. The two real text watermarks work by token sampling, so no character cleaner can see or remove them.
+- The answer to "will cleaning make AI text read as human" now points at the test that settles it: adding or removing hidden characters does not change whether a detector flags text.
+- Bidirectional overrides are two separate risks, and the docs no longer cite one CVE for both. Source code that reads differently than it compiles is Trojan Source, CVE-2021-42574. A filename showing `exe.txt` as `txt.exe` is right-to-left override spoofing.
+- The terminal section no longer claims every hidden character is reported. The default shows the first 20 per file and `--list` prints the rest. It also now states that the command line leaves typography alone until you pass `--typography`, which the page's own defaults do not.
+
+### Added
+
+- `--json` findings carry `line` and `column`, so a pipeline can annotate a diff without re-reading the file to work out where an index landed.
+
 ## [1.6.1] - 2026-07-16
 
 Follow-up fixes to the 1.6.0 changes.
@@ -621,6 +642,7 @@ First stable release.
 - 21 Node test cases covering the risky preservation paths.
 - `?demo` URL parameter that loads a representative sample.
 
+[1.7.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.7.0
 [1.6.1]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.6.1
 [1.6.0]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.6.0
 [1.5.3]: https://github.com/JaydenYoonZK/ai-paste-cleaner/releases/tag/v1.5.3

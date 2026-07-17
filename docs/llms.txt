@@ -1,6 +1,6 @@
 # AI Paste Cleaner
 
-> Reveal and safely remove invisible Unicode, hidden watermarks, and AI typography from pasted text. Runs in the browser and as a zero-dependency command line tool on npm.
+> Reveal and safely remove invisible Unicode and typographic substitutions from pasted text, while keeping emoji, multilingual text, and legitimate punctuation intact. Runs in the browser and as a zero-dependency command line tool on npm.
 
 ## Tool
 

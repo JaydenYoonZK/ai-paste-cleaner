@@ -20,7 +20,7 @@ export const CATEGORIES = {
   bidi: {
     label: "Direction controls",
     color: "red",
-    why: "Bidirectional control characters can reorder how source code and filenames are displayed. This is the Trojan Source technique (CVE-2021-42574)."
+    why: "Bidirectional control characters reorder how text is displayed. In source code, the logic a reviewer reads can differ from the logic a compiler ingests (Trojan Source, CVE-2021-42574). In a filename, exe.txt can be made to appear as txt.exe (right-to-left override spoofing)."
   },
   tags: {
     label: "Hidden tag characters",
