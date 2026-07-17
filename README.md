@@ -117,7 +117,7 @@ npm test
 
 The test suite covers risky cases including emoji preservation, Mongolian and Persian shaping controls, malformed tag payloads, Japanese and French spacing, Unicode-only line breaks, idempotency, generated metadata, internal links, and bounded scanning of modifier-heavy text, plus the command line tool end to end: exit codes, write round-trips, preservation guarantees, stdin piping, JSON output, and directory walking.
 
-Automated checks run on Node.js 22, 24, and 26 across Linux, macOS, and Windows. The browser interface is manually smoke-tested in Chromium; other browser and assistive-technology combinations still need independent validation.
+Automated checks run on Node.js 22, 24, and 26 across Linux, macOS, and Windows. The browser interface is smoke-tested by hand in Chromium. Other browsers and assistive technology are untested.
 
 ## Limits
 

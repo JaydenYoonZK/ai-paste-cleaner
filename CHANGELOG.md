@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [1.6.1] - 2026-07-16
 
-Follow-up fixes from an adversarial review of the 1.6.0 changes.
+Follow-up fixes to the 1.6.0 changes.
 
 ### Fixed
 
@@ -22,7 +22,7 @@ Follow-up fixes from an adversarial review of the 1.6.0 changes.
 
 ## [1.6.0] - 2026-07-16
 
-A deep quality pass over the whole tool: engine, command line, page, and docs. Several of these were found by stress-testing ahead of a wider launch.
+Fixes across the engine, the command line, the page, and the docs.
 
 ### Fixed
 
