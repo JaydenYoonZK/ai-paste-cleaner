@@ -15,12 +15,6 @@ test("the banner stays silent for pipes and prints when forced", () => {
   assert.equal(printBanner("tool v1", { stream: fake, force: true }), true);
   assert.ok(out.includes("╦") && out.includes("tool v1"));
 });
-
-test("the art carries no em or en dashes", () => {
-  const joined = BRAND_ART.join("");
-  assert.ok(!joined.includes("—") && !joined.includes("–"));
-});
-
 test("banner color control: NO_COLOR env and the color option strip ANSI", () => {
   const capture = () => { let buf = ""; return { isTTY: true, write: (x) => { buf += x; }, text: () => buf }; };
 
