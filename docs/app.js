@@ -163,8 +163,8 @@ syncControls();
 
 // The everyday case: ordinary text with smart punctuation, the kind autocorrect,
 // a phone, a doc, or an AI chat all produce, and nothing actually invisible.
-// Written to read like a person, not a robot, and to carry the typography the
-// tool converts: em dash, curly quotes, an apostrophe, an ellipsis, and a range.
+// It carries the typography the tool converts: em dash, curly quotes, an
+// apostrophe, an ellipsis, and a range.
 function loadSample() {
   input.value =
     "I swear I meant to start this on Monday \u2014 I really did. " +

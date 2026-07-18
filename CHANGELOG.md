@@ -22,7 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - An en dash between digits is now cleaned like any other typography. It used to be kept as a "range", so cleaning "3–4x" left the en dash in place while "$1,200–$1,500" became a hyphen: the same character, two different outcomes, and a special dash surviving in text you asked to clean. A hyphen is a clean ASCII stand-in for a range, so "3–4x" now becomes "3-4x" and "2019–2024" becomes "2019-2024". An em dash between digits is still left alone, because its replacement is a comma and "3, 4" would corrupt the range.
-- The two sample buttons read like a person now. "Try a sample" is an everyday message with the smart punctuation a chat, a doc, or autocorrect adds. "Hard case" is the spammy "paste this into your AI" message that hidden tag payloads actually ride in, so the constructed example teaches the real threat.
+- The two samples are everyday text now. "Try a sample" is a casual message with the smart punctuation a chat, a doc, or autocorrect adds. "Hard case" is the spammy "paste this into your AI" message that hidden tag payloads actually ride in, so the constructed example teaches the real threat.
 
 ### Fixed
 
