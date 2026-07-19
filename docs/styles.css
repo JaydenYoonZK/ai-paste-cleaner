@@ -185,8 +185,11 @@ button.primary:disabled:hover {
   border-color: var(--line);
   border-style: dashed;
   color: var(--ink-mute);
-  box-shadow: none;
-  transform: none;
+  /* Sink into the socket like a pressed key: the face drops onto a short base
+     edge so its bottom lands on the same base line as the raised keys beside
+     it, reading as locked and pressed in rather than floating flat. */
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 var(--btn-edge), 0 4px 4px var(--btn-ambient), inset 0 2px 4px rgba(0, 0, 0, 0.22), inset 0 1.5px 0 rgba(255, 255, 255, 0.06);
 }
 button.primary:disabled,
 button.primary:disabled:hover {
