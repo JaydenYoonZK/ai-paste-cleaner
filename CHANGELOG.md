@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.8.6] - 2026-07-19
+
+### Changed
+
+- The output actions now sit on their own row above the code, right-aligned, instead of floating over it.
+
 ## [1.8.5] - 2026-07-19
 
 ### Changed

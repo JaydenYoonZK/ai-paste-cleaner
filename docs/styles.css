@@ -623,7 +623,14 @@ html.theme-fading :where(*:not(.theme-toggle):not(.theme-toggle *))::after {
 
 .output textarea { min-height: 150px; background: var(--panel); }
 
-.copy-wrap { position: absolute; top: 14px; right: 14px; }
+/* The output actions ride their own row, right-aligned and clear of the code
+   instead of floating over it. Where a section title sits directly above the
+   output, that row carries the title on the left and the actions on the right;
+   otherwise it is just the right-aligned actions above the code. */
+.output-head { display: flex; align-items: center; gap: 8px 16px; flex-wrap: wrap; margin: 40px 0 12px; }
+.output-head .section-title { margin: 0; }
+.output .output-head { margin: 0 0 10px; }
+.copy-wrap { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-left: auto; }
 
 /* Prose sections */
 .prose { padding: 40px 0 20px; }
@@ -823,7 +830,6 @@ footer .legal {
 @media (max-width: 560px) {
   header { padding: 48px 0 30px; }
   .card { padding: 18px; }
-  .copy-wrap { position: static; margin-bottom: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
