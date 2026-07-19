@@ -1129,7 +1129,7 @@ html[data-theme="dark"] .tt-moon { opacity: 1; transform: rotate(0deg) scale(1);
   opacity: 0; transform: translate(-50%, -6px) rotate(45deg); pointer-events: none;
   transition: opacity 0.18s ease, transform 0.18s ease;
   filter: drop-shadow(0 -2px 4px var(--sponsor-glow));
-  z-index: 61; /* the ink diamond sits over the bubble edge, so notch and bubble merge into one shape */
+  z-index: 59; /* tucked UNDER the bubble: its keyline stays continuous across the base, and the arrow's outlined tip grows out of it */
 }
 .sponsor-btn[data-tip]:hover::after, .sponsor-btn[data-tip]:focus-visible::after {
   opacity: 1; transform: translateY(0) scale(1);

@@ -1,6 +1,6 @@
 {
   "name": "ai-paste-cleaner",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "description": "Inspect and clean invisible Unicode, hidden tag payloads, and optional typographic substitutions in text, files, and pipes.",
   "type": "module",
   "bin": { "ai-paste-cleaner": "bin/cli.mjs" },

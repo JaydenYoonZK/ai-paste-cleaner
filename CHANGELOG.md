@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.9.2] - 2026-07-19
+
+### Fixed
+
+- The sponsor tooltip keyline now runs unbroken across the arrow base: the arrow tucks behind the bubble and its outlined tip grows out of the border instead of interrupting it.
+
 ## [1.9.1] - 2026-07-19
 
 ### Fixed
