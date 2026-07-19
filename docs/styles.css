@@ -1121,19 +1121,21 @@ html[data-theme="dark"] .tt-moon { opacity: 1; transform: rotate(0deg) scale(1);
 }
 .sponsor-btn[data-tip]::before {
   content: "";
-  position: absolute; left: 50%; top: calc(100% + 1px);
-  border: 6px solid transparent;
-  border-bottom-color: var(--sponsor);
-  opacity: 0; transform: translate(-50%, -6px); pointer-events: none;
+  position: absolute; left: 50%; top: calc(100% + 7px);
+  width: 10px; height: 10px;
+  background: var(--ink);
+  border-style: solid; border-color: transparent; border-width: 1.5px 0 0 1.5px;
+  border-image: linear-gradient(135deg, var(--sponsor), #c9a6ff) 1;
+  opacity: 0; transform: translate(-50%, -6px) rotate(45deg); pointer-events: none;
   transition: opacity 0.18s ease, transform 0.18s ease;
-  filter: drop-shadow(0 -1px 4px var(--sponsor-glow));
-  z-index: 61; /* paints over the bubble edge so wedge and bubble read as one shape */
+  filter: drop-shadow(0 -2px 4px var(--sponsor-glow));
+  z-index: 61; /* the ink diamond sits over the bubble edge, so notch and bubble merge into one shape */
 }
 .sponsor-btn[data-tip]:hover::after, .sponsor-btn[data-tip]:focus-visible::after {
   opacity: 1; transform: translateY(0) scale(1);
   animation: sponsor-aura 2.6s ease-in-out 0.5s infinite;
 }
-.sponsor-btn[data-tip]:hover::before, .sponsor-btn[data-tip]:focus-visible::before { opacity: 1; transform: translate(-50%, 0); }
+.sponsor-btn[data-tip]:hover::before, .sponsor-btn[data-tip]:focus-visible::before { opacity: 1; transform: translate(-50%, 0) rotate(45deg); }
 @keyframes sponsor-aura {
   0%, 100% { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 16px var(--sponsor-glow), 0 0 40px var(--sponsor-glow); }
   50% { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 24px var(--sponsor-glow), 0 0 60px var(--sponsor-glow); }
@@ -1182,7 +1184,8 @@ html[data-theme="light"] .sponsor-fx { --spk-b: #d4589f; --spk-c: #d99a2b; }
 @media (hover: none) { .sponsor-btn[data-tip]::after, .sponsor-btn[data-tip]::before, .sponsor-fx { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   .sponsor-btn { transition: color 0.2s, background 0.2s, border-color 0.2s; }
-  .sponsor-btn[data-tip]::after, .sponsor-btn[data-tip]::before { transition: opacity 0.12s ease; transform: none; animation: none; }
+  .sponsor-btn[data-tip]::after { transition: opacity 0.12s ease; transform: none; animation: none; }
+  .sponsor-btn[data-tip]::before { transition: opacity 0.12s ease; transform: translate(-50%, 0) rotate(45deg); }
   .sponsor-btn[data-tip]:hover::after, .sponsor-btn[data-tip]:focus-visible::after { transform: none; animation: none; }
   .sponsor-fx .spk { animation: none; opacity: 0.75; }
   .sponsor-heart { display: none; }

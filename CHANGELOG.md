@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.9.1] - 2026-07-19
+
+### Fixed
+
+- The sponsor tooltip arrow now grows out of the bubble as one shape, its keyline flowing up into the point, instead of sitting on it as a separate triangle.
+
 ## [1.9.0] - 2026-07-19
 
 ### Added
