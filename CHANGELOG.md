@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.8.4] - 2026-07-19
+
+### Fixed
+
+- Navigation links now stay highlighted when you jump to a section near the bottom of the page, such as the FAQ.
+
 ## [1.8.3] - 2026-07-18
 
 ### Changed
