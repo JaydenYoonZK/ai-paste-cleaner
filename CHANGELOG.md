@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.9.0] - 2026-07-19
+
+### Added
+
+- The sponsor tooltip turned magical: a charmed bubble with a pink-to-gold keyline that springs open and breathes a soft glow, sparkles twinkling around its rim, and little hearts tumbling out of the button while it is hovered. Keyboard focus gets the bubble and sparkles, touch stays plain, and reduced motion gets a calm fade.
+
 ## [1.8.6] - 2026-07-19
 
 ### Changed

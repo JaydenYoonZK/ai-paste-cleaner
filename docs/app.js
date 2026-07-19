@@ -1,5 +1,5 @@
 /*! AI Paste Cleaner | Copyright (c) 2026 Jayden Yoon ZK | MIT License | https://github.com/JaydenYoonZK/ai-paste-cleaner */
-import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.8.6";
+import { analyze, clean, CATEGORIES, DEFAULT_OPTIONS } from "./cleaner.js?v=1.9.0";
 
 const $ = (id) => document.getElementById(id);
 const input = $("input");
@@ -271,6 +271,73 @@ if (toTop) {
     toTop.classList.toggle("show", scrollY > 600);
   }, { passive: true });
   toTop.addEventListener("click", () => scrollTo({ top: 0, behavior: scrollBehavior() }));
+}
+
+// -------- sponsor button magic (sparkle rim + floating hearts) --------
+// The tooltip bubble itself is pure CSS; this builds the sparkle layer sized
+// to the bubble's real box and streams hearts while a mouse hovers. Reduced
+// motion skips all of it, touch never sees it, keyboard focus gets sparkles.
+const sponsorBtn = document.querySelector(".sponsor-btn");
+if (sponsorBtn && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const HEART_PATH = "M12 21s-6.7-4.35-9.33-8.11C.8 10.2 1.96 6.5 5.14 5.44c1.9-.63 3.98.03 5.36 1.6L12 8.6l1.5-1.56c1.38-1.57 3.46-2.23 5.36-1.6 3.18 1.06 4.34 4.76 2.47 7.45C18.7 16.65 12 21 12 21z";
+  const SPARKS = ["✦", "✧", "⋆"];
+  const SPARK_TINTS = ["", "var(--spk-b)", "var(--spk-c)"];
+  let fx = null, heartTimer = 0, liveHearts = 0;
+  const buildFx = () => {
+    if (fx) return;
+    const tip = getComputedStyle(sponsorBtn, "::after");
+    // computed width/height are the content box; the visible bubble adds
+    // padding and the gradient keyline, so include them or the stars hug a
+    // box smaller than what the eye sees
+    const pad = (p) => parseFloat(tip[p]) || 0;
+    const w = (parseFloat(tip.width) || 122) + pad("paddingLeft") + pad("paddingRight") + 2;
+    const h = (parseFloat(tip.height) || 18) + pad("paddingTop") + pad("paddingBottom") + 2;
+    fx = document.createElement("span");
+    fx.className = "sponsor-fx";
+    fx.setAttribute("aria-hidden", "true");
+    fx.style.width = w + "px";
+    fx.style.height = h + "px";
+    // eight stars parked around the bubble's rim, each on its own phase
+    const spots = [[-38, 4], [-30, 34], [-42, 68], [10, 102], [62, 96], [108, 74], [116, 30], [96, -5]];
+    spots.forEach(([top, left], k) => {
+      const s = document.createElement("span");
+      s.className = "spk";
+      s.textContent = SPARKS[k % SPARKS.length];
+      s.style.top = top + "%";
+      s.style.left = left + "%";
+      s.style.fontSize = (9 + ((k * 5) % 6)) + "px";
+      s.style.animationDelay = (-k * 0.21).toFixed(2) + "s";
+      s.style.animationDuration = (1.5 + (k % 3) * 0.35).toFixed(2) + "s";
+      if (SPARK_TINTS[k % 3]) s.style.color = SPARK_TINTS[k % 3];
+      fx.appendChild(s);
+    });
+    sponsorBtn.appendChild(fx);
+  };
+  const spawnHeart = () => {
+    if (liveHearts >= 7 || document.hidden) return;
+    liveHearts++;
+    const el = document.createElement("span");
+    el.className = "sponsor-heart";
+    el.setAttribute("aria-hidden", "true");
+    el.style.setProperty("--hx", (Math.random() * 44 - 22).toFixed(0) + "px");
+    el.style.setProperty("--hd", (1.05 + Math.random() * 0.7).toFixed(2) + "s");
+    el.style.setProperty("--hs", (0.7 + Math.random() * 0.7).toFixed(2));
+    el.style.setProperty("--hr", (Math.random() * 40 - 20).toFixed(0) + "deg");
+    if (Math.random() < 0.33) el.style.color = "#ff9ed2";
+    el.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART_PATH}"/></svg>`;
+    el.addEventListener("animationend", () => { el.remove(); liveHearts--; });
+    sponsorBtn.appendChild(el);
+  };
+  sponsorBtn.addEventListener("pointerenter", (e) => {
+    buildFx();
+    if (e.pointerType === "mouse") {
+      spawnHeart();
+      clearInterval(heartTimer);
+      heartTimer = setInterval(spawnHeart, 300);
+    }
+  });
+  sponsorBtn.addEventListener("pointerleave", () => { clearInterval(heartTimer); heartTimer = 0; });
+  sponsorBtn.addEventListener("focus", buildFx);
 }
 
 const themeToggle = document.getElementById("theme-toggle");
