@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.9.4] - 2026-07-20
+
+### Changed
+
+- The sponsor tooltip wears a bolder frame: a four-pixel gold-to-lavender-to-pink keyline the arrow melts into, replacing the hairline border.
+
 ## [1.9.3] - 2026-07-19
 
 ### Fixed
