@@ -1121,15 +1121,18 @@ html[data-theme="dark"] .tt-moon { opacity: 1; transform: rotate(0deg) scale(1);
 }
 .sponsor-btn[data-tip]::before {
   content: "";
-  position: absolute; left: 50%; top: calc(100% + 7px);
-  width: 10px; height: 10px;
+  position: absolute; left: 50%; top: calc(100% + 8.5px);
+  width: 11px; height: 11px;
   background: var(--ink);
   border-style: solid; border-color: transparent; border-width: 1.5px 0 0 1.5px;
   border-image: linear-gradient(135deg, var(--sponsor), #c9a6ff) 1;
   opacity: 0; transform: translate(-50%, -6px) rotate(45deg); pointer-events: none;
   transition: opacity 0.18s ease, transform 0.18s ease;
-  filter: drop-shadow(0 -2px 4px var(--sponsor-glow));
-  z-index: 59; /* tucked UNDER the bubble: its keyline stays continuous across the base, and the arrow's outlined tip grows out of it */
+  /* No shadow of its own: the sunken half would silhouette inside the bubble.
+     Over the bubble, sunk deep enough that its two keylined edges CROSS the
+     bubble's keyline: the ink opens the border across the base while the
+     crossings seal both shoulders, so the line flows around the arrow. */
+  z-index: 61;
 }
 .sponsor-btn[data-tip]:hover::after, .sponsor-btn[data-tip]:focus-visible::after {
   opacity: 1; transform: translateY(0) scale(1);

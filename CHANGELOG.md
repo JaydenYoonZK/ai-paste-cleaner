@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.9.3] - 2026-07-19
+
+### Fixed
+
+- The sponsor tooltip keyline now flows around the arrow, up one edge, over the tip, and down the other, with no line across the base and no gaps at the shoulders.
+
 ## [1.9.2] - 2026-07-19
 
 ### Fixed
