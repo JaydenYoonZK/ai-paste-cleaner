@@ -61,14 +61,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
-- The section headings carry their emoji again. They are part of how this project is written.
+- The section headings carry their emoji again.
 
 ## [1.8.1] - 2026-07-18
 
 ### Changed
 
 - Section headings are plain text now, without the leading emoji.
-- Reworded the hero lede, two FAQ answers, one category description, and the README test summary to read more plainly.
+- Tightened the hero lede, two FAQ answers, one category description, and the README test summary.
 - CI runs on Node 22 and 26, the supported floor and the current release, instead of also testing 24 in between.
 
 ## [1.8.0] - 2026-07-18
