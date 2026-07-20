@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.9.5] - 2026-07-20
+
+### Changed
+
+- The dark theme's pushable buttons now stand on a visible warm-gray base instead of a black one. Black under a dark button read as a drop shadow; the lighter base reads as the key's side, the way it already did in the light theme.
+
 ## [1.9.4] - 2026-07-20
 
 ### Changed
