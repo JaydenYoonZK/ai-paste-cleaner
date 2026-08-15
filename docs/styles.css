@@ -818,6 +818,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: 
    and a shade fainter than the footer links, so it reads as a colophon
    rather than another row of navigation. */
 footer .legal {
+  display: block;
   margin-top: 24px;
   padding-top: 16px;
   border-top: 1px solid var(--line);
@@ -825,6 +826,9 @@ footer .legal {
   letter-spacing: 0.02em;
   opacity: 0.85;
 }
+
+footer .legal p { margin: 0; }
+footer .legal .legal-version { margin-top: 4px; }
 
 /* Small screens */
 @media (max-width: 560px) {

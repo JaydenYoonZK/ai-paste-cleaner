@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.9.7] - 2026-08-15
+
+### Changed
+
+- The copyright sentence stands alone again, with the changelog version link on its own line just beneath it.
+
 ## [1.9.6] - 2026-08-15
 
 ### Changed
