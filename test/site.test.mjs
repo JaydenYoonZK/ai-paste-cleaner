@@ -7,6 +7,20 @@ import { fileURLToPath } from "node:url";
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const docs = join(root, "docs");
 const html = readFileSync(join(docs, "index.html"), "utf8");
+const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+
+test("every versioned asset reference carries the package version", () => {
+  const v = pkg.version;
+  const pages = ["index.html", "404.html", "app.js", "sw.js"];
+  for (const name of pages) {
+    const text = name === "index.html" ? html : readFileSync(join(docs, name), "utf8");
+    for (const ref of text.match(/\?v=(\d+\.\d+\.\d+)/g) || []) {
+      assert.equal(ref, `?v=${v}`, `${name} carries ${ref}, expected ?v=${v}`);
+    }
+  }
+  assert.ok(html.includes(`"softwareVersion": "${v}"`), "JSON-LD softwareVersion in lockstep");
+  assert.ok(html.includes(`>v${v}</a>`), "the footer version stamp is in lockstep");
+});
 
 test("every button and select has an accessible name", () => {
   // An accessible name is an aria-label or visible text content; the FAQ
