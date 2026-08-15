@@ -974,21 +974,23 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
 }
-/* iOS elastic scrolling and the collapsing Safari chrome can expose a
-   strip above the bar mid-gesture, and desktop rubber-banding shows bare
-   page there. The bar bleeds its own skin a full screen upward, so
-   whatever peeks above stays dressed as the bar in either theme. */
-.site-nav::before {
+/* iOS elastic scrolling and the collapsing Safari chrome expose a strip
+   above the bar mid-gesture. The bar used to bleed its own skin upward to
+   cover it, but WebKit clips the children of anything wearing backdrop
+   blur, so on the one platform with the glitch the bleed was never drawn.
+   The shield lives outside the blurred bar now: a zero-height sticky
+   sibling that hangs a solid strip a full screen upward, with no blur of
+   its own, so there is nothing for WebKit to clip. Solid --bg, not the
+   nav's glass: iOS skips backdrop blur in the overscroll zone, and both
+   themes' nav tints share the page background's own colour. */
+.nav-shield { position: sticky; top: 0; height: 0; z-index: 59; }
+.nav-shield::before {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 100%;
+  bottom: 0;
   height: 1200px;
-  /* Solid, not the nav's translucent glass: iOS skips backdrop blur in
-     the overscroll zone, so a tinted strip would ghost the content
-     beneath it. Both themes' nav tints share the page background's own
-     color, so opaque --bg reads as exactly the bar over empty page. */
   background: var(--bg);
   pointer-events: none;
 }

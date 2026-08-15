@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.9.8] - 2026-08-16
+
+### Fixed
+
+- On iPhones, scrolling could flash page content in the status bar strip above the menu. The cover for that strip now lives outside the blurred bar, where Safari actually draws it.
+
 ## [1.9.7] - 2026-08-15
 
 ### Changed
