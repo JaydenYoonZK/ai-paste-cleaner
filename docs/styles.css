@@ -46,6 +46,8 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
+  /* Anchors the grain overlay below so it sizes to the whole document. */
+  position: relative;
   background: var(--bg);
   background-image: radial-gradient(1100px 500px at 15% -5%, rgba(171, 207, 55, 0.07), transparent 60%);
   /* One glow only: on a short page like the 404, the canvas would tile
@@ -487,7 +489,11 @@ html[data-theme="light"]::-webkit-scrollbar-thumb:active {
    no animation, so phones composite it for free. */
 body::after {
   content: "";
-  position: fixed;
+  /* Absolute, not fixed: a full-bleed fixed layer makes iOS Safari
+     composite the page into the status-bar strip, so scrolled content
+     ghosts around the clock. Anchored to the body, the grain covers the
+     whole document and scrolls with it, and the strip stays clean. */
+  position: absolute;
   inset: 0;
   z-index: 2000;
   pointer-events: none;
