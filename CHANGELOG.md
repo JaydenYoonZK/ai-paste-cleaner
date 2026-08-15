@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.9.9] - 2026-08-16
+
+### Fixed
+
+- The status bar shield now rides fixed to the viewport instead of sticky. Under a fast scroll Safari could lag the sticky one by a frame, which was just long enough to flash page content above the menu.
+
 ## [1.9.8] - 2026-08-16
 
 ### Fixed

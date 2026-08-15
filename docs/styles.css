@@ -978,12 +978,16 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
    above the bar mid-gesture. The bar used to bleed its own skin upward to
    cover it, but WebKit clips the children of anything wearing backdrop
    blur, so on the one platform with the glitch the bleed was never drawn.
-   The shield lives outside the blurred bar now: a zero-height sticky
-   sibling that hangs a solid strip a full screen upward, with no blur of
-   its own, so there is nothing for WebKit to clip. Solid --bg, not the
-   nav's glass: iOS skips backdrop blur in the overscroll zone, and both
-   themes' nav tints share the page background's own colour. */
-.nav-shield { position: sticky; top: 0; height: 0; z-index: 59; }
+   The shield lives outside the blurred bar now, and it is fixed, not
+   sticky: under a fast scroll Safari can lag a sticky element's
+   repositioning by a frame, uncovering the zone at exactly the wrong
+   moment, while a fixed element is pinned to the viewport by the
+   compositor and cannot lag. Zero height at the viewport's top edge, its
+   strip hanging entirely above it, so no browser shows any of it inside
+   the page. Solid --bg, not the nav's glass: iOS skips backdrop blur in
+   the overscroll zone, and both themes' nav tints share the page
+   background's own colour. */
+.nav-shield { position: fixed; top: 0; left: 0; right: 0; height: 0; z-index: 59; }
 .nav-shield::before {
   content: "";
   position: absolute;
