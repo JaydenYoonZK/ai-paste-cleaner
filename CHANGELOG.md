@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.9.13] - 2026-08-16
+
+### Changed
+
+- The name seal is a proper square chop now. Its characters and inner frame are cut clean through the chartreuse, so whatever the bar shows behind them fills the strokes and the seal reads the same in light and dark mode. The brand name next to it grew a touch to keep the pair balanced.
+
 ## [1.9.12] - 2026-08-16
 
 ### Added
