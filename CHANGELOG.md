@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.9.12] - 2026-08-16
+
+### Added
+
+- The brand link in the menu bar now carries my Chinese name, 袁正凯, as a tiny vertical seal beside the Latin one. It is set like a traditional stamp, dark ink on the chartreuse the buttons already wear, in both themes.
+
 ## [1.9.11] - 2026-08-16
 
 ### Fixed

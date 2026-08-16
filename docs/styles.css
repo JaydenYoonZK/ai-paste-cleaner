@@ -997,6 +997,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 }
 .site-nav > .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 58px; }
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-weight: 800;
   font-size: 0.95rem;
   letter-spacing: -0.01em;
@@ -1004,6 +1007,23 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   white-space: nowrap;
 }
 .brand:hover { color: var(--accent); text-decoration: none; }
+/* The name seal: 袁正凯 set vertically like a traditional stamp, in the
+   key colors, chartreuse field with dark ink, the same pairing as the
+   buttons in both themes. The inset ring draws the classic inner frame;
+   the ink stays fixed so the brand hover never tints it. */
+.brand-seal {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: #101400;
+  background: #abcf37;
+  border-radius: 3px;
+  padding: 5px 4px 3px;
+  box-shadow: inset 0 0 0 1.5px #abcf37, inset 0 0 0 2.8px #101400;
+}
 /* Menu band: its own tinted row under the brand bar, giving the bar a
    clear hierarchy. Every item is always visible on every width, wrapping
    onto more rows when space runs out. */
